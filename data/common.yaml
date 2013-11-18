@@ -1,0 +1,8 @@
+---
+package_name: 'network'
+service_name: 'network'
+config_file_path:  '/etc/network/network.conf'
+config_file_mode: '0644'
+config_file_owner: 'root'
+config_file_group: 'root'
+config_dir_path: '/etc/network'

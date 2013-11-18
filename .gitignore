@@ -1,0 +1,7 @@
+.*.sw?
+pkg
+spec/fixtures
+.rspec_system
+metadata.json
+*.un~
+Gemfile.lock
