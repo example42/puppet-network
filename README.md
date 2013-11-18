@@ -14,7 +14,7 @@
 
 ##Overview
 
-This module installs, manages and configures network.
+This module configures network interfaces and parameters.
 
 ##Module Description
 
@@ -26,21 +26,18 @@ Refer to http://github.com/stdmod/ for complete documentation on the common para
 ##Setup
 
 ###Resources managed by network module
-* This module installs the network package
-* Enables the network service
-* Can manage all the configuration files (by default no file is changed)
+* This module enables the network service
+* Can manage any configuration file in the config_dir_path with network::conf
+* Can manage interfaces with network::interfaces
 
 ###Setup Requirements
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
+* PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
 * StdMod [stdmod module](https://github.com/stdmod/stdmod)
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
 
 ###Beginning with module network
-
-To install the package provided by the module just include it:
-
-        include network
 
 The main class arguments can be provided either via Hiera (from Puppet 3.x) or direct parameters:
 
@@ -48,65 +45,81 @@ The main class arguments can be provided either via Hiera (from Puppet 3.x) or d
           parameter => value,
         }
 
-The module provides also a generic define to manage any network configuration file:
 
-        network::conf { 'sample.conf':
-          content => '# Test',
+The module provides a generic network::conf define to manage any file in the config_dir_path which is:
+  On 'Debian' osfamily: '/etc/network',
+  On 'Redhat' osfamily: '/etc/sysconfig/network-scripts',
+
+        network::conf { 'if-up.d/my_script':
+          template => 'site/network/my_script',
         }
+
+The module provides as cross OS complaint define to manage single interfaces: network::interface
+Note: On Debian if you use network::interface once you must provide ALL the network::interface
+      defines for all your interfaces
+
+To configure a dhcp interface on Debian
+
+        network::interface { 'eth0':
+          method => 'dhcp',
+        }
+
+To configure a dhcp interface on RedHat
+
+        network::interface { 'eth0':
+          bootproto => 'dhcp',
+        }
+
+To configure a static interface with basic parameters
+
+        network::interface { 'eth1':
+          ipaddress => '10.42.42.50',
+          netmask   => '255.255.255.0',
+        }
+
 
 
 ##Usage
 
-* A common way to use this module involves the management of the main configuration file via a custom template (provided in a custom site module):
+You have different possibile approaches in the usage of this module. Use the one you prefer.
+
+* Just use the network::interface defines:
+
+        network::interface { 'eth0':
+          method => 'dhcp',
+        }
+
+        network::interface { 'eth1':
+          ipaddress => '10.42.42.50',
+          netmask   => '255.255.255.0',
+        }
+
+* Use the main network class and the interfaces_hash to configure all the interfaces (ideal with Hiera, here the parameter is explicitely passed):
+
+        class { 'network':
+          interfaces_hash => {
+            'eth0' => {
+              method    => 'dhcp',
+            },
+            'eth1' => {
+              ipaddress => '10.42.42.50',
+              netmask   => '255.255.255.0',
+            },
+          },
+        }
+
+* Use the main network class and the usual stdmod parameters to manage the (main) network configuration file
 
         class { 'network':
           config_file_template => 'site/network/network.conf.erb',
         }
 
-* You can write custom templates that use setting provided but the config_file_options_hash paramenter
-
-        class { 'network':
-          config_file_template      => 'site/network/network.conf.erb',
-          config_file_options_hash  => {
-            opt  => 'value',
-            opt2 => 'value2',
-          },
-        }
-
-* Use custom source (here an array) for main configuration file. Note that template and source arguments are alternative.
-
-        class { 'network':
-          config_file_source => [ "puppet:///modules/site/network/network.conf-${hostname}" ,
-                                  "puppet:///modules/site/network/network.conf" ],
-        }
-
-
-* Use custom source directory for the whole configuration directory, where present.
+* Manage the whole configuration directory
 
         class { 'network':
           config_dir_source  => 'puppet:///modules/site/network/conf/',
         }
 
-* Use custom source directory for the whole configuration directory and purge all the local files that are not on the dir.
-  Note: This option can be used to be sure that the content of a directory is exactly the same you expect, but it is desctructive and may remove files.
-
-        class { 'network':
-          config_dir_source => 'puppet:///modules/site/network/conf/',
-          config_dir_purge  => true, # Default: false.
-        }
-
-* Use custom source directory for the whole configuration dir and define recursing policy.
-
-        class { 'network':
-          config_dir_source    => 'puppet:///modules/site/network/conf/',
-          config_dir_recursion => false, # Default: true.
-        }
-
-* Do not trigger a service restart when a config file changes.
-
-        class { 'network':
-          config_dir_notify => '', # Default: Service[network]
-        }
 
 
 ##Operating Systems Support

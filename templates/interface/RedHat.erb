@@ -1,0 +1,46 @@
+# File Managed by Puppet
+DEVICE="<%= @name %>"
+BOOTPROTO="<%= @bootproto %>"
+ONBOOT="<%= @manage_onboot %>"
+TYPE="<%= @type %>"
+USERCTL="<%= @userctl %>"
+PEERDNS="<%= @manage_peerdns %>"
+<% if @uuid -%>
+UUID="<%= @uuid %>"
+<% end -%>
+<% if @manage_ipaddr -%>
+IPADDR="<%= @manage_ipaddr %>"
+<% end -%>
+<% if @netmask -%>
+NETMASK="<%= @netmask %>"
+<% end -%>
+<% if @broadcast -%>
+BROADCAST="<%= @broadcast %>"
+<% end -%>
+<% if @manage_hwaddr -%>
+HWADDR="<%= @manage_hwaddr %>"
+<% end -%>
+<% if @ipv6init -%>
+IPV6INIT="<%= @ipv6init %>"
+<% end -%>
+<% if @dhcp_hostname -%>
+DHCP_HOSTNAME="<%= @dhcp_hostname %>"
+<% end -%>
+<% if @srcaddr -%>
+SRCADDR="<%= @srcaddr %>"
+<% end -%>
+<% if @dns1 -%>
+DNS1="<%= @dns1 %>"
+<% end -%>
+<% if @dns2 -%>
+DNS2="<%= @dns2 %>"
+<% end -%>
+<% if @master -%>
+MASTER="<%= @master %>"
+<% end -%>
+<% if @slave  -%>
+SLAVE="<%= @slave %>"
+<% end -%>
+<% if @bonding_opts -%>
+BONDING_OPTS="<%= @bonding_opts %>"
+<% end -%>

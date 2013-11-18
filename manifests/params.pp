@@ -14,6 +14,7 @@ class network::params {
   $config_file_path = $::osfamily ? {
     'Debian' => '/etc/network/interfaces',
     'RedHat' => '/etc/sysconfig/network-scripts/ifcfg-eth0',
+    default  => undef,
   }
 
   $config_file_mode = $::osfamily ? {
@@ -31,6 +32,7 @@ class network::params {
   $config_dir_path = $::osfamily ? {
     'Debian' => '/etc/network',
     'Redhat' => '/etc/sysconfig/network-scripts',
+    default  => undef,
   }
 
   case $::osfamily {

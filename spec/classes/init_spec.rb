@@ -9,31 +9,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
         }}
-        it { should contain_package('network').with_ensure('present') }
         it { should contain_service('network').with_ensure('running') }
-      end
-
-      describe "#{osfamily} installation of a specific package version" do
-        let(:params) { {
-          :package_ensure => '1.0.42',
-        } }
-        let(:facts) {{
-          :osfamily => osfamily,
-        }}
-        it { should contain_package('network').with_ensure('1.0.42') }
-      end
-
-      describe "#{osfamily} removal of package installation" do
-        let(:params) { {
-          :package_ensure => 'absent',
-        } }
-        let(:facts) {{
-          :osfamily => osfamily,
-        }}
-        it 'should remove Package[network]' do should contain_package('network').with_ensure('absent') end
-        it 'should stop Service[network]' do should contain_service('network').with_ensure('stopped') end
-        it 'should not manage at boot Service[network]' do should contain_service('network').with_enable(nil) end
-        it 'should remove network configuration file' do should contain_file('network.conf').with_ensure('absent') end
       end
 
       describe "#{osfamily} service disabling" do
@@ -99,6 +75,9 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
         }}
+        let(:params) { {
+          :config_file_source => "puppet:///modules/network/spec.conf",
+        } }
         it 'should automatically restart the service when files change' do
           should contain_file('network.conf').with_notify('Service[network]')
         end
@@ -107,6 +86,7 @@ describe 'network' do
       describe "#{osfamily} service restart disabling on config file change" do
         let(:params) { {
           :config_file_notify => '',
+          :config_file_source => "puppet:///modules/network/spec.conf",
         } }
         let(:facts) {{
           :osfamily => osfamily,

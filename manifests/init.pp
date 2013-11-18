@@ -6,10 +6,33 @@
 #
 # == Parameters
 #
+# [*gateway*]
+#   String. Optional. Default: undef
+#   The default gateway of your system
+#
+# [*hostname*]
+#   String. Optional. Default: undef
+#   The hostname of your system
+#
+# [*interfaces_hash*]
+#   Hash. Default undef.
+#   The complete interfaces configuration (nested) hash
+#   Needs this structure:
+#   - First level: Interface name
+#   - Second level: Interface options (check network::interface for the
+#     available options)
+#   If an hash is provided here, network::interfaces defines are declared with:
+#   create_resources("network::interface", $interfaces_hash)
+#
 # Refer to https://github.com/stdmod for official documentation
 # on the stdmod parameters used
 #
 class network (
+
+  $gateway                   = undef,
+  $hostname                  = undef,
+
+  $interfaces_hash           = undef,
 
   $package_name              = $network::params::package_name,
   $package_ensure            = 'present',
@@ -69,6 +92,8 @@ class network (
     default         => $config_file_notify,
   }
 
+  $manage_hostname = pickx($hostname, $::fqdn)
+
   if $package_ensure == 'absent' {
     $manage_service_enable = undef
     $manage_service_ensure = stopped
@@ -98,7 +123,9 @@ class network (
     }
   }
 
-  if $network::config_file_path {
+  if $network::config_file_path
+  and $network::config_file_source
+  or $network::manage_config_file_content {
     file { 'network.conf':
       ensure  => $network::config_file_ensure,
       path    => $network::config_file_path,
@@ -134,6 +161,15 @@ class network (
       status     => 'true',
     }
   }
+
+
+  # Create network interfaces from interfaces_hash, if present
+
+  if $interfaces_hash {
+    create_resources("network::interface", $interfaces_hash)
+  }
+
+
 
 
   # Extra classes

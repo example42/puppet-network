@@ -1,0 +1,105 @@
+# Interface <%= @name %>
+<% if @auto -%>
+auto <%= @name %>
+<% end -%>
+<%= @stanza %> <%= @name %> <%= @family %> <%= @method %>
+<% if @manage_address -%>
+    address <%= @manage_address %>
+<% end -%>
+<% if @manage_hwaddr -%>
+    hwaddr <%= @manage_hwaddr %>
+<% end -%>
+<% if @netmask -%>
+    netmask <%= @netmask %>
+<% end -%>
+<% if @network -%>
+    network <%= @network %>
+<% end -%>
+<% if @metric -%>
+    metric <%= @metric %>
+<% end -%>
+<% if @pointopoint -%>
+    pointopoint <%= @pointopoint %>
+<% end -%>
+<% if @mtu -%>
+    mtu <%= @mtu %>
+<% end -%>
+<% if @gateway -%>
+    gateway <%= @gateway %>
+<% end -%>
+<% if @hostname -%>
+    hostname <%= @hostname %>
+<% end -%>
+<% if @leasehours -%>
+    leasehours <%= @leasehours %>
+<% end -%>
+<% if @leasetime -%>
+    leasetime <%= @leasetime %>
+<% end -%>
+<% if @client -%>
+    client <%= @client %>
+<% end -%>
+<% if @bootfile -%>
+    hostname <%= @bootfile %>
+<% end -%>
+<% if @server -%>
+    server <%= @server %>
+<% end -%>
+<% if @mode -%>
+    mode <%= @mode %>
+<% end -%>
+<% if @endpoint -%>
+    endpoint <%= @endpoint %>
+<% end -%>
+<% if @dstaddr -%>
+    dstaddr <%= @dstaddr %>
+<% end -%>
+<% if @local -%>
+    local <%= @local %>
+<% end -%>
+<% if @ttl -%>
+    ttl <%= @ttl %>
+<% end -%>
+<% if @provider -%>
+    provider <%= @provider %>
+<% end -%>
+<% if @unit -%>
+    unit <%= @unit %>
+<% end -%>
+<% if @options -%>
+    options <%= @options %>
+<% end -%>
+<% if @privext -%>
+    privext <%= @privext %>
+<% end -%>
+<% if @dhcp -%>
+    dhcp <%= @dhcp %>
+<% end -%>
+<% if @media -%>
+    media <%= @media %>
+<% end -%>
+<% if @accept_ra -%>
+    accept_ra <%= @accept_ra %>
+<% end -%>
+<% if @autoconf -%>
+    autoconf <%= @autoconf %>
+<% end -%>
+<% if @up.length > 0 then -%>
+<% @up.each do |script| %>    up <%= script %><% end %>
+<% end -%>
+<% if @pre_up.length > 0 then -%>
+<% @pre_up.each do |script| %>    pre-up <%= script %><% end %>
+<% end -%>
+<% if @post_up.length > 0 then -%>
+<% @post_up.each do |script| %>    post-up <%= script %><% end %>
+<% end -%>
+<% if @down.length > 0 then -%>
+<% @down.each do |script| %>    down <%= script %><% end %>
+<% end -%>
+<% if @pre_down.length > 0 then -%>
+<% @pre_down.each do |script| %>    pre-down <%= script %><% end %>
+<% end -%>
+<% if @post_down.length > 0 then -%>
+<% @post_down.each do |script| %>    post-down <%= script %><% end %>
+<% end -%>
+
