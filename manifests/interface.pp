@@ -7,6 +7,10 @@
 #
 # == Common parameters
 #
+# $enable_dhcp
+#   Boolean. Default: false
+#   Activates DHCP on the interface
+#
 # [*ipaddress*]
 # [*netmask*]
 # [*broadcast*]
@@ -34,13 +38,22 @@
 #    Both ipaddress (standard name) and address (Debian param name) if set
 #    configure the ipv4 address of the interface. If both are present address is used.
 #
+#  $method        = '',
+#    Both enable_dhcp (standard) and method (Debian specific param name) if set
+#    configure dhcp on the interface via the method setting.
+#    If both are present method is used.
+#
 #  $up            = [ ],
 #  $pre_up        = [ ],
+#  $post_up        = [ ],
 #  $down          = [ ],
 #  $pre_down      = [ ],
+#  $post_down      = [ ],
 #    Map to Debian interfaces parameters (with _ instead of -)
 #    Note that these params MUST be arrays, even if with only one element
 #
+# Check the arguments in the code for the other Debian specific settings
+# If defined they are set in the used template.
 #
 # == RedHat only parameters
 #
@@ -52,27 +65,20 @@
 #    Both macaddress (standard name) and hwaddr (RedHat param name) if set
 #    configure the mac address of the interface. If both are present hwaddr is used.
 #
-#  $uuid          = undef,
-#  $bootproto     = 'none',
-#  $userctl       = 'no',
-#  $type          = 'Ethernet',
-#  $ethtool_opts  = undef,
-#  $ipv6init      = undef,
-#  $dhcp_hostname = undef,
-#  $srcaddr       = undef,
-#  $peerdns       = '',
-#  $dns1          = undef,
-#  $dns2          = undef,
-#  $master        = undef,
-#  $slave         = undef,
-#  $bonding_opts  = undef,
-#    Map to RedHat ifcfg files parameters.
+#  $bootproto        = '',
+#    Both enable_dhcp (standard) and bootproto (Debian specific param name) if set
+#    configure dhcp on the interface via the bootproto setting.
+#    If both are present bootproto is used.
 #
+# Check the arguments in the code for the other RedHat specific settings
+# If defined they are set in the used template.
 #
 define network::interface (
 
   $enable        = true,
   $template      = "network/interface/${::osfamily}.erb",
+
+  $enable_dhcp   = false,
 
   $ipaddress     = undef,
   $netmask       = undef,
@@ -85,7 +91,7 @@ define network::interface (
 
   ## Debian specific
   $auto          = true,
-  $method        = 'static',
+  $method        = '',
   $family        = 'inet',
   $stanza        = 'iface',
   $address       = undef,
@@ -135,7 +141,7 @@ define network::interface (
   # RedHat specific
   $ipaddr        = undef,
   $uuid          = undef,
-  $bootproto     = 'none',
+  $bootproto     = '',
   $userctl       = 'no',
   $type          = 'Ethernet',
   $ethtool_opts  = undef,
@@ -169,11 +175,25 @@ define network::interface (
     ''      => $ipaddress,
     default => $address,
   }
-
+  $manage_method = $method ? {
+    ''     => $enable_dhcp ? {
+      true  => 'dhcp',
+      false => 'static',
+    },
+    default => $method,
+  }
 
   # Redhat specific
+  $manage_bootproto = $bootproto ? {
+    ''     => $enable_dhcp ? {
+      true  => 'dhcp',
+      false => 'none',
+    },
+    default => $bootproto,
+  }
+
   $manage_peerdns = $peerdns ? {
-    ''     => $bootproto ? {
+    ''     => $manage_bootproto ? {
       'dhcp'  => 'yes',
       default => 'no',
     },

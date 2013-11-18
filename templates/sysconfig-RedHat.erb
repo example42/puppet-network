@@ -1,0 +1,6 @@
+# File Managed by Puppet
+NETWORKING="yes"
+<% if @gateway -%>
+GATEWAY="<%= @gateway %>"
+<% end -%>
+HOSTNAME=<%= hostname %>

@@ -29,10 +29,13 @@
 #
 class network (
 
-  $gateway                   = undef,
-  $hostname                  = undef,
+  $hostname                  = $::fqdn,
 
   $interfaces_hash           = undef,
+
+  # Parameters used only on RedHat family
+  $sysconfig_file_template   = "network/sysconfig-${::osfamily}.erb",
+  $gateway                   = undef,
 
   $package_name              = $network::params::package_name,
   $package_ensure            = 'present',
@@ -170,6 +173,18 @@ class network (
   }
 
 
+  # Configure default gateway (On RedHat
+  if $::osfamily == 'RedHat'
+  and $gateway {
+    file { '/etc/sysconfig/network':
+      ensure  => $network::config_file_ensure,
+      mode    => $network::config_file_mode,
+      owner   => $network::config_file_owner,
+      group   => $network::config_file_group,
+      content => template($network::sysconfig_file_template),
+      notify  => $network::manage_config_file_notify,
+    }
+  }
 
 
   # Extra classes

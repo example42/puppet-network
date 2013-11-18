@@ -1,6 +1,6 @@
 # File Managed by Puppet
 DEVICE="<%= @name %>"
-BOOTPROTO="<%= @bootproto %>"
+BOOTPROTO="<%= @manage_bootproto %>"
 ONBOOT="<%= @manage_onboot %>"
 TYPE="<%= @type %>"
 USERCTL="<%= @userctl %>"
@@ -16,6 +16,9 @@ NETMASK="<%= @netmask %>"
 <% end -%>
 <% if @broadcast -%>
 BROADCAST="<%= @broadcast %>"
+<% end -%>
+<% if @gateway -%>
+GATEWAY="<%= @gateway %>"
 <% end -%>
 <% if @manage_hwaddr -%>
 HWADDR="<%= @manage_hwaddr %>"
