@@ -19,7 +19,7 @@ class network (
   $service_enable            = true,
 
   $config_file_path          = $network::params::config_file_path,
-  $config_file_require       = 'Package[network]',
+  $config_file_require       = undef,
   $config_file_notify        = 'Service[network]',
   $config_file_source        = undef,
   $config_file_template      = undef,
@@ -130,6 +130,8 @@ class network (
       ensure     => $network::manage_service_ensure,
       name       => $network::service_name,
       enable     => $network::manage_service_enable,
+      hasstatus  => false,
+      status     => 'true',
     }
   }
 

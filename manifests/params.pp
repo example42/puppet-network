@@ -4,16 +4,16 @@
 #
 class network::params {
 
-  $package_name = $::osfamily ? {
-    default => 'network',
-  }
+  $package_name = ''
 
   $service_name = $::osfamily ? {
-    default => 'network',
+    'Debian' => 'networking',
+    default  => 'network',
   }
 
   $config_file_path = $::osfamily ? {
-    default => '/etc/network/network.conf',
+    'Debian' => '/etc/network/interfaces',
+    'RedHat' => '/etc/sysconfig/network-scripts/ifcfg-eth0',
   }
 
   $config_file_mode = $::osfamily ? {
@@ -29,7 +29,8 @@ class network::params {
   }
 
   $config_dir_path = $::osfamily ? {
-    default => '/etc/network',
+    'Debian' => '/etc/network',
+    'Redhat' => '/etc/sysconfig/network-scripts',
   }
 
   case $::osfamily {
