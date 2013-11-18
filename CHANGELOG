@@ -1,3 +1,3 @@
-YYYY-MM-DD Release 0.0.1
-- something you did
-- something else you did
+2013-11-18 Release 3.0.1
+- Basic module based on stdmod/puppet-skeleton-standard
+- Added network::interfaces define

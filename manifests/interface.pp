@@ -149,6 +149,7 @@ define network::interface (
   $dhcp_hostname = undef,
   $srcaddr       = undef,
   $peerdns       = '',
+  $onboot        = '',
   $dns1          = undef,
   $dns2          = undef,
   $master        = undef,
@@ -191,7 +192,6 @@ define network::interface (
     },
     default => $bootproto,
   }
-
   $manage_peerdns = $peerdns ? {
     ''     => $manage_bootproto ? {
       'dhcp'  => 'yes',
@@ -241,6 +241,10 @@ define network::interface (
         group   => 'root',
         notify  => $network::manage_config_file_notify,
       }
+    }
+
+    default: {
+      fail("${::operatingsystem} not supported. Review params.pp for extending support.")
     }
 
   }

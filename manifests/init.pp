@@ -161,7 +161,7 @@ class network (
       name       => $network::service_name,
       enable     => $network::manage_service_enable,
       hasstatus  => false,
-      status     => 'true',
+      status     => '/bin/true',
     }
   }
 
@@ -169,7 +169,7 @@ class network (
   # Create network interfaces from interfaces_hash, if present
 
   if $interfaces_hash {
-    create_resources("network::interface", $interfaces_hash)
+    create_resources('network::interface', $interfaces_hash)
   }
 
 
