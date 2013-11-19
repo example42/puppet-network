@@ -225,6 +225,12 @@ define network::interface (
         }
       }
 
+      if ! defined(Network::Interface['lo']) {
+        network::interface { 'lo':
+          method => 'loopback',
+        }
+      }
+
       concat::fragment { "interface-${name}":
         target  => '/etc/network/interfaces',
         content => template($template),

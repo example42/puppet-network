@@ -120,6 +120,11 @@ You have different possibile approaches in the usage of this module. Use the one
           config_dir_source  => 'puppet:///modules/site/network/conf/',
         }
 
+* DO NOT automatically restart the network service after configuration changes (either via the main network class or via network::interfaces)
+
+        class { 'network':
+          config_file_notify => '',
+        }
 
 
 ##Operating Systems Support
