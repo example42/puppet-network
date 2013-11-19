@@ -47,7 +47,9 @@ The main class arguments can be provided either via Hiera (from Puppet 3.x) or d
 
 
 The module provides a generic network::conf define to manage any file in the config_dir_path which is:
+
   On 'Debian' osfamily: '/etc/network',
+
   On 'Redhat' osfamily: '/etc/sysconfig/network-scripts',
 
         network::conf { 'if-up.d/my_script':
@@ -55,19 +57,13 @@ The module provides a generic network::conf define to manage any file in the con
         }
 
 The module provides as cross OS complaint define to manage single interfaces: network::interface
-Note: On Debian if you use network::interface once you must provide ALL the network::interface
-      defines for all your interfaces
 
-To configure a dhcp interface on Debian
+IMPORTANT NOTICE: On Debian if you use network::interface once you must provide ALL the network::interface defines for all your interfaces
 
-        network::interface { 'eth0':
-          method => 'dhcp',
-        }
-
-To configure a dhcp interface on RedHat
+To configure a dhcp interface
 
         network::interface { 'eth0':
-          bootproto => 'dhcp',
+          enable_dhcp => true,
         }
 
 To configure a static interface with basic parameters
@@ -78,7 +74,6 @@ To configure a static interface with basic parameters
         }
 
 
-
 ##Usage
 
 You have different possibile approaches in the usage of this module. Use the one you prefer.
@@ -86,7 +81,7 @@ You have different possibile approaches in the usage of this module. Use the one
 * Just use the network::interface defines:
 
         network::interface { 'eth0':
-          method => 'dhcp',
+          enable_dhcp => true,
         }
 
         network::interface { 'eth1':
@@ -99,7 +94,7 @@ You have different possibile approaches in the usage of this module. Use the one
         class { 'network':
           interfaces_hash => {
             'eth0' => {
-              method    => 'dhcp',
+              enable_dhcp => true,
             },
             'eth1' => {
               ipaddress => '10.42.42.50',
@@ -109,6 +104,10 @@ You have different possibile approaches in the usage of this module. Use the one
         }
 
 * Use the main network class and the usual stdmod parameters to manage the (main) network configuration file
+
+  On 'Debian' osfamily: '/etc/network/network',
+
+  On 'Redhat' osfamily: '/etc/sysconfig/network-scripts/ifcfg.eth0' # Yes, quite opinionated, you can change it with config_file_path.
 
         class { 'network':
           config_file_template => 'site/network/network.conf.erb',
@@ -126,6 +125,13 @@ You have different possibile approaches in the usage of this module. Use the one
           config_file_notify => '',
         }
 
+
+* The network::interface exposes most (all?) of the network configration parameters available both on Debian and RedHat so it's extremely flexible and should adapt to any need, but you may still want to provide a custom template with:
+
+        network::interface { 'eth0':
+          enable_dhcp => true,
+          template    => "site/network/interface/${::osfamily}.erb",
+        }
 
 ##Operating Systems Support
 
