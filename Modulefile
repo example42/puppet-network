@@ -1,5 +1,5 @@
 name          'example42-network'
-version '3.0.4'
+version '3.0.5'
 source        'https://github.com/example42/puppet-network'
 author        'Alessandro Franceschi'
 license       'Apache License, Version 2.0'
