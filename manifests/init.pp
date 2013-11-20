@@ -196,7 +196,7 @@ class network (
   if $network::monitor_class {
     class { $network::monitor_class:
       options_hash => $network::monitor_options_hash,
-      scope_hash   => {}, # TODO: Find a good way to inject class' scope
+      scope_hash   => {}, # TODO: Find a good way to inject class' scope
     }
   }
 

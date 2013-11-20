@@ -96,28 +96,28 @@ define network::interface (
   $stanza        = 'iface',
   $address       = undef,
 
-  # For method: static
+  # For method: static
   $metric        = undef,
   $pointopoint   = undef,
 
-  # For method: dhcp
+  # For method: dhcp
   $hostname      = undef,
   $leasehours    = undef,
   $leasetime     = undef,
   $client        = undef,
 
-  # For method: bootp
+  # For method: bootp
   $bootfile      = undef,
   $server        = undef,
 
-  # For method: tunnel
+  # For method: tunnel
   $mode          = undef,
   $endpoint      = undef,
   $dstaddr       = undef,
   $local         = undef,
   $ttl           = undef,
 
-  # For method: ppp
+  # For method: ppp
   $provider      = undef,
   $unit          = undef,
   $options       = undef,
@@ -129,7 +129,7 @@ define network::interface (
   $accept_ra     = undef,
   $autoconf      = undef,
 
-  # Common ifupdown scripts
+  # Common ifupdown scripts
   $up            = [ ],
   $pre_up        = [ ],
   $post_up       = [ ],
@@ -212,7 +212,7 @@ define network::interface (
   }
 
 
-  # Resources
+  # Resources
 
   case $::osfamily {
 
