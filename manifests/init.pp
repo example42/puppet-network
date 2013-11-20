@@ -29,12 +29,13 @@
 #
 class network (
 
-  $hostname                  = $::fqdn,
+  $hostname                  = undef,
 
   $interfaces_hash           = undef,
 
+  $hostname_file_template   = "network/hostname-${::osfamily}.erb",
+
   # Parameters used only on RedHat family
-  $sysconfig_file_template   = "network/sysconfig-${::osfamily}.erb",
   $gateway                   = undef,
 
   $package_name              = $network::params::package_name,
@@ -95,7 +96,7 @@ class network (
     default         => $config_file_notify,
   }
 
-  $manage_hostname = pickx($hostname, $::fqdn)
+  $manage_hostname = pickx($network::hostname, $::fqdn)
 
   if $package_ensure == 'absent' {
     $manage_service_enable = undef
@@ -173,15 +174,28 @@ class network (
   }
 
 
-  # Configure default gateway (On RedHat
+  # Configure default gateway (On RedHat). Also hostname is set.
   if $::osfamily == 'RedHat'
-  and $gateway {
+  and $network::gateway {
     file { '/etc/sysconfig/network':
       ensure  => $network::config_file_ensure,
       mode    => $network::config_file_mode,
       owner   => $network::config_file_owner,
       group   => $network::config_file_group,
-      content => template($network::sysconfig_file_template),
+      content => template($network::hostname_file_template),
+      notify  => $network::manage_config_file_notify,
+    }
+  }
+
+  # Configure hostname (On Debian)
+  if $::osfamily == 'Debian'
+  and $network::hostname {
+    file { '/etc/hostname':
+      ensure  => $network::config_file_ensure,
+      mode    => $network::config_file_mode,
+      owner   => $network::config_file_owner,
+      group   => $network::config_file_group,
+      content => template($network::hostname_file_template),
       notify  => $network::manage_config_file_notify,
     }
   }
