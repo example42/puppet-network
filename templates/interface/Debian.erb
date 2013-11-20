@@ -102,4 +102,19 @@ auto <%= @name %>
 <% if @post_down.length > 0 then -%>
 <% @post_down.each do |script| %>    post-down <%= script %><% end %>
 <% end -%>
+<% if @slaves.length > 0 then -%>
+    slaves <% @slaves.each do |intf| %> <%= intf -%><% end %>
+<% end -%>
+<% if @bond_mode -%>
+    bond_mode <%= @bond_mode %>
+<% end -%>
+<% if @bond_miimon -%>
+    bond_miimon <%= @bond_miimon %>
+<% end -%>
+<% if @bond_downdelay -%>
+    bond_downdelay <%= @bond_downdelay %>
+<% end -%>
+<% if @bond_updelay -%>
+    bond_updelay <%= @bond_updelay %>
+<% end -%>
 

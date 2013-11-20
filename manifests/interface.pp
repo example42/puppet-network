@@ -137,6 +137,13 @@ define network::interface (
   $pre_down      = [ ],
   $post_down     = [ ],
 
+  # For bonding
+  $slaves         = [ ],
+  $bond_mode      = undef,
+  $bond_miimon    = undef,
+  $bond_downdelay = undef,
+  $bond_updelay   = undef,
+
 
   # RedHat specific
   $ipaddr        = undef,
