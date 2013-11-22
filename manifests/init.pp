@@ -35,9 +35,10 @@ class network (
 
   $hostname_file_template   = "network/hostname-${::osfamily}.erb",
 
-  # Parameters used only on RedHat family
+  # Parameter used only on RedHat family
   $gateway                   = undef,
 
+  # Stdmod commons
   $package_name              = $network::params::package_name,
   $package_ensure            = 'present',
 
@@ -70,7 +71,7 @@ class network (
   $scope_hash_filter         = '(uptime.*|timestamp)',
 
   $tcp_port                  = undef,
-  $udp_port                  = undef,
+  $udp_port                  = undef
 
   ) inherits network::params {
 

@@ -164,6 +164,10 @@ define network::interface (
   $bonding_opts  = undef,
 
 
+  # Suse specific
+  $startmode     = '',
+  $usercontrol   = 'no'
+
   ) {
 
   validate_bool($auto)
@@ -191,7 +195,7 @@ define network::interface (
     default => $method,
   }
 
-  # Redhat specific
+  # Redhat and Suse specific
   $manage_bootproto = $bootproto ? {
     ''     => $enable_dhcp ? {
       true  => 'dhcp',
@@ -217,7 +221,13 @@ define network::interface (
     },
     default => $onboot,
   }
-
+  $manage_startmode = $startmode ? {
+    ''     => $enable ? {
+      true   => 'auto',
+      false  => 'off',
+    },
+    default => $startmode,
+  }
 
   # Resources
 
@@ -256,12 +266,21 @@ define network::interface (
       }
     }
 
+    'Suse': {
+      file { "/etc/sysconfig/network/ifcfg-${name}":
+        ensure  => present,
+        content => template($template),
+        mode    => '0600',
+        owner   => 'root',
+        group   => 'root',
+        notify  => $network::manage_config_file_notify,
+      }
+    }
+
     default: {
-      fail("${::operatingsystem} not supported. Review params.pp for extending support.")
+      alert("${::operatingsystem} not supported. Review params.pp for extending support. No changes done here.")
     }
 
   }
 
-
 }
-

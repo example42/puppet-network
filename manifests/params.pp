@@ -14,6 +14,7 @@ class network::params {
   $config_file_path = $::osfamily ? {
     'Debian' => '/etc/network/interfaces',
     'RedHat' => '/etc/sysconfig/network-scripts/ifcfg-eth0',
+    'Suse'   => '/etc/sysconfig/network/ifcfg-eth0',
     default  => undef,
   }
 
@@ -32,11 +33,12 @@ class network::params {
   $config_dir_path = $::osfamily ? {
     'Debian' => '/etc/network',
     'Redhat' => '/etc/sysconfig/network-scripts',
+    'Suse'   => '/etc/sysconfig/network',
     default  => undef,
   }
 
   case $::osfamily {
-    'Debian','RedHat','Amazon': { }
+    'Debian','RedHat','Amazon','Suse': { }
     default: {
       fail("${::operatingsystem} not supported. Review params.pp for extending support.")
     }

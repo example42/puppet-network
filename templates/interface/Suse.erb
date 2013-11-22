@@ -1,0 +1,19 @@
+# File Managed by Puppet
+BOOTPROTO="<%= @manage_bootproto %>"
+STARTMODE="<%= @manage_startmode %>"
+USERCONTROL="<%= @usercontrol %>"
+<% if @manage_ipaddr -%>
+IPADDR="<%= @manage_ipaddr %>"
+<% end -%>
+<% if @netmask -%>
+NETMASK="<%= @netmask %>"
+<% end -%>
+<% if @broadcast -%>
+BROADCAST="<%= @broadcast %>"
+<% end -%>
+<% if @gateway -%>
+GATEWAY="<%= @gateway %>"
+<% end -%>
+<% if @mtu -%>
+MTU="<%= @mtu %>"
+<% end -%>

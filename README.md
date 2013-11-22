@@ -52,6 +52,8 @@ The module provides a generic network::conf define to manage any file in the con
 
   On 'Redhat' osfamily: '/etc/sysconfig/network-scripts',
 
+  On 'Suse' osfamily: '/etc/sysconfig/network',
+
         network::conf { 'if-up.d/my_script':
           template => 'site/network/my_script',
         }
@@ -105,9 +107,11 @@ You have different possibile approaches in the usage of this module. Use the one
 
 * Use the main network class and the usual stdmod parameters to manage the (main) network configuration file
 
-  On 'Debian' osfamily: '/etc/network/network',
+  On 'Debian' osfamily: '/etc/network/interfaces',
 
   On 'Redhat' osfamily: '/etc/sysconfig/network-scripts/ifcfg.eth0' # Yes, quite opinionated, you can change it with config_file_path.
+
+  On 'Suse' osfamily: '/etc/sysconfig/network/ifcfg.eth0'
 
         class { 'network':
           config_file_template => 'site/network/network.conf.erb',
@@ -126,7 +130,7 @@ You have different possibile approaches in the usage of this module. Use the one
         }
 
 
-* The network::interface exposes most (all?) of the network configration parameters available both on Debian and RedHat so it's extremely flexible and should adapt to any need, but you may still want to provide a custom template with:
+* The network::interface exposes, and uses in the default templates, network configuration parameters available on Debian (most), RedHat (some), Suse (some) so it's flexible, easily expandable and should adapt to any need, but you may still want to provide a custom template with:
 
         network::interface { 'eth0':
           enable_dhcp => true,
@@ -139,6 +143,7 @@ This is tested on these OS:
 - RedHat osfamily 5 and 6
 - Debian 6 and 7
 - Ubuntu 10.04 and 12.04
+- OpenSuse 12
 
 
 ##Development
