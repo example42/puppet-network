@@ -24,6 +24,9 @@ auto <%= @name %>
 <% if @mtu -%>
     mtu <%= @mtu %>
 <% end -%>
+<% if @dns_nameservers -%>
+    dns-nameservers <%= @dns_nameservers %>
+<% end -%>
 <% if @gateway -%>
     gateway <%= @gateway %>
 <% end -%>
@@ -85,22 +88,34 @@ auto <%= @name %>
     autoconf <%= @autoconf %>
 <% end -%>
 <% if @up.length > 0 then -%>
-<% @up.each do |script| %>    up <%= script %><% end %>
+<% @up.each do |script| -%>
+    up <%= script %>
+<% end -%>
 <% end -%>
 <% if @pre_up.length > 0 then -%>
-<% @pre_up.each do |script| %>    pre-up <%= script %><% end %>
+<% @pre_up.each do |script| -%>
+    pre-up <%= script %>
+<% end -%>
 <% end -%>
 <% if @post_up.length > 0 then -%>
-<% @post_up.each do |script| %>    post-up <%= script %><% end %>
+<% @post_up.each do |script| -%>
+    post-up <%= script %>
+<% end -%>
 <% end -%>
 <% if @down.length > 0 then -%>
-<% @down.each do |script| %>    down <%= script %><% end %>
+<% @down.each do |script| -%>
+    down <%= script %>
+<% end -%>
 <% end -%>
 <% if @pre_down.length > 0 then -%>
-<% @pre_down.each do |script| %>    pre-down <%= script %><% end %>
+<% @pre_down.each do |script| -%>
+    pre-down <%= script %>
+<% end -%>
 <% end -%>
 <% if @post_down.length > 0 then -%>
-<% @post_down.each do |script| %>    post-down <%= script %><% end %>
+<% @post_down.each do |script| -%>
+    post-down <%= script %>
+<% end -%>
 <% end -%>
 <% if @slaves.length > 0 then -%>
     slaves <% @slaves.each do |intf| %> <%= intf -%><% end %>

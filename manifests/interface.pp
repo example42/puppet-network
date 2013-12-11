@@ -95,7 +95,7 @@ define network::interface (
   $family        = 'inet',
   $stanza        = 'iface',
   $address       = undef,
-
+  $dns_nameservers = undef,
   # For method: static
   $metric        = undef,
   $pointopoint   = undef,
