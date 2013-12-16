@@ -6,9 +6,9 @@ class network::params {
 
   $package_name = ''
 
-  $service_name = $::osfamily ? {
-    'Debian' => 'networking',
-    default  => 'network',
+  $service_restart_exec = $::osfamily ? {
+    'Debian' => 'service networking stop && service networking start',
+    default  => 'service network restart',
   }
 
   $config_file_path = $::osfamily ? {

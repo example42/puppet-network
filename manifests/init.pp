@@ -42,13 +42,11 @@ class network (
   $package_name              = $network::params::package_name,
   $package_ensure            = 'present',
 
-  $service_name              = $network::params::service_name,
-  $service_ensure            = 'running',
-  $service_enable            = true,
+  $service_restart_exec      = $network::params::service_restart_exec,
 
   $config_file_path          = $network::params::config_file_path,
   $config_file_require       = undef,
-  $config_file_notify        = 'Service[network]',
+  $config_file_notify        = 'class_default',
   $config_file_source        = undef,
   $config_file_template      = undef,
   $config_file_content       = undef,
@@ -78,7 +76,6 @@ class network (
 
   # Class variables validation and management
 
-  validate_bool($service_enable)
   validate_bool($config_dir_recurse)
   validate_bool($config_dir_purge)
   if $config_file_options_hash { validate_hash($config_file_options_hash) }
@@ -92,21 +89,19 @@ class network (
   $manage_config_file_content = default_content($config_file_content, $config_file_template)
 
   $manage_config_file_notify  = $config_file_notify ? {
-    'class_default' => 'Service[network]',
+    'class_default' => "Exec[$network::service_restart_exec]",
+    'undef'         => undef,
     ''              => undef,
+    undef           => undef,
     default         => $config_file_notify,
   }
 
   $manage_hostname = pickx($network::hostname, $::fqdn)
 
   if $package_ensure == 'absent' {
-    $manage_service_enable = undef
-    $manage_service_ensure = stopped
     $config_dir_ensure = absent
     $config_file_ensure = absent
   } else {
-    $manage_service_enable = $service_enable
-    $manage_service_ensure = $service_ensure
     $config_dir_ensure = directory
     $config_file_ensure = present
   }
@@ -157,16 +152,13 @@ class network (
     }
   }
 
-  if $network::service_name {
-    service { 'network':
-      ensure     => $network::manage_service_ensure,
-      name       => $network::service_name,
-      enable     => $network::manage_service_enable,
-      hasstatus  => false,
-      status     => '/bin/true',
-    }
+  # Command that triggers network restart
+  exec { $network::service_restart_exec :
+    command     => $network::service_restart_exec,
+    alias       => 'network_restart',
+    refreshonly => true,
+    path        => '/bin:/sbin:/usr/bin:/usr/sbin',
   }
-
 
   # Create network interfaces from interfaces_hash, if present
 
