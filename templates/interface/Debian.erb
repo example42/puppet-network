@@ -27,6 +27,9 @@ auto <%= @name %>
 <% if @dns_nameservers -%>
     dns-nameservers <%= @dns_nameservers %>
 <% end -%>
+<% if @dns_search -%>
+    dns-search <%= @dns_search %>
+<% end -%>
 <% if @gateway -%>
     gateway <%= @gateway %>
 <% end -%>
@@ -121,15 +124,20 @@ auto <%= @name %>
     slaves <% @slaves.each do |intf| %> <%= intf -%><% end %>
 <% end -%>
 <% if @bond_mode -%>
-    bond_mode <%= @bond_mode %>
+    bond-mode <%= @bond_mode %>
 <% end -%>
 <% if @bond_miimon -%>
-    bond_miimon <%= @bond_miimon %>
+    bond-miimon <%= @bond_miimon %>
 <% end -%>
 <% if @bond_downdelay -%>
-    bond_downdelay <%= @bond_downdelay %>
+    bond-downdelay <%= @bond_downdelay %>
 <% end -%>
 <% if @bond_updelay -%>
-    bond_updelay <%= @bond_updelay %>
+    bond-updelay <%= @bond_updelay %>
 <% end -%>
-
+<% if @bond_master -%>
+    bond-master <%= @bond_master %>
+<% end -%>
+<% if @bond_slaves -%>
+    bond-slaves <%= @bond_slaves %>
+<% end -%>

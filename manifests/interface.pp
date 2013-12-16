@@ -95,6 +95,7 @@ define network::interface (
   $family        = 'inet',
   $stanza        = 'iface',
   $address       = undef,
+  $dns_search      = undef,
   $dns_nameservers = undef,
   # For method: static
   $metric        = undef,
@@ -143,7 +144,8 @@ define network::interface (
   $bond_miimon    = undef,
   $bond_downdelay = undef,
   $bond_updelay   = undef,
-
+  $bond_master    = undef,
+  $bond_slaves    = undef,
 
   # RedHat specific
   $ipaddr        = undef,
