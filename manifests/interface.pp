@@ -75,100 +75,101 @@
 #
 define network::interface (
 
-  $enable        = true,
-  $template      = "network/interface/${::osfamily}.erb",
+  $enable          = true,
+  $template        = "network/interface/${::osfamily}.erb",
 
-  $enable_dhcp   = false,
+  $enable_dhcp     = false,
 
-  $ipaddress     = undef,
-  $netmask       = undef,
-  $network       = undef,
-  $broadcast     = undef,
-  $gateway       = undef,
-  $hwaddr        = undef,
-  $mtu           = undef,
+  $ipaddress       = undef,
+  $netmask         = undef,
+  $network         = undef,
+  $broadcast       = undef,
+  $gateway         = undef,
+  $hwaddr          = undef,
+  $mtu             = undef,
 
 
   ## Debian specific
-  $auto          = true,
-  $method        = '',
-  $family        = 'inet',
-  $stanza        = 'iface',
-  $address       = undef,
+  $auto            = true,
+  $allow_hotplug   = undef,
+  $method          = '',
+  $family          = 'inet',
+  $stanza          = 'iface',
+  $address         = undef,
   $dns_search      = undef,
   $dns_nameservers = undef,
   # For method: static
-  $metric        = undef,
-  $pointopoint   = undef,
+  $metric          = undef,
+  $pointopoint     = undef,
 
   # For method: dhcp
-  $hostname      = undef,
-  $leasehours    = undef,
-  $leasetime     = undef,
-  $client        = undef,
+  $hostname        = undef,
+  $leasehours      = undef,
+  $leasetime       = undef,
+  $client          = undef,
 
   # For method: bootp
-  $bootfile      = undef,
-  $server        = undef,
+  $bootfile        = undef,
+  $server          = undef,
 
   # For method: tunnel
-  $mode          = undef,
-  $endpoint      = undef,
-  $dstaddr       = undef,
-  $local         = undef,
-  $ttl           = undef,
+  $mode            = undef,
+  $endpoint        = undef,
+  $dstaddr         = undef,
+  $local           = undef,
+  $ttl             = undef,
 
   # For method: ppp
-  $provider      = undef,
-  $unit          = undef,
-  $options       = undef,
+  $provider        = undef,
+  $unit            = undef,
+  $options         = undef,
 
   # For inet6 family
-  $privext       = undef,
-  $dhcp          = undef,
-  $media         = undef,
-  $accept_ra     = undef,
-  $autoconf      = undef,
+  $privext         = undef,
+  $dhcp            = undef,
+  $media           = undef,
+  $accept_ra       = undef,
+  $autoconf        = undef,
 
   # Common ifupdown scripts
-  $up            = [ ],
-  $pre_up        = [ ],
-  $post_up       = [ ],
-  $down          = [ ],
-  $pre_down      = [ ],
-  $post_down     = [ ],
+  $up              = [ ],
+  $pre_up          = [ ],
+  $post_up         = [ ],
+  $down            = [ ],
+  $pre_down        = [ ],
+  $post_down       = [ ],
 
   # For bonding
-  $slaves         = [ ],
-  $bond_mode      = undef,
-  $bond_miimon    = undef,
-  $bond_downdelay = undef,
-  $bond_updelay   = undef,
-  $bond_master    = undef,
-  $bond_slaves    = undef,
+  $slaves          = [ ],
+  $bond_mode       = undef,
+  $bond_miimon     = undef,
+  $bond_downdelay  = undef,
+  $bond_updelay    = undef,
+  $bond_master     = undef,
+  $bond_slaves     = undef,
 
   # RedHat specific
-  $ipaddr        = undef,
-  $uuid          = undef,
-  $bootproto     = '',
-  $userctl       = 'no',
-  $type          = 'Ethernet',
-  $ethtool_opts  = undef,
-  $ipv6init      = undef,
-  $dhcp_hostname = undef,
-  $srcaddr       = undef,
-  $peerdns       = '',
-  $onboot        = '',
-  $dns1          = undef,
-  $dns2          = undef,
-  $master        = undef,
-  $slave         = undef,
-  $bonding_opts  = undef,
+  $ipaddr          = undef,
+  $uuid            = undef,
+  $bootproto       = '',
+  $userctl         = 'no',
+  $type            = 'Ethernet',
+  $ethtool_opts    = undef,
+  $ipv6init        = undef,
+  $dhcp_hostname   = undef,
+  $srcaddr         = undef,
+  $peerdns         = '',
+  $onboot          = '',
+  $dns1            = undef,
+  $dns2            = undef,
+  $master          = undef,
+  $slave           = undef,
+  $bonding_opts    = undef,
 
 
   # Suse specific
-  $startmode     = '',
-  $usercontrol   = 'no'
+  $startmode       = '',
+  $usercontrol     = 'no'
 
   ) {
 

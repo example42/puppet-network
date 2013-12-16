@@ -2,6 +2,9 @@
 <% if @auto -%>
 auto <%= @name %>
 <% end -%>
+<% if @aallow_hotplug -%>
+allow-hotplug <%= @allow_hotplug %>
+<% end -%>
 <%= @stanza %> <%= @name %> <%= @family %> <%= @manage_method %>
 <% if @manage_address -%>
     address <%= @manage_address %>
