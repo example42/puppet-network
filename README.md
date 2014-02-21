@@ -137,6 +137,22 @@ You have different possibile approaches in the usage of this module. Use the one
           template    => "site/network/interface/${::osfamily}.erb",
         }
 
+* The network::rhel_route define static routes on RedHat only. The following example manage a static route on eth0
+
+        network::rhel_route { 'eth0':
+          ipaddress => [ '192.168.17.0', ],
+          netmask   => [ '255.255.255.0', ],
+          gateway   => [ '192.168.17.250', ],
+        }
+
+* This example add 2 static routes on the interface bond2
+
+        network::rhel_route { 'bond2':
+          ipaddress => [ '192.168.2.0', '10.0.0.0', ],
+          netmask   => [ '255.255.255.0', '255.0.0.0', ],
+          gateway   => [ '192.168.1.1', '10.0.0.1', ],
+        }
+
 ##Operating Systems Support
 
 This is tested on these OS:
