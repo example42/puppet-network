@@ -1,4 +1,4 @@
-# == Definition: network::rhel_route
+# == Definition: network::route
 #
 # Based on https://github.com/razorsedge/puppet-network/ route.pp manifest.
 # Configures /etc/sysconfig/networking-scripts/route-$name on Rhel
