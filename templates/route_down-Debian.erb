@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+### File managed by Puppet
+#
+<%- (0..(@ipaddress.length-1)).each do |id| -%>
+ip route del <%= @ipaddress[id] %>/<%= @netmask[id] %> via <%= @gateway[id] %> dev <%= @interface %>
+<%- end -%>

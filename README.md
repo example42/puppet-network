@@ -137,13 +137,17 @@ You have different possibile approaches in the usage of this module. Use the one
           template    => "site/network/interface/${::osfamily}.erb",
         }
 
-* The network::rhel_route define static routes on RedHat only. The following example manage a static route on eth0
+* The network::route can be used to define static routes on Debian and RedHat systems. The following example manage a static route on eth0
 
         network::rhel_route { 'eth0':
           ipaddress => [ '192.168.17.0', ],
           netmask   => [ '255.255.255.0', ],
           gateway   => [ '192.168.17.250', ],
         }
+
+  On 'Debian' osfamily: it will create 2 files: '/etc/network/if-up.d/z90-route-eth0' and '/etc/network/if-down.d/z90-route-eth0',
+
+  On 'RedHat' osfamily: it will create the file '/etc/sysconfig/network-scripts/route-eth0'
 
 * This example add 2 static routes on the interface bond2
 
