@@ -253,7 +253,8 @@ define network::interface (
 
       if ! defined(Network::Interface['lo']) {
         network::interface { 'lo':
-          method => 'loopback',
+          method       => 'loopback',
+          manage_order => '05',
         }
       }
 
