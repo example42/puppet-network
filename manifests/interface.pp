@@ -38,6 +38,11 @@
 #    Both ipaddress (standard name) and address (Debian param name) if set
 #    configure the ipv4 address of the interface. If both are present address is used.
 #
+#  $manage_order  = 10,
+#    This is used by concat to define the order of your fragments, can be used to load
+#    an interface before another.
+#    default it's 10.
+#
 #  $method        = '',
 #    Both enable_dhcp (standard) and method (Debian specific param name) if set
 #    configure dhcp on the interface via the method setting.
@@ -90,6 +95,7 @@ define network::interface (
 
 
   ## Debian specific
+  $manage_order    = '10',
   $auto            = true,
   $allow_hotplug   = undef,
   $method          = '',
@@ -255,6 +261,7 @@ define network::interface (
         target  => '/etc/network/interfaces',
         content => template($template),
         notify  => $network::manage_config_file_notify,
+        order   => $manage_order,
       }
     }
 

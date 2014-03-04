@@ -78,7 +78,7 @@ define network::route (
     Debian: {
       file { "routeup-${interface}":
         ensure      => 'present',
-        mode        => '0644',
+        mode        => '0755',
         owner       => 'root',
         group       => 'root',
         path        => "/etc/network/if-up.d/z90-route-${interface}",
@@ -87,7 +87,7 @@ define network::route (
       }
       file { "routedown-${interface}":
         ensure      => 'present',
-        mode        => '0644',
+        mode        => '0755',
         owner       => 'root',
         group       => 'root',
         path        => "/etc/network/if-down.d/z90-route-${interface}",

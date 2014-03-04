@@ -139,7 +139,7 @@ You have different possibile approaches in the usage of this module. Use the one
 
 * The network::route can be used to define static routes on Debian and RedHat systems. The following example manage a static route on eth0
 
-        network::rhel_route { 'eth0':
+        network::route { 'eth0':
           ipaddress => [ '192.168.17.0', ],
           netmask   => [ '255.255.255.0', ],
           gateway   => [ '192.168.17.250', ],
@@ -151,7 +151,7 @@ You have different possibile approaches in the usage of this module. Use the one
 
 * This example add 2 static routes on the interface bond2
 
-        network::rhel_route { 'bond2':
+        network::route { 'bond2':
           ipaddress => [ '192.168.2.0', '10.0.0.0', ],
           netmask   => [ '255.255.255.0', '255.0.0.0', ],
           gateway   => [ '192.168.1.1', '10.0.0.1', ],
