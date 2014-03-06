@@ -82,6 +82,7 @@ define network::interface (
 
   $enable          = true,
   $template        = "network/interface/${::osfamily}.erb",
+  $interface       = $name,
 
   $enable_dhcp     = false,
 

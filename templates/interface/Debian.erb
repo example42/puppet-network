@@ -1,11 +1,11 @@
 # Interface <%= @name %>
 <% if @auto -%>
-auto <%= @name %>
+auto <%= @interface %>
 <% end -%>
-<% if @aallow_hotplug -%>
-allow-hotplug <%= @allow_hotplug %>
+<% if @allow_hotplug -%>
+allow-hotplug <%= @interface %>
 <% end -%>
-<%= @stanza %> <%= @name %> <%= @family %> <%= @manage_method %>
+<%= @stanza %> <%= @interface %> <%= @family %> <%= @manage_method %>
 <% if @manage_address -%>
     address <%= @manage_address %>
 <% end -%>
