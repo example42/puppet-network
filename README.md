@@ -149,6 +149,8 @@ You have different possibile approaches in the usage of this module. Use the one
 
   On 'RedHat' osfamily: it will create the file '/etc/sysconfig/network-scripts/route-eth0'
 
+  You can provide to the main network class the routes_hash parameter to manage all your routes via an hash.
+
 * This example add 2 static routes on the interface bond2
 
         network::route { 'bond2':

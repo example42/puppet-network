@@ -21,8 +21,14 @@
 #   - First level: Interface name
 #   - Second level: Interface options (check network::interface for the
 #     available options)
-#   If an hash is provided here, network::interfaces defines are declared with:
+#   If an hash is provided here, network::interface defines are declared with:
 #   create_resources("network::interface", $interfaces_hash)
+#
+# [*routes_hash*]
+#   Hash. Default undef.
+#   The complete routes configuration (nested) hash
+#   If an hash is provided here, network::route defines are declared with:
+#   create_resources("network::route", $routes_hash)
 #
 # Refer to https://github.com/stdmod for official documentation
 # on the stdmod parameters used
@@ -32,6 +38,8 @@ class network (
   $hostname                  = undef,
 
   $interfaces_hash           = undef,
+
+  $routes_hash               = undef,
 
   $hostname_file_template   = "network/hostname-${::osfamily}.erb",
 
@@ -81,6 +89,8 @@ class network (
   if $config_file_options_hash { validate_hash($config_file_options_hash) }
   if $monitor_options_hash { validate_hash($monitor_options_hash) }
   if $firewall_options_hash { validate_hash($firewall_options_hash) }
+  if $interfaces_hash { validate_hash($interfaces_hash) }
+  if $routes_hash { validate_hash($routes_hash) }
 
   $config_file_owner          = $network::params::config_file_owner
   $config_file_group          = $network::params::config_file_group
@@ -164,6 +174,10 @@ class network (
 
   if $interfaces_hash {
     create_resources('network::interface', $interfaces_hash)
+  }
+
+  if $routes_hash {
+    create_resources('network::route', $routes_hash)
   }
 
 
