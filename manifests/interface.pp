@@ -81,6 +81,7 @@
 define network::interface (
 
   $enable          = true,
+  $ensure          = 'present',
   $template        = "network/interface/${::osfamily}.erb",
   $interface       = $name,
 
@@ -269,7 +270,7 @@ define network::interface (
 
     'RedHat': {
       file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
-        ensure  => present,
+        ensure  => $ensure,
         content => template($template),
         mode    => '0644',
         owner   => 'root',
@@ -280,7 +281,7 @@ define network::interface (
 
     'Suse': {
       file { "/etc/sysconfig/network/ifcfg-${name}":
-        ensure  => present,
+        ensure  => $ensure,
         content => template($template),
         mode    => '0600',
         owner   => 'root',

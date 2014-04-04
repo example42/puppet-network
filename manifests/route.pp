@@ -52,7 +52,8 @@
 define network::route (
   $ipaddress,
   $netmask,
-  $gateway
+  $gateway,
+  $ensure = 'present'
 ) {
   # Validate our arrays
   validate_array($ipaddress)
@@ -66,7 +67,7 @@ define network::route (
   case $::osfamily {
     RedHat: {
       file { "route-${interface}":
-        ensure      => 'present',
+        ensure      => $ensure,
         mode        => '0644',
         owner       => 'root',
         group       => 'root',
@@ -77,7 +78,7 @@ define network::route (
     }
     Debian: {
       file { "routeup-${interface}":
-        ensure      => 'present',
+        ensure      => $ensure,
         mode        => '0755',
         owner       => 'root',
         group       => 'root',
@@ -86,7 +87,7 @@ define network::route (
         notify      => $network::manage_config_file_notify,
       }
       file { "routedown-${interface}":
-        ensure      => 'present',
+        ensure      => $ensure,
         mode        => '0755',
         owner       => 'root',
         group       => 'root',
