@@ -144,3 +144,15 @@ allow-hotplug <%= @interface %>
 <% if @bond_slaves -%>
     bond-slaves <%= @bond_slaves %>
 <% end -%>
+<% if @bridge_ports -%>
+    bridge_ports <%= @bridge_ports %>
+<% end -%>
+<% if @bridge_stp -%>
+    bridge_stp <%= @bridge_stp %>
+<% end -%>
+<% if @bridge_fd -%>
+    bridge_fd <%= @bridge_fd %>
+<% end -%>
+<% if @bridge_maxwait -%>
+    bridge_maxwait <%= @bridge_maxwait %>
+<% end -%>

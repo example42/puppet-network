@@ -155,6 +155,12 @@ define network::interface (
   $bond_master     = undef,
   $bond_slaves     = undef,
 
+  # For bridging
+  $bridge_ports    = undef,
+  $bridge_stp      = undef,
+  $bridge_fd       = undef,
+  $bridge_maxwait  = undef,
+
   # RedHat specific
   $ipaddr          = undef,
   $uuid            = undef,
