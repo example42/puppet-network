@@ -18,6 +18,9 @@ allow-hotplug <%= @interface %>
 <% if @network -%>
     network <%= @network %>
 <% end -%>
+<% if @broadcast -%>
+    broadcast <%= @broadcast %>
+<% end -%>
 <% if @metric -%>
     metric <%= @metric %>
 <% end -%>
