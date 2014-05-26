@@ -144,6 +144,9 @@ allow-hotplug <%= @interface %>
 <% if @bond_master -%>
     bond-master <%= @bond_master %>
 <% end -%>
+<% if @bond_primary -%>
+    bond-primary <%= @bond_primary %>
+<% end -%>
 <% if @bond_slaves -%>
     bond-slaves <%= @bond_slaves %>
 <% end -%>

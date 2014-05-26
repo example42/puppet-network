@@ -154,6 +154,7 @@ define network::interface (
   $bond_downdelay  = undef,
   $bond_updelay    = undef,
   $bond_master     = undef,
+  $bond_primary    = undef,
   $bond_slaves     = undef,
 
   # For bridging
