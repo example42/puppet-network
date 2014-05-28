@@ -156,6 +156,7 @@ define network::interface (
   $bond_master     = undef,
   $bond_primary    = undef,
   $bond_slaves     = undef,
+  $bond_xmit_hash_policy    = undef,
 
   # For bridging
   $bridge_ports    = undef,
