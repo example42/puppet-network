@@ -181,7 +181,7 @@ define network::interface (
   $master          = undef,
   $slave           = undef,
   $bonding_opts    = undef,
-
+  $vlan            = undef,
 
   # Suse specific
   $startmode       = '',
