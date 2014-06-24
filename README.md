@@ -164,7 +164,7 @@ You have different possibile approaches in the usage of this module. Use the one
 This is tested on these OS:
 - RedHat osfamily 5 and 6
 - Debian 6 and 7
-- Ubuntu 10.04 and 12.04
+- Ubuntu 10.04, 12.04 and 14.04
 - OpenSuse 12
 
 
