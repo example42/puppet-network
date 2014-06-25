@@ -258,6 +258,7 @@ define network::interface (
           mode    => '0644',
           owner   => 'root',
           group   => 'root',
+          notify  => $network::manage_config_file_notify,
         }
       }
 
@@ -271,7 +272,6 @@ define network::interface (
       concat::fragment { "interface-${name}":
         target  => '/etc/network/interfaces',
         content => template($template),
-        notify  => $network::manage_config_file_notify,
         order   => $manage_order,
       }
     }
