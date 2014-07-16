@@ -81,6 +81,20 @@ class network (
 
   ) inherits network::params {
 
+  # Hiera import
+
+  $hiera_interfaces_hash = hiera_hash("${module_name}::interfaces_hash",undef)
+  $real_interfaces_hash = $hiera_interfaces_hash ? {
+    undef   => $interfaces_hash,
+    default => $hiera_interfaces_hash,
+  }
+
+  $hiera_routes_hash = hiera_hash("${module_name}::routes_hash",undef)
+  $real_routes_hash = $hiera_routes_hash ? {
+    undef   => $routes_hash,
+    default => $hiera_routes_hash,
+  }
+
 
   # Class variables validation and management
 
@@ -89,8 +103,8 @@ class network (
   if $config_file_options_hash { validate_hash($config_file_options_hash) }
   if $monitor_options_hash { validate_hash($monitor_options_hash) }
   if $firewall_options_hash { validate_hash($firewall_options_hash) }
-  if $interfaces_hash { validate_hash($interfaces_hash) }
-  if $routes_hash { validate_hash($routes_hash) }
+  if $real_interfaces_hash { validate_hash($real_interfaces_hash) }
+  if $real_routes_hash { validate_hash($real_routes_hash) }
 
   $config_file_owner          = $network::params::config_file_owner
   $config_file_group          = $network::params::config_file_group
@@ -172,12 +186,12 @@ class network (
 
   # Create network interfaces from interfaces_hash, if present
 
-  if $interfaces_hash {
-    create_resources('network::interface', $interfaces_hash)
+  if $real_interfaces_hash {
+    create_resources('network::interface', $real_interfaces_hash)
   }
 
-  if $routes_hash {
-    create_resources('network::route', $routes_hash)
+  if $real_routes_hash {
+    create_resources('network::route', $real_routes_hash)
   }
 
 
