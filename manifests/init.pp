@@ -77,22 +77,30 @@ class network (
   $scope_hash_filter         = '(uptime.*|timestamp)',
 
   $tcp_port                  = undef,
-  $udp_port                  = undef
+  $udp_port                  = undef,
+
+  $hiera_merge               = false,
 
   ) inherits network::params {
 
   # Hiera import
 
-  $hiera_interfaces_hash = hiera_hash("${module_name}::interfaces_hash",undef)
-  $real_interfaces_hash = $hiera_interfaces_hash ? {
-    undef   => $interfaces_hash,
-    default => $hiera_interfaces_hash,
+  if( $hiera_merge ) {
+    $hiera_interfaces_hash = hiera_hash("${module_name}::interfaces_hash",undef)
+    $real_interfaces_hash = $hiera_interfaces_hash ? {
+      undef   => $interfaces_hash,
+      default => $hiera_interfaces_hash,
+    }
+  
+    $hiera_routes_hash = hiera_hash("${module_name}::routes_hash",undef)
+    $real_routes_hash = $hiera_routes_hash ? {
+      undef   => $routes_hash,
+      default => $hiera_routes_hash,
+    }
   }
-
-  $hiera_routes_hash = hiera_hash("${module_name}::routes_hash",undef)
-  $real_routes_hash = $hiera_routes_hash ? {
-    undef   => $routes_hash,
-    default => $hiera_routes_hash,
+  else {
+    $real_interfaces_hash = $interfaces_hash
+    $real_routes_hash     = $routes_hash
   }
 
 
