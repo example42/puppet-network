@@ -138,6 +138,7 @@ define network::interface (
   $media           = undef,
   $accept_ra       = undef,
   $autoconf        = undef,
+  $vlan_raw_device = undef,
 
   # Common ifupdown scripts
   $up              = [ ],
