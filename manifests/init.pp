@@ -91,7 +91,7 @@ class network (
       undef   => $interfaces_hash,
       default => $hiera_interfaces_hash,
     }
-  
+
     $hiera_routes_hash = hiera_hash("${module_name}::routes_hash",undef)
     $real_routes_hash = $hiera_routes_hash ? {
       undef   => $routes_hash,
@@ -213,6 +213,15 @@ class network (
       group   => $network::config_file_group,
       content => template($network::hostname_file_template),
       notify  => $network::manage_config_file_notify,
+    }
+    case $::lsbmajdistrelease {
+      '7': {
+        exec { "sethostname":
+          command     => "/usr/bin/hostnamectl set-hostname $manage_hostname",
+          unless      => "/usr/bin/hostnamectl status | grep 'Static hostname: $manage_hostname'",
+        }
+      }
+      default: {}
     }
   }
 
