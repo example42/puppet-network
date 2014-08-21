@@ -65,7 +65,7 @@ define network::route (
   $interface = $name
 
   case $::osfamily {
-    RedHat: {
+    'RedHat': {
       file { "route-${interface}":
         ensure      => $ensure,
         mode        => '0644',
@@ -76,7 +76,7 @@ define network::route (
         notify      => $network::manage_config_file_notify,
       }
     }
-    Debian: {
+    'Debian': {
       file { "routeup-${interface}":
         ensure      => $ensure,
         mode        => '0755',
