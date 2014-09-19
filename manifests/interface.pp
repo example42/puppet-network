@@ -103,7 +103,7 @@ define network::interface (
   $method          = '',
   $family          = 'inet',
   $stanza          = 'iface',
-  $address         = undef,
+  $address         = '',
   $dns_search      = undef,
   $dns_nameservers = undef,
   # For method: static
