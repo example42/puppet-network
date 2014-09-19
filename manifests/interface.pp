@@ -87,7 +87,7 @@ define network::interface (
 
   $enable_dhcp     = false,
 
-  $ipaddress       = undef,
+  $ipaddress       = '',
   $netmask         = undef,
   $network         = undef,
   $broadcast       = undef,
@@ -166,7 +166,7 @@ define network::interface (
   $bridge_maxwait  = undef,
 
   # RedHat specific
-  $ipaddr          = undef,
+  $ipaddr          = '',
   $uuid            = undef,
   $bootproto       = '',
   $userctl         = 'no',
