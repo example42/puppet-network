@@ -47,7 +47,7 @@ class network (
   $gateway                   = undef,
 
   # Stdmod commons
-  $package_name              = $network::params::package_name,
+  $package_name              = undef,
   $package_ensure            = 'present',
 
   $service_restart_exec      = $network::params::service_restart_exec,
