@@ -50,3 +50,9 @@ BONDING_OPTS="<%= @bonding_opts %>"
 <% if @mtu -%>
 MTU="<%= @mtu %>"
 <% end -%>
+<% if @vlan -%>
+VLAN="<%= @vlan %>"
+<% end -%>
+<% if @bridge -%>
+BRIDGE="<%= @bridge %>"
+<% end -%>

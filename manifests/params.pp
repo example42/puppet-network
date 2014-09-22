@@ -5,7 +5,7 @@
 class network::params {
 
   $service_restart_exec = $::osfamily ? {
-    'Debian' => 'service networking stop && service networking start',
+    'Debian' => '/sbin/ifdown -a && /sbin/ifup -a',
     default  => 'service network restart',
   }
 

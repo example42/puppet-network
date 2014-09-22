@@ -87,7 +87,7 @@ define network::interface (
 
   $enable_dhcp     = false,
 
-  $ipaddress       = undef,
+  $ipaddress       = '',
   $netmask         = undef,
   $network         = undef,
   $broadcast       = undef,
@@ -103,7 +103,7 @@ define network::interface (
   $method          = '',
   $family          = 'inet',
   $stanza          = 'iface',
-  $address         = undef,
+  $address         = '',
   $dns_search      = undef,
   $dns_nameservers = undef,
   # For method: static
@@ -138,6 +138,7 @@ define network::interface (
   $media           = undef,
   $accept_ra       = undef,
   $autoconf        = undef,
+  $vlan_raw_device = undef,
 
   # Common ifupdown scripts
   $up              = [ ],
@@ -165,7 +166,7 @@ define network::interface (
   $bridge_maxwait  = undef,
 
   # RedHat specific
-  $ipaddr          = undef,
+  $ipaddr          = '',
   $uuid            = undef,
   $bootproto       = '',
   $userctl         = 'no',
@@ -181,7 +182,8 @@ define network::interface (
   $master          = undef,
   $slave           = undef,
   $bonding_opts    = undef,
-
+  $vlan            = undef,
+  $bridge          = undef,
 
   # Suse specific
   $startmode       = '',
@@ -258,6 +260,7 @@ define network::interface (
           mode    => '0644',
           owner   => 'root',
           group   => 'root',
+          notify  => $network::manage_config_file_notify,
         }
       }
 
@@ -271,7 +274,6 @@ define network::interface (
       concat::fragment { "interface-${name}":
         target  => '/etc/network/interfaces',
         content => template($template),
-        notify  => $network::manage_config_file_notify,
         order   => $manage_order,
       }
     }
