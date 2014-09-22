@@ -7,5 +7,5 @@ summary       'This module installs and configures networking on Debian RedHat a
 description   'This module installs and configures networking on Debian RedHat and Suse. Based of stdmod/puppet-skeleton-standard 0.0.3.'
 project_page  'http://www.example42.com'
 dependency    'puppetlabs/stdlib', '>=2.0.1'
-dependency    'puppetlabs/concat', '>= 0.1.0'
+dependency    'puppetlabs/concat', '>= 1.0.0'
 dependency    'example42/stdmod', '>= 0.0.1'
