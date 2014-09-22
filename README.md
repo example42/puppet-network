@@ -1,5 +1,7 @@
 #network
 
+[![Build Status](https://travis-ci.org/example42/puppet-network.png?branch=master)](https://travis-ci.org/example42/puppet-network)
+
 ####Table of Contents
 
 1. [Overview](#overview)
