@@ -121,7 +121,7 @@ class network (
   $manage_config_file_content = default_content($config_file_content, $config_file_template)
 
   $manage_config_file_notify  = $config_file_notify ? {
-    'class_default' => "Exec[$network::service_restart_exec]",
+    'class_default' => "Exec[${network::service_restart_exec}]",
     'undef'         => undef,
     ''              => undef,
     undef           => undef,
@@ -150,8 +150,8 @@ class network (
 
   if $network::package_name {
     package { 'network':
-      ensure   => $network::package_ensure,
-      name     => $network::package_name,
+      ensure => $network::package_ensure,
+      name   => $network::package_name,
     }
   }
 
@@ -216,9 +216,9 @@ class network (
     }
     case $::lsbmajdistrelease {
       '7': {
-        exec { "sethostname":
-          command     => "/usr/bin/hostnamectl set-hostname $manage_hostname",
-          unless      => "/usr/bin/hostnamectl status | grep 'Static hostname: $manage_hostname'",
+        exec { 'sethostname':
+          command => "/usr/bin/hostnamectl set-hostname ${manage_hostname}",
+          unless  => "/usr/bin/hostnamectl status | grep 'Static hostname: ${manage_hostname}'",
         }
       }
       default: {}

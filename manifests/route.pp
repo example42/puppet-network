@@ -2,7 +2,9 @@
 #
 # Based on https://github.com/razorsedge/puppet-network/ route.pp manifest.
 # Configures /etc/sysconfig/networking-scripts/route-$name on Rhel
-# Add 2 files on Debian 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
+# Adds 2 files on Debian:
+# One under /etc/network/if-up.d and
+# One in /etc/network/if-down.d
 #
 # === Parameters:
 #
@@ -67,33 +69,33 @@ define network::route (
   case $::osfamily {
     'RedHat': {
       file { "route-${interface}":
-        ensure      => $ensure,
-        mode        => '0644',
-        owner       => 'root',
-        group       => 'root',
-        path        => "/etc/sysconfig/network-scripts/route-${interface}",
-        content     => template('network/route-RedHat.erb'),
-        notify      => $network::manage_config_file_notify,
+        ensure  => $ensure,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/sysconfig/network-scripts/route-${interface}",
+        content => template('network/route-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
       }
     }
     'Debian': {
       file { "routeup-${interface}":
-        ensure      => $ensure,
-        mode        => '0755',
-        owner       => 'root',
-        group       => 'root',
-        path        => "/etc/network/if-up.d/z90-route-${interface}",
-        content     => template('network/route_up-Debian.erb'),
-        notify      => $network::manage_config_file_notify,
+        ensure  => $ensure,
+        mode    => '0755',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/network/if-up.d/z90-route-${interface}",
+        content => template('network/route_up-Debian.erb'),
+        notify  => $network::manage_config_file_notify,
       }
       file { "routedown-${interface}":
-        ensure      => $ensure,
-        mode        => '0755',
-        owner       => 'root',
-        group       => 'root',
-        path        => "/etc/network/if-down.d/z90-route-${interface}",
-        content     => template('network/route_down-Debian.erb'),
-        notify      => $network::manage_config_file_notify,
+        ensure  => $ensure,
+        mode    => '0755',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/network/if-down.d/z90-route-${interface}",
+        content => template('network/route_down-Debian.erb'),
+        notify  => $network::manage_config_file_notify,
       }
 
     }

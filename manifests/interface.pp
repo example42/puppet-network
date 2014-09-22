@@ -257,10 +257,10 @@ define network::interface (
     'Debian': {
       if ! defined(Concat['/etc/network/interfaces']) {
         concat { '/etc/network/interfaces':
-          mode    => '0644',
-          owner   => 'root',
-          group   => 'root',
-          notify  => $network::manage_config_file_notify,
+          mode   => '0644',
+          owner  => 'root',
+          group  => 'root',
+          notify => $network::manage_config_file_notify,
         }
       }
 
