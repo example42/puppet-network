@@ -203,17 +203,24 @@ define network::interface (
     default => $hwaddr,
   }
 
-  # Debian specific
-  $manage_address = $address ? {
-    ''      => $ipaddress,
-    default => $address,
-  }
   $manage_method = $method ? {
     ''     => $enable_dhcp ? {
       true  => 'dhcp',
       false => 'static',
     },
     default => $method,
+  }
+
+  # Debian specific
+  case $manage_method {
+    'dhcp': { $manage_address = undef }
+    'none': { $manage_address = undef }
+    default: {
+        $manage_address = $address ? {
+          ''      => $ipaddress,
+          default => $address,
+        }
+      }
   }
 
   # Redhat and Suse specific
@@ -266,6 +273,7 @@ define network::interface (
 
       if ! defined(Network::Interface['lo']) {
         network::interface { 'lo':
+          address      => '127.0.0.1',
           method       => 'loopback',
           manage_order => '05',
         }
