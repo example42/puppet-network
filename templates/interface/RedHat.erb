@@ -20,6 +20,9 @@ BROADCAST="<%= @broadcast %>"
 <% if @gateway -%>
 GATEWAY="<%= @gateway %>"
 <% end -%>
+<% if @manage_defroute -%>
+DEFROUTE="<%= @manage_defroute %>"
+<% end -%>
 <% if @manage_hwaddr -%>
 HWADDR="<%= @manage_hwaddr %>"
 <% end -%>
