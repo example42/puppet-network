@@ -177,6 +177,7 @@ define network::interface (
   $srcaddr         = undef,
   $peerdns         = '',
   $onboot          = '',
+  $defroute        = undef,
   $dns1            = undef,
   $dns2            = undef,
   $master          = undef,
@@ -248,6 +249,11 @@ define network::interface (
       false  => 'no',
     },
     default => $onboot,
+  }
+  $manage_defroute = $defroute ? {
+    true    => 'yes',
+    false   => 'no',
+    default => $defroute,
   }
   $manage_startmode = $startmode ? {
     ''     => $enable ? {
