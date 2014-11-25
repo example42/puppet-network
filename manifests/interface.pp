@@ -215,6 +215,7 @@ define network::interface (
   # Debian specific
   case $manage_method {
     'dhcp': { $manage_address = undef }
+    'auto': { $manage_address = undef }
     'none': { $manage_address = undef }
     default: {
         $manage_address = $address ? {
