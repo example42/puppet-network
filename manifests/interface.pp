@@ -75,6 +75,10 @@
 #    configure dhcp on the interface via the bootproto setting.
 #    If both are present bootproto is used.
 #
+#  $arpcheck      = undef
+#    Whether the interface will check if the supplied IP address is already in
+#    use. Valid values are undef, "yes", "no".
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -185,6 +189,7 @@ define network::interface (
   $bonding_opts    = undef,
   $vlan            = undef,
   $bridge          = undef,
+  $arpcheck        = undef,
 
   # Suse specific
   $startmode       = '',
@@ -199,6 +204,10 @@ define network::interface (
   validate_array($pre_up)
   validate_array($down)
   validate_array($pre_down)
+
+  if $arpcheck != undef and ! ($arpcheck in ["yes", "no"]) {
+    fail("arpcheck must be one of: undef, yes, no")
+  }
 
   $manage_hwaddr = $hwaddr ? {
     default => $hwaddr,
