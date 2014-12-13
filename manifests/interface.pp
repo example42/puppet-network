@@ -192,6 +192,8 @@ define network::interface (
 
   ) {
 
+  include ::network
+
   validate_bool($auto)
   validate_bool($enable)
 
