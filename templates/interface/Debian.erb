@@ -97,7 +97,7 @@ allow-hotplug <%= @interface %>
     autoconf <%= @autoconf %>
 <% end -%>
 <% if @vlan_raw_device -%>
-    vlan-raw-device <%= @vlan_raw_device -%>
+    vlan-raw-device <%= @vlan_raw_device %>
 <% end -%>
 <% if @up.length > 0 then -%>
 <% @up.each do |script| -%>
