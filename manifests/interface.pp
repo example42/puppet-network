@@ -188,6 +188,8 @@ define network::interface (
   $slave           = undef,
   $bonding_opts    = undef,
   $vlan            = undef,
+  $vlan_name_type  = undef,
+  $physdev         = undef,
   $bridge          = undef,
   $arpcheck        = undef,
 
