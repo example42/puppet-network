@@ -41,6 +41,9 @@ DNS1="<%= @dns1 %>"
 <% if @dns2 -%>
 DNS2="<%= @dns2 %>"
 <% end -%>
+<% if @nm_controlled -%>
+NM_CONTROLLED="<%= @nm_controlled %>"
+<% end -%>
 <% if @master -%>
 MASTER="<%= @master %>"
 <% end -%>
@@ -62,7 +65,6 @@ VLAN_NAME_TYPE="<%= @vlan_name_type %>"
 <% if @physdev -%>
 PHYSDEV="<%= @physdev %>"
 <% end -%>
-
 <% if @bridge -%>
 BRIDGE="<%= @bridge %>"
 <% end -%>
