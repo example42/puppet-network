@@ -193,6 +193,7 @@ define network::interface (
   $physdev         = undef,
   $bridge          = undef,
   $arpcheck        = undef,
+  $zone            = undef,
 
   # Suse specific
   $startmode       = '',
