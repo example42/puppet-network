@@ -1,0 +1,3 @@
+<%- @real_routes_hash.each do |route, values| -%>
+<%= values['destination'] %> <%= values['gateway'] %> <% if values['netmask'] %><%= values['netmask'] %><%- else -%>-<%- end -%> <% if values['interface'] %><%= values['interface'] %><%- else -%>-<%- end -%> <% if values['type'] %><%= values['type'] %><%- end %>
+<% end -%>

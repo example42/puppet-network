@@ -113,7 +113,7 @@ You have different possibile approaches in the usage of this module. Use the one
 
   On 'Redhat' osfamily: '/etc/sysconfig/network-scripts/ifcfg.eth0' # Yes, quite opinionated, you can change it with config_file_path.
 
-  On 'Suse' osfamily: '/etc/sysconfig/network/ifcfg.eth0'
+  On 'Suse' osfamily: '/etc/sysconfig/network/ifcfg-eth0'
 
         class { 'network':
           config_file_template => 'site/network/network.conf.erb',
@@ -132,7 +132,7 @@ You have different possibile approaches in the usage of this module. Use the one
         }
 
 
-* The network::interface exposes, and uses in the default templates, network configuration parameters available on Debian (most), RedHat (some), Suse (some) so it's flexible, easily expandable and should adapt to any need, but you may still want to provide a custom template with:
+* The network::interface exposes, and uses in the default templates, network configuration parameters available on Debian (most), RedHat (some), Suse (most) so it's flexible, easily expandable and should adapt to any need, but you may still want to provide a custom template with:
 
         network::interface { 'eth0':
           enable_dhcp => true,
@@ -161,13 +161,29 @@ You have different possibile approaches in the usage of this module. Use the one
           gateway   => [ '192.168.1.1', '10.0.0.1', ],
         }
 
+* To configure network routes on Suse, use the routes_hash parameter, like in the following example:
+
+	class { 'network':
+	  routes_hash => {
+            'default' => {
+	      destination => 'default',
+              gateway     => '192.168.0.1',
+              netmask     => '255.255.255.0',
+              interface   => 'eth0',
+              type        => 'unicast',
+            }
+          }
+	}
+
+The parameters netmask, interface and type are optional.
+
 ##Operating Systems Support
 
 This is tested on these OS:
 - RedHat osfamily 5 and 6
 - Debian 6 and 7
 - Ubuntu 10.04, 12.04 and 14.04
-- OpenSuse 12
+- OpenSuse 12, SLES 11SP3
 
 
 ##Development

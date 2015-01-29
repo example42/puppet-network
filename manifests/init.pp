@@ -199,7 +199,18 @@ class network (
   }
 
   if $real_routes_hash {
-    create_resources('network::route', $real_routes_hash)
+    if $::osfamily == 'Suse' {
+      file { '/etc/sysconfig/network/routes':
+        ensure  => $network::config_file_ensure,
+        mode    => $network::config_file_mode,
+        owner   => $network::config_file_owner,
+        group   => $network::config_file_group,
+        content => template("network/route-${::osfamily}.erb"),
+        notify  => $network::manage_config_file_notify,
+      }
+    } else {
+      create_resources('network::route', $real_routes_hash)
+    }
   }
 
 
@@ -235,6 +246,23 @@ class network (
       group   => $network::config_file_group,
       content => template($network::hostname_file_template),
       notify  => $network::manage_config_file_notify,
+    }
+  }
+
+  if $::osfamily == 'Suse' {
+    if $network::hostname {
+      file { '/etc/HOSTNAME':
+        ensure  => $network::config_file_ensure,
+        mode    => $network::config_file_mode,
+        owner   => $network::config_file_owner,
+        group   => $network::config_file_group,
+        content => inline_template("<%= @manage_hostname %>\n"),
+        notify  => $network::sethostname,
+      }
+      exec { 'sethostname':
+        command => "/bin/hostname ${manage_hostname}",
+        unless  => "/bin/hostname -f | grep ${manage_hostname}",
+      }
     }
   }
 
