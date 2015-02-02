@@ -185,6 +185,7 @@ define network::interface (
   $dhcp_hostname   = undef,
   $srcaddr         = undef,
   $peerdns         = '',
+  $peerntp         = '',
   $onboot          = '',
   $defroute        = undef,
   $dns1            = undef,
@@ -278,6 +279,13 @@ define network::interface (
       default => 'no',
     },
     default => $peerdns,
+  }
+  $manage_peerntp = $peerntp ? {
+    ''     => $manage_bootproto ? {
+      'dhcp'  => 'yes',
+      default => 'no',
+    },
+    default => $peerntp,
   }
   $manage_ipaddr = $ipaddr ? {
     ''      => $ipaddress,
