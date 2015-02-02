@@ -204,25 +204,21 @@ define network::interface (
   ## Suse specific
   $startmode       = '',
   $usercontrol     = 'no',
-  $ethtool_opts    = undef,
   $firewall        = undef,
   $aliases         = undef,
   $remote_ipaddr   = undef,
 
   # For bonding
-  $bond_master     = undef,
   $bond_moduleopts = undef,
-  $bond_slaves     = undef,
+  # also used for Suse bonding: $bond_master, $bond_slaves
 
   # For bridging
-  $bridge          = undef,
   $bridge_fwddelay = undef,
-  $bridge_ports    = undef,
-  $bridge_stp      = undef,
+  # also used for Suse bridging: $bridge, $bridge_ports, $bridge_stp
 
-  # For vlaN
-  $vlan            = undef,
+  # For vlan
   $etherdevice     = undef,
+  # also used for Suse vlan: $vlan
 
   ) {
 
