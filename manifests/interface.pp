@@ -82,6 +82,11 @@
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
+# == Suse only parameters
+#
+# Check the arguments in the code for the other Suse specific settings
+# If defined they are set in the used template.
+#
 define network::interface (
 
   $enable          = true,
@@ -195,9 +200,28 @@ define network::interface (
   $arpcheck        = undef,
   $zone            = undef,
 
-  # Suse specific
+  ## Suse specific
   $startmode       = '',
-  $usercontrol     = 'no'
+  $usercontrol     = 'no',
+  $ethtool_opts    = undef,
+  $firewall        = undef,
+  $aliases         = undef,
+  $remote_ipaddr   = undef,
+
+  # For bonding
+  $bond_master     = undef,
+  $bond_moduleopts = undef,
+  $bond_slaves     = undef,
+
+  # For bridging
+  $bridge          = undef,
+  $bridge_fwddelay = undef,
+  $bridge_ports    = undef,
+  $bridge_stp      = undef,
+
+  # For vlaN
+  $vlan            = undef,
+  $etherdevice     = undef,
 
   ) {
 
@@ -211,8 +235,8 @@ define network::interface (
   validate_array($down)
   validate_array($pre_down)
 
-  if $arpcheck != undef and ! ($arpcheck in ["yes", "no"]) {
-    fail("arpcheck must be one of: undef, yes, no")
+  if $arpcheck != undef and ! ($arpcheck in ['yes', 'no']) {
+    fail('arpcheck must be one of: undef, yes, no')
   }
 
   $manage_hwaddr = $hwaddr ? {
@@ -320,6 +344,25 @@ define network::interface (
     }
 
     'Suse': {
+      if $vlan {
+        if !defined(Package['vlan']) {
+          package { 'vlan':
+            ensure => 'present',
+          }
+        }
+        Package['vlan'] ->
+        File["/etc/sysconfig/network/ifcfg-${name}"]
+      }
+      if $bridge {
+        if !defined(Package['bridge-utils']) {
+          package { 'bridge-utils':
+            ensure => 'present',
+          }
+        }
+        Package['bridge-utils'] ->
+        File["/etc/sysconfig/network/ifcfg-${name}"]
+      }
+
       file { "/etc/sysconfig/network/ifcfg-${name}":
         ensure  => $ensure,
         content => template($template),

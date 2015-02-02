@@ -97,7 +97,6 @@ define network::route (
         content => template('network/route_down-Debian.erb'),
         notify  => $network::manage_config_file_notify,
       }
-
     }
     default: { fail('Operating system not supported')  }
   }
