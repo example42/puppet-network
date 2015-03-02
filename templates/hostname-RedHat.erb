@@ -3,4 +3,7 @@ NETWORKING="yes"
 <% if @gateway -%>
 GATEWAY="<%= @gateway %>"
 <% end -%>
+<% if @nozeroconf -%>
+NOZEROCONF="<%= @nozeroconf %>"
+<% end -%>
 HOSTNAME="<%= @manage_hostname.split('.').first %>"
