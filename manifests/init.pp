@@ -45,6 +45,8 @@ class network (
 
   # Parameter used only on RedHat family
   $gateway                   = undef,
+  $nozeroconf                = undef,
+  $ipv6enable                = undef,
 
   # Stdmod commons
   $package_name              = undef,
