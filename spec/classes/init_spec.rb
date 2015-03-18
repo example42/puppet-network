@@ -101,8 +101,9 @@ describe 'network' do
         :osfamily        => 'Solaris',
         :operatingsystem => 'Nexenta',
       }}
-
-      it { expect { should }.to raise_error(Puppet::Error, /Nexenta not supported/) }
+      it 'should fail' do
+        should compile.and_raise_error(/^Nexenta not supported/)
+      end
     end
   end
 
