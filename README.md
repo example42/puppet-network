@@ -163,17 +163,17 @@ You have different possibile approaches in the usage of this module. Use the one
 
 * To configure network routes on Suse, use the routes_hash parameter, like in the following example:
 
-	class { 'network':
-	  routes_hash => {
+        class { 'network':
+          routes_hash => {
             'default' => {
-	      destination => 'default',
+              destination => 'default',
               gateway     => '192.168.0.1',
               netmask     => '255.255.255.0',
               interface   => 'eth0',
               type        => 'unicast',
             }
           }
-	}
+        }
 
 The parameters netmask, interface and type are optional.
 
