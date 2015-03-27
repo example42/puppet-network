@@ -165,11 +165,11 @@ define network::interface (
   $bond_updelay    = undef,
   $bond_master     = undef,
   $bond_primary    = undef,
-  $bond_slaves     = undef,
+  $bond_slaves     = [ ],
   $bond_xmit_hash_policy    = undef,
 
   # For bridging
-  $bridge_ports    = undef,
+  $bridge_ports    = [ ],
   $bridge_stp      = undef,
   $bridge_fd       = undef,
   $bridge_maxwait  = undef,
@@ -231,6 +231,10 @@ define network::interface (
   validate_array($pre_up)
   validate_array($down)
   validate_array($pre_down)
+  validate_array($slaves)
+  validate_array($bond_slaves)
+  validate_array($bridge_ports)
+
 
   if $arpcheck != undef and ! ($arpcheck in ['yes', 'no']) {
     fail('arpcheck must be one of: undef, yes, no')
