@@ -250,9 +250,15 @@ define network::interface (
 
   # Debian specific
   case $manage_method {
-    'dhcp': { $manage_address = undef }
     'auto': { $manage_address = undef }
+    'bootp': { $manage_address = undef }
+    'dhcp': { $manage_address = undef }
+    'ipv4ll': { $manage_address = undef }
+    'loopback': { $manage_address = undef }
+    'manual': { $manage_address = undef }
     'none': { $manage_address = undef }
+    'ppp': { $manage_address = undef }
+    'wvdial': { $manage_address = undef }
     default: {
         $manage_address = $address ? {
           ''      => $ipaddress,
