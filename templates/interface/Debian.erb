@@ -6,7 +6,7 @@ auto <%= @interface %>
 allow-hotplug <%= @interface %>
 <% end -%>
 <%= @stanza %> <%= @interface %> <%= @family %> <%= @manage_method %>
-<% if @manage_address -%>
+<% if @manage_address and ! @manage_address.empty? -%>
     address <%= @manage_address %>
 <% end -%>
 <% if @manage_hwaddr -%>
