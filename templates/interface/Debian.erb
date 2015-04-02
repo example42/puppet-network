@@ -129,8 +129,8 @@ allow-hotplug <%= @interface %>
     post-down <%= script %>
 <% end -%>
 <% end -%>
-<% if @slaves.length > 0 then -%>
-    slaves <% @slaves.each do |intf| %> <%= intf -%><% end %>
+<% if @slaves.size > 0 then -%>
+    slaves <%= @slaves.join(' ') %>
 <% end -%>
 <% if @bond_mode -%>
     bond-mode <%= @bond_mode %>
@@ -150,11 +150,11 @@ allow-hotplug <%= @interface %>
 <% if @bond_primary -%>
     bond-primary <%= @bond_primary %>
 <% end -%>
-<% if @bond_slaves -%>
-    bond-slaves <%= @bond_slaves %>
+<% if @bond_slaves.size > 0 then -%>
+    bond-slaves <%= @bond_slaves.join(' ') %>
 <% end -%>
-<% if @bridge_ports -%>
-    bridge_ports <%= @bridge_ports %>
+<% if @bridge_ports.size > 0 then -%>
+    bridge_ports <%= @bridge_ports.join(' ') %>
 <% end -%>
 <% if @bridge_stp -%>
     bridge_stp <%= @bridge_stp %>
@@ -168,3 +168,4 @@ allow-hotplug <%= @interface %>
 <% if @bond_xmit_hash_policy -%>
     bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
 <% end -%>
+
