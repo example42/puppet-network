@@ -9,6 +9,9 @@ PEERNTP="<%= @manage_peerntp %>"
 <% if @uuid -%>
 UUID="<%= @uuid %>"
 <% end -%>
+<% if @ethtool_opts -%>
+ETHTOOL_OPTS="<%= @ethtool_opts %>"
+<% end -%>
 <% if @manage_ipaddr -%>
 IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
