@@ -355,7 +355,7 @@ define network::interface (
         group   => 'root',
         notify  => $network::manage_config_file_notify,
       }
-      if $bridge {
+      if ($bridge or $type == "Bridge") {
         if !defined(Package['bridge-utils']) {
           package { 'bridge-utils':
             ensure => 'present',
