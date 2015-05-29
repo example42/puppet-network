@@ -53,6 +53,7 @@
 #
 define network::route (
   $ipaddress,
+  $interface = $name,
   $netmask,
   $gateway,
   $ensure = 'present'
@@ -63,8 +64,6 @@ define network::route (
   validate_array($gateway)
 
   include 'network'
-
-  $interface = $name
 
   case $::osfamily {
     'RedHat': {
