@@ -323,6 +323,14 @@ define network::interface (
   case $::osfamily {
 
     'Debian': {
+      if $vlan_raw_device {
+        if !defined(Package['vlan']) {
+          package { 'vlan':
+            ensure => 'present',
+          }
+        }
+      }
+
       if ! defined(Concat['/etc/network/interfaces']) {
         concat { '/etc/network/interfaces':
           mode   => '0644',
