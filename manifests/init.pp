@@ -62,6 +62,8 @@ class network (
   $config_file_content       = undef,
   $config_file_options_hash  = { } ,
 
+  $config_file_per_interface = false,
+
   $config_dir_path           = $network::params::config_dir_path,
   $config_dir_source         = undef,
   $config_dir_purge          = false,

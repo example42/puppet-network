@@ -331,13 +331,35 @@ define network::interface (
         }
       }
 
-      if ! defined(Concat['/etc/network/interfaces']) {
-        concat { '/etc/network/interfaces':
-          mode   => '0644',
-          owner  => 'root',
-          group  => 'root',
-          notify => $network::manage_config_file_notify,
+      if $network::config_file_per_interface {
+        file { "interface-${name}":
+          path    => "/etc/network/interfaces.d/${name}.cfg",
+          content => template($template),
+          notify  => $network::manage_config_file_notify
         }
+        if ! defined(File_line['config_file_per_interface']) {
+          file_line { 'config_file_per_interface':
+            path   => '/etc/network/interfaces',
+            line   => 'source /etc/network/interfaces.d/*.cfg',
+            notify => $network::manage_config_file_notify,
+          }
+        }
+      } else {
+        if ! defined(Concat['/etc/network/interfaces']) {
+          concat { '/etc/network/interfaces':
+            mode   => '0644',
+            owner  => 'root',
+            group  => 'root',
+            notify => $network::manage_config_file_notify,
+          }
+        }
+
+        concat::fragment { "interface-${name}":
+          target  => '/etc/network/interfaces',
+          content => template($template),
+          order   => $manage_order,
+        }
+
       }
 
       if ! defined(Network::Interface['lo']) {
@@ -346,12 +368,6 @@ define network::interface (
           method       => 'loopback',
           manage_order => '05',
         }
-      }
-
-      concat::fragment { "interface-${name}":
-        target  => '/etc/network/interfaces',
-        content => template($template),
-        order   => $manage_order,
       }
     }
 
