@@ -79,6 +79,10 @@
 #    Whether the interface will check if the supplied IP address is already in
 #    use. Valid values are undef, "yes", "no".
 #
+#  $arp           = undef
+#    Used to enable or disable ARP completely for an interface at initialization
+#    Valid values are undef, "yes", "no".
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -103,7 +107,7 @@ define network::interface (
   $gateway         = undef,
   $hwaddr          = undef,
   $mtu             = undef,
-
+  $arp             = undef,
 
   ## Debian specific
   $manage_order    = '10',
@@ -236,6 +240,9 @@ define network::interface (
   validate_array($bond_slaves)
   validate_array($bridge_ports)
 
+  if $arp != undef and ! ($arp in ['yes', 'no']) {
+    fail('arp must be one of: undef, yes, no')
+  }
 
   if $arpcheck != undef and ! ($arpcheck in ['yes', 'no']) {
     fail('arpcheck must be one of: undef, yes, no')
