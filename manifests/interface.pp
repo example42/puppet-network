@@ -107,7 +107,6 @@ define network::interface (
   $gateway         = undef,
   $hwaddr          = undef,
   $mtu             = undef,
-  $arp             = undef,
 
   ## Debian specific
   $manage_order    = '10',
@@ -205,6 +204,7 @@ define network::interface (
   $bridge          = undef,
   $arpcheck        = undef,
   $zone            = undef,
+  $arp             = undef,
 
   ## Suse specific
   $startmode       = '',
