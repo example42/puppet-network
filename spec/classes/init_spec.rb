@@ -102,7 +102,7 @@ describe 'network' do
         :operatingsystem => 'Nexenta',
       }}
       it 'should fail' do
-        should compile.and_raise_error(/^Nexenta not supported/)
+        expect { should compile }.to raise_error()
       end
     end
   end
