@@ -209,6 +209,7 @@ define network::interface (
   $arpcheck        = undef,
   $zone            = undef,
   $arp             = undef,
+  $nozeroconf      = undef,
 
   ## Suse specific
   $startmode       = '',
@@ -250,6 +251,10 @@ define network::interface (
 
   if $arpcheck != undef and ! ($arpcheck in ['yes', 'no']) {
     fail('arpcheck must be one of: undef, yes, no')
+  }
+
+  if $nozeroconf != undef and ! ($nozeroconf in ['yes', 'no']) {
+    fail('nozeroconf must be one of: undef, yes, no')
   }
 
   $manage_hwaddr = $hwaddr ? {
