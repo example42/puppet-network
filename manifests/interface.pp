@@ -83,6 +83,10 @@
 #    Used to enable or disable ARP completely for an interface at initialization
 #    Valid values are undef, "yes", "no".
 #
+#  $nozeroconf    = undef
+#    Used to enable or disable ZEROCONF routes completely for an interface at initialization
+#    Valid values are undef, "yes, 'no".
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
