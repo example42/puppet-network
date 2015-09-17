@@ -83,6 +83,10 @@
 #    Used to enable or disable ARP completely for an interface at initialization
 #    Valid values are undef, "yes", "no".
 #
+#  $nozeroconf    = undef
+#    Used to enable or disable ZEROCONF routes completely for an interface at initialization
+#    Valid values are undef, "yes, 'no".
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -205,6 +209,7 @@ define network::interface (
   $arpcheck        = undef,
   $zone            = undef,
   $arp             = undef,
+  $nozeroconf      = undef,
 
   ## Suse specific
   $startmode       = '',
@@ -246,6 +251,10 @@ define network::interface (
 
   if $arpcheck != undef and ! ($arpcheck in ['yes', 'no']) {
     fail('arpcheck must be one of: undef, yes, no')
+  }
+
+  if $nozeroconf != undef and ! ($nozeroconf in ['yes', 'no']) {
+    fail('nozeroconf must be one of: undef, yes, no')
   }
 
   $manage_hwaddr = $hwaddr ? {
