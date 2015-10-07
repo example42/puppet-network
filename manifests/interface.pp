@@ -14,7 +14,7 @@
 # [*ipaddress*]
 # [*netmask*]
 # [*broadcast*]
-# [*macaddress*]
+# [*hwaddr*]
 #   String. Default: undef
 #   Standard network parameters
 #
@@ -67,8 +67,7 @@
 #    configure the ipv4 address of the interface. If both are present ipaddr is used.
 #
 #  $hwaddr        = undef,
-#    Both macaddress (standard name) and hwaddr (RedHat param name) if set
-#    configure the mac address of the interface. If both are present hwaddr is used.
+#    hwaddr if set configures the mac address of the interface.
 #
 #  $bootproto        = '',
 #    Both enable_dhcp (standard) and bootproto (Debian specific param name) if set
