@@ -53,10 +53,10 @@
 #
 define network::route (
   $ipaddress,
-  $interface = $name,
   $netmask,
   $gateway,
-  $ensure = 'present'
+  $interface = $name,
+  $ensure    = 'present'
 ) {
   # Validate our arrays
   validate_array($ipaddress)
