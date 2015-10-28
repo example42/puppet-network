@@ -138,6 +138,9 @@ allow-hotplug <%= @interface %>
 <% if @bond_miimon -%>
     bond-miimon <%= @bond_miimon %>
 <% end -%>
+<% if @bond_lacp_rate -%>
+    bond-lacp-rate <%= @bond_lacp_rate %>
+<% end -%>
 <% if @bond_downdelay -%>
     bond-downdelay <%= @bond_downdelay %>
 <% end -%>
