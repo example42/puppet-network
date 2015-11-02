@@ -86,6 +86,10 @@
 #    Used to enable or disable ZEROCONF routes completely for an interface at initialization
 #    Valid values are undef, "yes, 'no".
 #
+#  $linkdelay     = undef
+#    Used to introduce a delay (sleep) of the specified number of seconds when
+#    bringing an interface up.
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -210,6 +214,7 @@ define network::interface (
   $zone            = undef,
   $arp             = undef,
   $nozeroconf      = undef,
+  $linkdelay       = undef,
 
   ## Suse specific
   $startmode       = '',
