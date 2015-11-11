@@ -171,4 +171,10 @@ allow-hotplug <%= @interface %>
 <% if @bond_xmit_hash_policy -%>
     bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
 <% end -%>
+<% if @bond_arp_ip_target -%>
+    bond_arp_ip_target<%= @bond_arp_ip_target %>
+<% end -%>
+<% if @bond_arp_interval -%>
+    bond_arp_interval<%= @bond_arp_interval %>
+<% end -%>
 
