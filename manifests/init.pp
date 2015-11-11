@@ -52,9 +52,9 @@ class network (
   $package_name              = undef,
   $package_ensure            = 'present',
 
-  $service_restart_exec      = $network::params::service_restart_exec,
+  $service_restart_exec      = $::network::params::service_restart_exec,
 
-  $config_file_path          = $network::params::config_file_path,
+  $config_file_path          = $::network::params::config_file_path,
   $config_file_require       = undef,
   $config_file_notify        = 'class_default',
   $config_file_source        = undef,
@@ -64,7 +64,7 @@ class network (
 
   $config_file_per_interface = false,
 
-  $config_dir_path           = $network::params::config_dir_path,
+  $config_dir_path           = $::network::params::config_dir_path,
   $config_dir_source         = undef,
   $config_dir_purge          = false,
   $config_dir_recurse        = true,
@@ -85,7 +85,7 @@ class network (
 
   $hiera_merge               = false,
 
-  ) inherits network::params {
+  ) inherits ::network::params {
 
   # Hiera import
 
@@ -118,21 +118,27 @@ class network (
   if $real_interfaces_hash { validate_hash($real_interfaces_hash) }
   if $real_routes_hash { validate_hash($real_routes_hash) }
 
-  $config_file_owner          = $network::params::config_file_owner
-  $config_file_group          = $network::params::config_file_group
-  $config_file_mode           = $network::params::config_file_mode
+  $config_file_owner          = $::network::params::config_file_owner
+  $config_file_group          = $::network::params::config_file_group
+  $config_file_mode           = $::network::params::config_file_mode
 
-  $manage_config_file_content = default_content($config_file_content, $config_file_template)
+  $manage_config_file_content = $config_file_content ? {
+    undef => $config_file_template ? {
+      undef   => undef,
+      default => template($config_file_template),
+    },
+    default => $config_file_content,
+  }
 
   $manage_config_file_notify  = $config_file_notify ? {
-    'class_default' => "Exec[${network::service_restart_exec}]",
+    'class_default' => "Exec[${service_restart_exec}]",
     'undef'         => undef,
     ''              => undef,
     undef           => undef,
     default         => $config_file_notify,
   }
 
-  $manage_hostname = pickx($network::hostname, $::fqdn)
+  $manage_hostname = pick($hostname, $::fqdn)
 
   if $package_ensure == 'absent' {
     $config_dir_ensure = absent
@@ -145,52 +151,52 @@ class network (
 
   # Dependency class
 
-  if $network::dependency_class {
-    include $network::dependency_class
+  if $dependency_class {
+    include $dependency_class
   }
 
 
   # Resources managed
 
-  if $network::package_name {
+  if $package_name {
     package { 'network':
-      ensure => $network::package_ensure,
-      name   => $network::package_name,
+      ensure => $package_ensure,
+      name   => $package_name,
     }
   }
 
-  if $network::config_file_path
-  and $network::config_file_source
-  or $network::manage_config_file_content {
+  if $config_file_path
+  and $config_file_source
+  or $manage_config_file_content {
     file { 'network.conf':
-      ensure  => $network::config_file_ensure,
-      path    => $network::config_file_path,
-      mode    => $network::config_file_mode,
-      owner   => $network::config_file_owner,
-      group   => $network::config_file_group,
-      source  => $network::config_file_source,
-      content => $network::manage_config_file_content,
-      notify  => $network::manage_config_file_notify,
-      require => $network::config_file_require,
+      ensure  => $config_file_ensure,
+      path    => $config_file_path,
+      mode    => $config_file_mode,
+      owner   => $config_file_owner,
+      group   => $config_file_group,
+      source  => $config_file_source,
+      content => $manage_config_file_content,
+      notify  => $manage_config_file_notify,
+      require => $config_file_require,
     }
   }
 
-  if $network::config_dir_source {
+  if $config_dir_source {
     file { 'network.dir':
-      ensure  => $network::config_dir_ensure,
-      path    => $network::config_dir_path,
-      source  => $network::config_dir_source,
-      recurse => $network::config_dir_recurse,
-      purge   => $network::config_dir_purge,
-      force   => $network::config_dir_purge,
-      notify  => $network::manage_config_file_notify,
-      require => $network::config_file_require,
+      ensure  => $config_dir_ensure,
+      path    => $config_dir_path,
+      source  => $config_dir_source,
+      recurse => $config_dir_recurse,
+      purge   => $config_dir_purge,
+      force   => $config_dir_purge,
+      notify  => $manage_config_file_notify,
+      require => $config_file_require,
     }
   }
 
   # Command that triggers network restart
-  exec { $network::service_restart_exec :
-    command     => $network::service_restart_exec,
+  exec { $service_restart_exec :
+    command     => $service_restart_exec,
     alias       => 'network_restart',
     refreshonly => true,
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
@@ -205,12 +211,12 @@ class network (
   if $real_routes_hash {
     if $::osfamily == 'Suse' {
       file { '/etc/sysconfig/network/routes':
-        ensure  => $network::config_file_ensure,
-        mode    => $network::config_file_mode,
-        owner   => $network::config_file_owner,
-        group   => $network::config_file_group,
+        ensure  => $config_file_ensure,
+        mode    => $config_file_mode,
+        owner   => $config_file_owner,
+        group   => $config_file_group,
         content => template("network/route-${::osfamily}.erb"),
-        notify  => $network::manage_config_file_notify,
+        notify  => $manage_config_file_notify,
       }
     } else {
       create_resources('network::route', $real_routes_hash)
@@ -222,10 +228,10 @@ class network (
   if $::osfamily == 'RedHat'
   and $network::gateway {
     file { '/etc/sysconfig/network':
-      ensure  => $network::config_file_ensure,
-      mode    => $network::config_file_mode,
-      owner   => $network::config_file_owner,
-      group   => $network::config_file_group,
+      ensure  => $config_file_ensure,
+      mode    => $config_file_mode,
+      owner   => $config_file_owner,
+      group   => $config_file_group,
       content => template($network::hostname_file_template),
       notify  => $network::manage_config_file_notify,
     }
@@ -242,26 +248,26 @@ class network (
 
   # Configure hostname (On Debian)
   if $::osfamily == 'Debian'
-  and $network::hostname {
+  and $hostname {
     file { '/etc/hostname':
-      ensure  => $network::config_file_ensure,
-      mode    => $network::config_file_mode,
-      owner   => $network::config_file_owner,
-      group   => $network::config_file_group,
-      content => template($network::hostname_file_template),
-      notify  => $network::manage_config_file_notify,
+      ensure  => $config_file_ensure,
+      mode    => $config_file_mode,
+      owner   => $config_file_owner,
+      group   => $config_file_group,
+      content => template($hostname_file_template),
+      notify  => $manage_config_file_notify,
     }
   }
 
   if $::osfamily == 'Suse' {
-    if $network::hostname {
+    if $hostname {
       file { '/etc/HOSTNAME':
-        ensure  => $network::config_file_ensure,
-        mode    => $network::config_file_mode,
-        owner   => $network::config_file_owner,
-        group   => $network::config_file_group,
+        ensure  => $config_file_ensure,
+        mode    => $config_file_mode,
+        owner   => $config_file_owner,
+        group   => $config_file_group,
         content => inline_template("<%= @manage_hostname %>\n"),
-        notify  => $network::sethostname,
+        notify  => $sethostname,
       }
       exec { 'sethostname':
         command => "/bin/hostname ${manage_hostname}",
@@ -284,9 +290,9 @@ class network (
     }
   }
 
-  if $network::firewall_class {
-    class { $network::firewall_class:
-      options_hash => $network::firewall_options_hash,
+  if $firewall_class {
+    class { $firewall_class:
+      options_hash => $firewall_options_hash,
       scope_hash   => {},
     }
   }
