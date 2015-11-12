@@ -62,6 +62,10 @@
 #
 # == RedHat only parameters
 #
+#  $type          = 'Ethernet',
+#    Defaults to 'Ethernet', but following types are supported for OVS:
+#    "OVSPort", "OVSIntPort", "OVSBond", "OVSTunnel" and "OVSPatchPort".
+#
 #  $ipaddr        = undef,
 #    Both ipaddress (standard name) and ipaddr (RedHat param name) if set
 #    configure the ipv4 address of the interface. If both are present ipaddr is used.
@@ -85,6 +89,37 @@
 #  $nozeroconf    = undef
 #    Used to enable or disable ZEROCONF routes completely for an interface at initialization
 #    Valid values are undef, "yes, 'no".
+#
+#  $linkdelay     = undef
+#    Used to introduce a delay (sleep) of the specified number of seconds when
+#    bringing an interface up.
+#
+# == RedHat only Open vSwitch specific parameters
+#
+#  $devicetype      = undef,
+#    Always set to "ovs" if configuring OVS* type.
+#
+#  $bond_ifaces     = undef,
+#    Physical interfaces for "OVSBond".
+#
+#  $ovs_bridge      = undef,
+#    For types other than "OVSBridge" type. It specifies the OVS bridge to witch port,
+#    patch or tunnel should be attached to.
+#
+#  $ovs_extra       = undef,
+#    Optional: extra ovs-vsctl commands seperate by "--" (double dash)
+#
+#  $ovs_options     = undef,
+#    Optional: extra options to set in the Port table. Check ovs-vsctl's add-port man page.
+#
+#  $ovs_patch_peer  = undef,
+#    Patche's peer on the other bridge for "OVSPatchPort" type.
+#
+#  $ovs_tunnel_type = undef,
+#    Tunnel types (eg. "vxlan", "gre") for "OVSTunnel" type.
+#
+#  $ovs_tunnel_options = undef,
+#    Tunnel options (eg. "remote_ip") for "OVSTunnel" type.
 #
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
@@ -210,6 +245,18 @@ define network::interface (
   $zone            = undef,
   $arp             = undef,
   $nozeroconf      = undef,
+  $linkdelay       = undef,
+  # RedHat specific for Open vSwitch
+  $devicetype      = undef,
+  $bond_ifaces     = undef,
+  $ovs_bridge      = undef,
+  $ovs_extra       = undef,
+  $ovs_options     = undef,
+  $ovs_patch_peer  = undef,
+  $ovsrequries     = undef,
+  $ovs_tunnel_type = undef,
+  $ovs_tunnel_options = undef,
+  $ovsdhcpinterfaces  = undef,
 
   ## Suse specific
   $startmode       = '',
