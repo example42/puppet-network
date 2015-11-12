@@ -11,3 +11,5 @@ gem 'puppet-syntax'
 gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.3.0'
 gem 'vagrant-wrapper'
 gem 'puppet-blacksmith'
+gem "fog-google", :require => false
+
