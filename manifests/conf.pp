@@ -80,16 +80,23 @@ define network::conf (
 
   include network
 
-  $manage_path    = pickx($path, "${network::config_dir_path}/${name}")
-  $manage_content = default_content($content, $template)
-  $manage_mode    = pickx($mode, $network::config_file_mode)
-  $manage_owner   = pickx($owner, $network::config_file_owner)
-  $manage_group   = pickx($group, $network::config_file_group)
-  $manage_require = pickx($config_file_require, $network::config_file_require)
+  $manage_path    = pick($path, "${::network::config_dir_path}/${name}")
+  $manage_mode    = pick($mode, $::network::config_file_mode)
+  $manage_owner   = pick($owner, $::network::config_file_owner)
+  $manage_group   = pick($group, $::network::config_file_group)
+  $manage_require = pick($config_file_require, $::network::config_file_require)
   $manage_notify  = $config_file_notify ? {
-    'class_default' => $network::manage_config_file_notify,
+    'class_default' => $::network::manage_config_file_notify,
     default         => $config_file_notify,
   }
+  $manage_content = $content ? {
+    undef => $template ? {
+      undef   => undef,
+      default => template($template),
+    },
+    default => $content,
+  }
+
 
   file { "network_conf_${name}":
     ensure  => $ensure,
