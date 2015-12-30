@@ -11,8 +11,9 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with module network](#beginning-with-module-network)
 4. [Usage](#usage)
-5. [Operating Systems Support](#operating-systems-support)
-6. [Development](#development)
+5. [Hiera examples](#hiera)
+6. [Operating Systems Support](#operating-systems-support)
+7. [Development](#development)
 
 ##Overview
 
@@ -186,6 +187,71 @@ The parameters netmask, interface and type are optional.
             '80.81.82.0/16'  => 'bond0',
           }
         }
+
+##Hiera examples
+
+Here are some examples of usage via Hiera (with yaml backend).
+
+Main class settings:
+
+    network::hostname: 'web01'
+    network::gateway: 192.168.0.1 # Default gateway (on RHEL systems)
+    network::hiera_merge: true # Use hiera_hash() instead of hiera() to resolve the values for the following hashes
+
+Configuration of interfaces (check ```network::interface``` for all the available params.
+
+Single interface via dhcp:
+
+    network::interfaces_hash:
+      eth0:
+        enable_dhcp: true
+
+Bond interface:
+
+    eth0:
+      method: manual
+      bond_master: 'bond3'
+      allow_hotplug: 'eth0'
+      manage_order: '08'
+    eth1:
+      method: manual
+      bond_master: 'bond3'
+      allow_hotplug: 'eth1'
+      manage_order: '08'
+    bond3:
+      ipaddress: "10.0.28.10"
+      netmask: '255.255.248.0'
+      gateway: "10.0.24.1"
+      dns_nameservers: "8.8.8.8 8.8.4.4"
+      dns_search: 'my.domain'
+      bond_mode: 'balance-alb'
+      bond_miimon: '100'
+      bond_slaves: 'none'
+
+Configuration of multiple static routes (using the ```network::route``` define, when more than one route is added the elements of the arrays have to be ordered coherently):
+
+    network::routes_hash:
+      eth0:
+        ipaddress:
+          - 99.99.228.0
+          - 100.100.244.0
+        netmask:
+          - 24
+          - 22
+        gateway:
+          - 192.168.0.1
+          - 174.136.107.1
+
+
+
+Configuration of multiple static routes (using the newer ```network::mroute``` define) you can specify as gateway either a device or an IP:
+
+    network::mroutes_hash:
+      eth0:
+        routes:
+          99.99.228.0/24: eth0
+          100.100.244.0/22: 174.136.107.1
+
 
 ##Operating Systems Support
 
