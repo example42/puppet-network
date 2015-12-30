@@ -1,3 +1,6 @@
+2015-12-30 Release 3.2.0
+- Added network::mroute define
+- Smaller fixes and enhancements
 2013-11-18 Release 3.0.1
 - Basic module based on stdmod/puppet-skeleton-standard
 - Added network::interfaces define
