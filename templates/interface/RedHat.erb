@@ -129,3 +129,8 @@ OVSDHCPINTERFACES="<%= @ovsdhcpinterfaces %>"
 <% if @ovsrequries -%>
 OVSREQURIES="<%= @ovsrequries %>"
 <% end -%>
+<% if @check_link_down == true -%>
+check_link_down() {
+   return 1;
+}
+<% end -%>

@@ -96,6 +96,9 @@
 #    Used to introduce a delay (sleep) of the specified number of seconds when
 #    bringing an interface up.
 #
+#  $check_link_down = false
+#    Set to true to add check_link_down function in the interface file
+#
 # == RedHat only Open vSwitch specific parameters
 #
 #  $devicetype      = undef,
@@ -249,6 +252,8 @@ define network::interface (
   $arp             = undef,
   $nozeroconf      = undef,
   $linkdelay       = undef,
+  $check_link_down = false,
+
   # RedHat specific for Open vSwitch
   $devicetype      = undef,
   $bond_ifaces     = undef,
