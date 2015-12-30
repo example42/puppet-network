@@ -177,6 +177,16 @@ You have different possibile approaches in the usage of this module. Use the one
 
 The parameters netmask, interface and type are optional.
 
+* An alternative way to manage routes is using the network::mroute define, which expectes an hash of one of more routes where you specify the network and the gateway (either as ip or device name):
+
+        network::mroute { 'bond2':
+          routes => {
+            '192.168.2.0/24' => '192.168.1.1',
+            '10.0.0.0/8'     => '10.0.0.1',
+            '80.81.82.0/16'  => 'bond0',
+          }
+        }
+
 ##Operating Systems Support
 
 This is tested on these OS:
