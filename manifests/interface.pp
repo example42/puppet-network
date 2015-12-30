@@ -38,11 +38,12 @@
 #
 #  $address       = undef,
 #    Both ipaddress (standard name) and address (Debian param name) if set
-#    configure the ipv4 address of the interface. If both are present address is used.
+#    configure the ipv4 address of the interface.
+#    If both are present address is used.
 #
 #  $manage_order  = 10,
-#    This is used by concat to define the order of your fragments, can be used to load
-#    an interface before another.
+#    This is used by concat to define the order of your fragments,
+#    can be used to load an interface before another.
 #    default it's 10.
 #
 #  $method        = '',
@@ -70,14 +71,15 @@
 #
 #  $ipaddr        = undef,
 #    Both ipaddress (standard name) and ipaddr (RedHat param name) if set
-#    configure the ipv4 address of the interface. If both are present ipaddr is used.
+#    configure the ipv4 address of the interface.
+#    If both are present ipaddr is used.
 #
 #  $hwaddr        = undef,
 #    hwaddr if set configures the mac address of the interface.
 #
 #  $bootproto        = '',
-#    Both enable_dhcp (standard) and bootproto (Debian specific param name) if set
-#    configure dhcp on the interface via the bootproto setting.
+#    Both enable_dhcp (standard) and bootproto (Debian specific param name),
+#    if set, configure dhcp on the interface via the bootproto setting.
 #    If both are present bootproto is used.
 #
 #  $arpcheck      = undef
@@ -89,7 +91,8 @@
 #    Valid values are undef, "yes", "no".
 #
 #  $nozeroconf    = undef
-#    Used to enable or disable ZEROCONF routes completely for an interface at initialization
+#    Used to enable or disable ZEROCONF routes completely for an
+#    interface at initialization
 #    Valid values are undef, "yes, 'no".
 #
 #  $linkdelay     = undef
@@ -108,14 +111,15 @@
 #    Physical interfaces for "OVSBond".
 #
 #  $ovs_bridge      = undef,
-#    For types other than "OVSBridge" type. It specifies the OVS bridge to witch port,
-#    patch or tunnel should be attached to.
+#    For types other than "OVSBridge" type. It specifies the OVS bridge
+#    to which port, patch or tunnel should be attached to.
 #
 #  $ovs_extra       = undef,
 #    Optional: extra ovs-vsctl commands seperate by "--" (double dash)
 #
 #  $ovs_options     = undef,
-#    Optional: extra options to set in the Port table. Check ovs-vsctl's add-port man page.
+#    Optional: extra options to set in the Port table.
+#    Check ovs-vsctl's add-port man page.
 #
 #  $ovs_patch_peer  = undef,
 #    Patche's peer on the other bridge for "OVSPatchPort" type.
@@ -483,7 +487,7 @@ define network::interface (
     }
 
     default: {
-      alert("${::operatingsystem} not supported. Review params.pp for extending support. No changes done here.")
+      alert("${::operatingsystem} not supported. No changes done here.")
     }
 
   }

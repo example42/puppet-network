@@ -38,7 +38,7 @@ class network::params {
   case $::osfamily {
     'Debian','RedHat','Amazon','Suse': { }
     default: {
-      fail("${::operatingsystem} not supported. Review params.pp for extending support.")
+      fail("${::operatingsystem} not supported.")
     }
   }
 }

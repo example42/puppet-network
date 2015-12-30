@@ -63,7 +63,7 @@ define network::route (
   validate_array($netmask)
   validate_array($gateway)
 
-  include 'network'
+  include ::network
 
   case $::osfamily {
     'RedHat': {

@@ -284,7 +284,7 @@ class network (
         owner   => $config_file_owner,
         group   => $config_file_group,
         content => inline_template("<%= @manage_hostname %>\n"),
-        notify  => $sethostname,
+        notify  => Exec['sethostname'],
       }
       exec { 'sethostname':
         command => "/bin/hostname ${manage_hostname}",

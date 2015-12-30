@@ -33,7 +33,8 @@
 # [*path*]
 #   String. Optional. Default: $config_dir/$title
 #   The path of the created config file. If not defined a file
-#   name like the  the name of the title a custom template to use as content of configfile
+#   name like the  the name of the title a custom template to
+#   use as content of configfile
 #   If defined, configfile file has: content => content("$template")
 #
 # [*mode*]
@@ -78,7 +79,7 @@ define network::conf (
 
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
-  include network
+  include ::network
 
   $manage_path    = pick($path, "${::network::config_dir_path}/${name}")
   $manage_mode    = pick($mode, $::network::config_file_mode)
