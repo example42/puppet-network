@@ -2,6 +2,5 @@ fixtures:
   repositories:
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
     concat: "git://github.com/puppetlabs/puppetlabs-concat.git"
-    stdmod: "git://github.com/stdmod/stdmod.git"
   symlinks:
     network: "#{source_dir}"
