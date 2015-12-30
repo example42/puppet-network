@@ -1,6 +1,8 @@
 ###
 ### File managed by Puppet
 ###
+if [ "$IFACE" = "<%= @interface -%>" ]; then
 <% @routes.each do |net,gw| -%>
-ip route del <%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
+  ip route del <%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
 <% end -%>
+fi
