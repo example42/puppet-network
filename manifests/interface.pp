@@ -32,7 +32,7 @@
 #   You can copy and adapt network/templates/interface/${::osfamily}.erb
 #
 # [*options_hash*]
-#   A generic hash of custom options that cn be used in a custom template
+#   A generic hash of custom options that can be used in a custom template
 #
 # == Debian only parameters
 #
