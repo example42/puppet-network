@@ -31,6 +31,8 @@
 #   - On RedHat: files /etc/sysconfig/network-scripts/ifcfg-${name}
 #   You can copy and adapt network/templates/interface/${::osfamily}.erb
 #
+# [*options_hash*]
+#   A generic hash of custom options that cn be used in a custom template
 #
 # == Debian only parameters
 #
@@ -134,6 +136,7 @@ define network::interface (
   $enable          = true,
   $ensure          = 'present',
   $template        = "network/interface/${::osfamily}.erb",
+  $options_hash    = undef,
   $interface       = $name,
 
   $enable_dhcp     = false,
