@@ -30,6 +30,12 @@
 #   If an hash is provided here, network::route defines are declared with:
 #   create_resources("network::route", $routes_hash)
 #
+# [*mroutes_hash*]
+#   Hash. Default undef.
+#   An hash of multiple route to be applied
+#   If an hash is provided here, network::mroute defines are declared with:
+#   create_resources("network::mroute", $mroutes_hash)
+#
 # Refer to https://github.com/stdmod for official documentation
 # on the stdmod parameters used
 #
@@ -38,8 +44,8 @@ class network (
   $hostname                  = undef,
 
   $interfaces_hash           = undef,
-
   $routes_hash               = undef,
+  $mroutes_hash              = undef,
 
   $hostname_file_template   = "network/hostname-${::osfamily}.erb",
 
@@ -89,22 +95,29 @@ class network (
 
   # Hiera import
 
-  if( $hiera_merge ) {
+  if( $hiera_merge == true ) {
     $hiera_interfaces_hash = hiera_hash("${module_name}::interfaces_hash",undef)
     $real_interfaces_hash = $hiera_interfaces_hash ? {
       undef   => $interfaces_hash,
       default => $hiera_interfaces_hash,
     }
 
-    $hiera_routes_hash = hiera_hash("${module_name}::routes_hash",undef)
+    $hiera_routes_hash = hiera_hash('network::routes_hash',undef)
     $real_routes_hash = $hiera_routes_hash ? {
       undef   => $routes_hash,
       default => $hiera_routes_hash,
+    }
+
+    $hiera_mroutes_hash = hiera_hash('network::mroutes_hash',undef)
+    $real_mroutes_hash = $hiera_mroutes_hash ? {
+      undef   => $mroutes_hash,
+      default => $hiera_mroutes_hash,
     }
   }
   else {
     $real_interfaces_hash = $interfaces_hash
     $real_routes_hash     = $routes_hash
+    $real_mroutes_hash    = $mroutes_hash
   }
 
 
@@ -117,6 +130,7 @@ class network (
   if $firewall_options_hash { validate_hash($firewall_options_hash) }
   if $real_interfaces_hash { validate_hash($real_interfaces_hash) }
   if $real_routes_hash { validate_hash($real_routes_hash) }
+  if $real_mroutes_hash { validate_hash($real_mroutes_hash) }
 
   $config_file_owner          = $::network::params::config_file_owner
   $config_file_group          = $::network::params::config_file_group
@@ -223,6 +237,9 @@ class network (
     }
   }
 
+  if $real_mroutes_hash {
+    create_resources('network::mroute', $real_mroutes_hash)
+  }
 
   # Configure default gateway (On RedHat). Also hostname is set.
   if $::osfamily == 'RedHat'
