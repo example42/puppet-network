@@ -11,7 +11,7 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with module network](#beginning-with-module-network)
 4. [Usage](#usage)
-5. [Hiera examples](#hiera)
+5. [Hiera examples](#hiera-examples)
 6. [Operating Systems Support](#operating-systems-support)
 7. [Development](#development)
 
