@@ -188,6 +188,16 @@ The parameters netmask, interface and type are optional.
           }
         }
 
+* The network::routing_table and network::rule classes can be used to configure ip rules and routing tables. Make sure to define a routing table before using it, like in this example:
+
+        network::routing_table { 'vlan22':
+          table_id => '200',
+        }
+
+        network::rule { 'eth0':
+          iprule => ['from 192.168.22.0/24 lookup vlan22', ],
+        }
+
 ##Hiera examples
 
 Here are some examples of usage via Hiera (with yaml backend).
