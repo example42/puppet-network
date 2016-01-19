@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+### File managed by Puppet
+#
+if [ "$IFACE" = "<%= @interface -%>" ]; then
+<%- (0..(@iprule.length-1)).each do |id| -%>
+    ip rule del <%= @iprule[id] %>
+<%- end -%>
+fi
