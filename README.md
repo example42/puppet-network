@@ -198,6 +198,42 @@ The parameters netmask, interface and type are optional.
           iprule => ['from 192.168.22.0/24 lookup vlan22', ],
         }
 
+You can then add routes to this routing table:
+
+       network::route { 'eth1':
+         ipaddress => [ '192.168.22.0', ],
+         netmask   => [ '255.255.255.0', ],
+         gateway   => [ '192.168.22.1', ],
+         table     => [ 'vlan22' ],
+       }
+
+If adding routes to specific routing tables on an interface with multiple
+routes, it is required to explicitly add the 'main' table to all other routes.
+The 'main' routing table is where routes are added by default. E.g. this:
+
+       network::route { 'bond0':
+         ipaddress => [ '192.168.2.0', '10.0.0.0', ]
+         netmask   => [ '255.255.255.0', '255.0.0.0', ],
+         gateway   => [ '192.168.1.1', '10.0.0.1', ],
+       }
+
+       network::route { 'bond0':
+         ipaddress => [ '192.168.3.0', ],
+         netmask   => [ '255.255.255.0', ],
+         gateway   => [ '192.168.3.1', ],
+         table     => [ 'vlan22' ],
+       }
+
+would need to become:
+
+       network::route { 'bond0':
+         ipaddress => [ '192.168.2.0', '10.0.0.0', '192.168.3.0', ]
+         netmask   => [ '255.255.255.0', '255.0.0.0', '255.255.255.0', ],
+         gateway   => [ '192.168.1.1', '10.0.0.1', '192.168.3.1', ],
+         table     => [ 'main', 'main', 'vlan22' ],
+       }
+
+
 ##Hiera examples
 
 Here are some examples of usage via Hiera (with yaml backend).
