@@ -4,6 +4,6 @@
 #
 if [ "$IFACE" = "<%= @interface -%>" ]; then
 <%- (0..(@ipaddress.length-1)).each do |id| -%>
-    ip route add <%= @ipaddress[id] %>/<%= @netmask[id] %> via <%= @gateway[id] %> dev <%= @interface %>
+    ip route add <%= @ipaddress[id] %>/<%= @netmask[id] %> via <%= @gateway[id] %> dev <%= @interface %><%- if @table[id] -%>table <%= @table[id] %><%- end -%>
 <%- end -%>
 fi

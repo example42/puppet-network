@@ -42,6 +42,26 @@
 #     gateway   => [ '192.168.1.1', '10.0.0.1', ],
 #   }
 #
+# A specifc routing table can also be specified for the route:
+#
+#   network::route { 'eth1':
+#     ipaddress => [ '192.168.3.0', ],
+#     netmask   => [ '255.255.255.0', ],
+#     gateway   => [ '192.168.3.1', ],
+#     table     => [ 'vlan22' ],
+#   }
+#
+# If adding routes to specific routing tables on an interface with multiple
+# routes, it is required to explicitly add the 'main' table to all other routes.
+# The 'main' routing table is where routes are added by default.
+#
+#   network::route { 'bond2':
+#     ipaddress => [ '192.168.2.0', '10.0.0.0', '192.168.3.0', ]
+#     netmask   => [ '255.255.255.0', '255.0.0.0', '255.255.255.0', ],
+#     gateway   => [ '192.168.1.1', '10.0.0.1', '192.168.3.1', ],
+#     table     => [ 'main', 'main', 'vlan22' ],
+#   }
+#
 # === Authors:
 #
 # Mike Arnold <mike@razorsedge.org>
@@ -55,6 +75,7 @@ define network::route (
   $ipaddress,
   $netmask,
   $gateway,
+  $table,
   $interface = $name,
   $ensure    = 'present'
 ) {
