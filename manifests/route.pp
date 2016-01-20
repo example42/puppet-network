@@ -75,7 +75,7 @@ define network::route (
   $ipaddress,
   $netmask,
   $gateway,
-  $table,
+  $table     = undef,
   $interface = $name,
   $ensure    = 'present'
 ) {
@@ -83,6 +83,10 @@ define network::route (
   validate_array($ipaddress)
   validate_array($netmask)
   validate_array($gateway)
+
+  if $table {
+    validate_array($table)
+  }
 
   include ::network
 
