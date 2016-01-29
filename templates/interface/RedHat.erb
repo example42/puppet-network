@@ -59,6 +59,10 @@ SLAVE="<%= @slave %>"
 <% end -%>
 <% if @bonding_opts -%>
 BONDING_OPTS="<%= @bonding_opts %>"
+<% else -%>
+<% if @bond_mode or @bond_miimon -%>
+BONDING_OPTS="<%- if @bond_mode -%>mode=<%= @bond_mode %><%- end -%><%- if @bond_miimon -%> miimon=<%= @bond_miimon %><%- end -%>"
+<% end -%>
 <% end -%>
 <% if @mtu -%>
 MTU="<%= @mtu %>"
