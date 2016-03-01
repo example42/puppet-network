@@ -1,10 +1,10 @@
 {
   "name": "example42-network",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "license": "Apache-2.0",
-  "project_page": "https://www.example42.com",
+  "project_page": "https://github.com/example42/puppet-network",
   "summary": "Example42 Network Module",
   "operatingsystem_support": [
     {
