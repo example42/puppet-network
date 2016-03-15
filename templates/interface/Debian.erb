@@ -171,4 +171,23 @@ allow-hotplug <%= @interface %>
 <% if @bond_xmit_hash_policy -%>
     bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
 <% end -%>
+<% if @ucarp_vid -%>
+    ucarp-vid <%= @ucarp_vid %>
+<% end -%>
+<% if @ucarp_vip -%>
+    ucarp-vip <%= @ucarp_vip %>
+<% end -%>
+<% if @ucarp_password -%>
+    ucarp-password <%= @ucarp_password %>
+<% end -%>
+<% if @ucarp_advskew -%>
+    ucarp-advskew <%= @ucarp_advskew %>
+<% end -%>
+<% if @ucarp_advbase -%>
+    ucarp-advbase <%= @ucarp_advbase %>
+<% end -%>
+<% if @ucarp_master -%>
+    ucarp-master <%= @ucarp_master %>
+<% end -%>
+
 

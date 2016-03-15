@@ -162,6 +162,12 @@ define network::interface (
   $address         = '',
   $dns_search      = undef,
   $dns_nameservers = undef,
+  $ucarp_vid       = undef,
+  $ucarp_vip       = undef,
+  $ucarp_password  = undef,
+  $ucarp_advskew   = undef,
+  $ucarp_advbase   = undef,
+  $ucarp_master    = undef,
   # For method: static
   $metric          = undef,
   $pointopoint     = undef,
