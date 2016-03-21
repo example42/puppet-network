@@ -36,6 +36,12 @@
 #   If an hash is provided here, network::mroute defines are declared with:
 #   create_resources("network::mroute", $mroutes_hash)
 #
+# [*rules_hash*]
+#   Hash. Default undef.
+#   An hash of ip rules to be applied
+#   If an hash is provided here, network::rules defines are declared with:
+#   create_resources("network::rules", $rules_hash)
+
 # Refer to https://github.com/stdmod for official documentation
 # on the stdmod parameters used
 #
@@ -46,6 +52,7 @@ class network (
   $interfaces_hash           = undef,
   $routes_hash               = undef,
   $mroutes_hash              = undef,
+  $rules_hash                = undef,
 
   $hostname_file_template   = "network/hostname-${::osfamily}.erb",
 
@@ -113,11 +120,17 @@ class network (
       undef   => $mroutes_hash,
       default => $hiera_mroutes_hash,
     }
+    $hiera_rules_hash = hiera_hash('network::rules_hash',undef)
+    $real_rules_hash = $hiera_rules_hash ? {
+      undef   => $rules_hash,
+      default => $hiera_rules_hash,
+    }
   }
   else {
     $real_interfaces_hash = $interfaces_hash
     $real_routes_hash     = $routes_hash
     $real_mroutes_hash    = $mroutes_hash
+    $real_rules_hash      = $rules_hash
   }
 
 
@@ -239,6 +252,10 @@ class network (
 
   if $real_mroutes_hash {
     create_resources('network::mroute', $real_mroutes_hash)
+  }
+
+  if $real_rules_hash {
+    create_resources('network::rule', $real_rules_hash)
   }
 
   # Configure default gateway (On RedHat). Also hostname is set.

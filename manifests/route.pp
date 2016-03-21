@@ -10,7 +10,7 @@
 #
 #   $ipaddress - required
 #   $netmask   - required
-#   $gateway   - required
+#   $gateway   - optional
 #
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
@@ -74,7 +74,7 @@
 define network::route (
   $ipaddress,
   $netmask,
-  $gateway,
+  $gateway   = undef,
   $table     = undef,
   $interface = $name,
   $ensure    = 'present'
@@ -82,7 +82,10 @@ define network::route (
   # Validate our arrays
   validate_array($ipaddress)
   validate_array($netmask)
-  validate_array($gateway)
+
+  if $gateway {
+    validate_array($gateway)
+  }
 
   if $table {
     validate_array($table)
