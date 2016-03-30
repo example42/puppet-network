@@ -98,7 +98,7 @@ describe 'network' do
   context 'Unsupported OS - ' do
     describe 'Not supported operating systems should throw and error' do
       let(:facts) {{
-        :osfamily        => 'Solaris',
+        :osfamily        => 'BSD',
         :operatingsystem => 'Nexenta',
       }}
       it 'should fail' do

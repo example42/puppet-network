@@ -61,6 +61,13 @@
         "12.04",
         "14.04"
       ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11"
+      ]
     }
   ],
   "requirements": [

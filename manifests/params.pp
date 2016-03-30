@@ -5,8 +5,9 @@
 class network::params {
 
   $service_restart_exec = $::osfamily ? {
-    'Debian' => '/sbin/ifdown -a && /sbin/ifup -a',
-    default  => 'service network restart',
+    'Debian'  => '/sbin/ifdown -a && /sbin/ifup -a',
+    'Solaris' => '/usr/sbin/svcadm restart svc:/network/physical:default',
+    default   => 'service network restart',
   }
 
   $config_file_path = $::osfamily ? {
@@ -36,7 +37,7 @@ class network::params {
   }
 
   case $::osfamily {
-    'Debian','RedHat','Amazon','Suse': { }
+    'Debian','RedHat','Amazon','Suse', 'Solaris': { }
     default: {
       fail("${::operatingsystem} not supported.")
     }
