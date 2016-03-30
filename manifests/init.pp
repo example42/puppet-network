@@ -310,6 +310,23 @@ class network (
     }
   }
 
+  if $::osfamily == 'Solaris' {
+    if $hostname {
+      file { '/etc/nodename':
+        ensure  => $config_file_ensure,
+        mode    => $config_file_mode,
+        owner   => $config_file_owner,
+        group   => $config_file_group,
+        content => inline_template("<%= @manage_hostname %>\n"),
+        notify  => Exec['sethostname'],
+      }
+      exec { 'sethostname':
+        command => "/usr/bin/hostname ${manage_hostname}",
+        unless  => "/usr/bin/hostname | /usr/bin/grep ${manage_hostname}",
+      }
+    }
+  }
+
 
   # Extra classes
 

@@ -1,6 +1,6 @@
 {
   "name": "example42-network",
-  "version": "3.2.3",
+  "version": "3.3.0",
   "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "license": "Apache-2.0",
@@ -60,6 +60,13 @@
         "10.04",
         "12.04",
         "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11"
       ]
     }
   ],

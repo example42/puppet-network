@@ -486,6 +486,66 @@ define network::interface (
       }
     }
 
+    'Solaris': {
+      if $::operatingsystemrelease == '5.11' {
+        if ! defined(Service['svc:/network/physical:nwam']) {
+          service { 'svc:/network/physical:nwam':
+            ensure => stopped,
+            enable => false,
+            before => [
+              Service['svc:/network/physical:default'],
+              Exec["create ipaddr ${title}"],
+              File["hostname iface ${title}"],
+            ],
+          }
+        }
+      }
+      case $::operatingsystemmajrelease {
+        '11','5': {
+          if $enable_dhcp {
+            $create_ip_command = "ipadm create-addr -T dhcp ${title}/dhcp"
+            $show_ip_command = "ipadm show-addr ${title}/dhcp"
+          } else {
+            $create_ip_command = "ipadm create-addr -T static -a ${ipaddress}/${netmask} ${title}/v4static"
+            $show_ip_command = "ipadm show-addr ${title}/v4static"
+          }
+        }
+        default: {
+          $create_ip_command = 'true'
+          $show_ip_command = 'true'
+        }
+      }
+      exec { "create ipaddr ${title}":
+        command => $create_ip_command,
+        unless  => $show_ip_command,
+        path    => '/bin:/sbin:/usr/sbin:/usr/bin:/usr/gnu/bin',
+        tag     => 'solaris',
+      }
+      file { "hostname iface ${title}":
+        ensure  => file,
+        path    => "/etc/hostname.${title}",
+        content => inline_template("<%= @ipaddress %> netmask <%= @netmask %>\n"),
+        require => Exec["create ipaddr ${title}"],
+        tag     => 'solaris',
+      }
+      host { $::fqdn:
+        ensure       => present,
+        ip           => $ipaddress,
+        host_aliases => [$::hostname],
+        require      => File["hostname iface ${title}"],
+      }
+      if ! defined(Service['svc:/network/physical:default']) {
+        service { 'svc:/network/physical:default':
+          ensure    => running,
+          enable    => true,
+          subscribe => [
+            File["hostname iface ${title}"],
+            Exec["create ipaddr ${title}"],
+          ],
+        }
+      }
+    }
+
     default: {
       alert("${::operatingsystem} not supported. No changes done here.")
     }
