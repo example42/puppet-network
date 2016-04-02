@@ -511,8 +511,8 @@ define network::interface (
           }
         }
         default: {
-          $create_ip_command = 'true'
-          $show_ip_command = 'true'
+          $create_ip_command = '/usr/bin/true'
+          $show_ip_command = '/usr/bin/true'
         }
       }
       exec { "create ipaddr ${title}":
