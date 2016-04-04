@@ -138,6 +138,16 @@
 # Check the arguments in the code for the other Suse specific settings
 # If defined they are set in the used template.
 #
+#
+# == Red Hat zLinux on IBM ZVM/System Z (s390/s390x) only parameters
+#
+#  $subchannels = undef,
+#     The hardware addresses of QETH or Hipersocket hardware.
+#
+#  $nettype = undef,
+#     The networking hardware type.  qeth, lcs or ctc.  
+#     The default is 'qeth'.
+#
 define network::interface (
 
   $enable          = true,
@@ -269,6 +279,11 @@ define network::interface (
   $ovs_tunnel_options = undef,
   $ovsdhcpinterfaces  = undef,
 
+  # RedHat specifice for zLinux
+  $subchannels     = undef,
+  $nettype         = undef,
+  $layer2          = undef,
+
   ## Suse specific
   $startmode       = '',
   $usercontrol     = 'no',
@@ -302,6 +317,13 @@ define network::interface (
   validate_array($slaves)
   validate_array($bond_slaves)
   validate_array($bridge_ports)
+
+  # $subchannels is only valid for zLinux/SystemZ/s390x.
+  if $::architecture == 's390x' {
+    validate_array($subchannels) 
+    validate_re($nettype, '^(qeth|lcs|ctc)$', "${name}::\$nettype may be 'qeth', 'lcs' or 'ctc' only and is set to <${nettype}>.")
+    validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
+  }
 
   if $arp != undef and ! ($arp in ['yes', 'no']) {
     fail('arp must be one of: undef, yes, no')
