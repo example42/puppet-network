@@ -12,6 +12,15 @@ UUID="<%= @uuid %>"
 <% if @ethtool_opts -%>
 ETHTOOL_OPTS="<%= @ethtool_opts %>"
 <% end -%>
+<% if @subchannels -%>
+SUBCHANNELS="<%= @subchannels.sort.join(',') %>"
+<% end -%>
+<% if @layer2 -%>
+LAYER2="<%= @layer2 %>"
+<% end -%>
+<% if @nettype -%>
+NETTYPE="<%= @nettype %>"
+<% end -%>
 <% if @manage_ipaddr -%>
 IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
