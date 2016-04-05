@@ -16,9 +16,6 @@ describe 'network::interface' do
     it 'should create a hostname file' do
       should contain_file('hostname iface eth0').with_content(/10.42.42.42/)
     end
-    it 'should create a host entry' do
-      should contain_host(node).with_ip('10.42.42.42')
-    end
     it 'should restart network service' do
       should contain_service('svc:/network/physical:default').with_ensure('running')
     end
