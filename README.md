@@ -37,6 +37,7 @@ Refer to http://github.com/stdmod/ for complete documentation on the common para
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 * PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
 * StdMod [stdmod module](https://github.com/stdmod/stdmod)
+* YELP [netstdlib module](https://github.com/Yelp/puppet-netstdlib)
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
 
@@ -306,6 +307,8 @@ This is tested on these OS:
 - Debian 6 and 7
 - Ubuntu 10.04, 12.04 and 14.04
 - OpenSuse 12, SLES 11SP3
+- Solaris 10 and 11
+- OpenIndiana (OpenSolaris) 11 (Hipster release)
 
 
 ##Development
