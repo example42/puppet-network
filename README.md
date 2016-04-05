@@ -37,9 +37,13 @@ Refer to http://github.com/stdmod/ for complete documentation on the common para
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 * PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
 * StdMod [stdmod module](https://github.com/stdmod/stdmod)
-* YELP [netstdlib module](https://github.com/Yelp/puppet-netstdlib)
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
+
+ATTENTION: on Solaris an additional module is required:
+* YELP [netstdlib module](https://github.com/Yelp/puppet-netstdlib)
+
+This module will not get loaded automatically when installing from forge.
 
 ###Beginning with module network
 
