@@ -41,6 +41,12 @@
 #   An hash of ip rules to be applied
 #   If an hash is provided here, network::rules defines are declared with:
 #   create_resources("network::rules", $rules_hash)
+#
+# [*tables_hash*]
+#   Hash. Default undef.
+#   An hash of routing tables to be applied
+#   If an hash is provided here, network::routing_table defines are declared with:
+#   create_resources("network::routing_table", $tables_hash)
 
 # Refer to https://github.com/stdmod for official documentation
 # on the stdmod parameters used
@@ -53,6 +59,7 @@ class network (
   $routes_hash               = undef,
   $mroutes_hash              = undef,
   $rules_hash                = undef,
+  $tables_hash               = undef,
 
   $hostname_file_template   = "network/hostname-${::osfamily}.erb",
 
@@ -125,12 +132,18 @@ class network (
       undef   => $rules_hash,
       default => $hiera_rules_hash,
     }
+    $hiera_tables_hash = hiera_hash('network::tables_hash',undef)
+    $real_tables_hash = $hiera_tables_hash ? {
+      undef   => $tables_hash,
+      default => $hiera_tables_hash,
+    }
   }
   else {
     $real_interfaces_hash = $interfaces_hash
     $real_routes_hash     = $routes_hash
     $real_mroutes_hash    = $mroutes_hash
     $real_rules_hash      = $rules_hash
+    $real_tables_hash     = $tables_hash
   }
 
 
@@ -144,6 +157,7 @@ class network (
   if $real_interfaces_hash { validate_hash($real_interfaces_hash) }
   if $real_routes_hash { validate_hash($real_routes_hash) }
   if $real_mroutes_hash { validate_hash($real_mroutes_hash) }
+  if $real_tables_hash { validate_hash($real_tables_hash) }
 
   $config_file_owner          = $::network::params::config_file_owner
   $config_file_group          = $::network::params::config_file_group
@@ -258,6 +272,10 @@ class network (
     create_resources('network::rule', $real_rules_hash)
   }
 
+  if $real_tables_hash {
+    create_resources('network::routing_table', $real_tables_hash)
+  }
+
   # Configure default gateway (On RedHat). Also hostname is set.
   if $::osfamily == 'RedHat'
   and $network::gateway {
@@ -349,4 +367,3 @@ class network (
   }
 
 }
-
