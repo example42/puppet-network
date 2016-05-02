@@ -168,6 +168,9 @@ allow-hotplug <%= @interface %>
 <% if @bridge_maxwait -%>
     bridge_maxwait <%= @bridge_maxwait %>
 <% end -%>
+<% if @bridge_waitport -%>
+    bridge_waitport <%= @bridge_waitport %>
+<% end -%>
 <% if @bond_xmit_hash_policy -%>
     bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
 <% end -%>
