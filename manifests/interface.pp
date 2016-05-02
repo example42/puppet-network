@@ -234,6 +234,7 @@ define network::interface (
   $bridge_stp      = undef,
   $bridge_fd       = undef,
   $bridge_maxwait  = undef,
+  $bridge_waitport = undef,
 
   # RedHat specific
   $ipaddr          = '',
