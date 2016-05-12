@@ -141,6 +141,9 @@ allow-hotplug <%= @interface %>
 <% if @bond_lacp_rate -%>
     bond-lacp-rate <%= @bond_lacp_rate %>
 <% end -%>
+<% if @bond_num_grat_arp -%>
+    bond-num_grat_arp <%= @bond_num_grat_arp %>
+<% end -%>
 <% if @bond_downdelay -%>
     bond-downdelay <%= @bond_downdelay %>
 <% end -%>
