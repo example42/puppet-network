@@ -228,6 +228,7 @@ define network::interface (
   $bond_primary    = undef,
   $bond_slaves     = [ ],
   $bond_xmit_hash_policy    = undef,
+  $bond_num_grat_arp = undef,
 
   # For bridging
   $bridge_ports    = [ ],
