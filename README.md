@@ -112,7 +112,7 @@ You have different possibile approaches in the usage of this module. Use the one
 
   On 'Debian' osfamily: '/etc/network/interfaces',
 
-  On 'Redhat' osfamily: '/etc/sysconfig/network-scripts/ifcfg.eth0' # Yes, quite opinionated, you can change it with config_file_path.
+  On 'Redhat' osfamily: '/etc/sysconfig/network-scripts/ifcfg-eth0' # Yes, quite opinionated, you can change it with config_file_path.
 
   On 'Suse' osfamily: '/etc/sysconfig/network/ifcfg-eth0'
 
