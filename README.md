@@ -298,7 +298,7 @@ Bond interface:
       dns_search: 'my.domain'
       bond_mode: 'balance-alb'
       bond_miimon: '100'
-      bond_slaves: 'none'
+      bond_slaves: []
 
 Configuration of multiple static routes (using the ```network::route``` define, when more than one route is added the elements of the arrays have to be ordered coherently):
 
