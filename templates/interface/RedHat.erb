@@ -66,6 +66,9 @@ MASTER="<%= @master %>"
 <% if @slave  -%>
 SLAVE="<%= @slave %>"
 <% end -%>
+<% if @bonding_master -%>
+BONDING_MASTER="<%= @bonding_master %>"
+<% end -%>
 <% if @bonding_opts -%>
 BONDING_OPTS="<%= @bonding_opts %>"
 <% else -%>
