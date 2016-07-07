@@ -257,6 +257,7 @@ define network::interface (
   $nm_controlled   = undef,
   $master          = undef,
   $slave           = undef,
+  $bonding_master  = undef,
   $bonding_opts    = undef,
   $vlan            = undef,
   $vlan_name_type  = undef,
