@@ -229,6 +229,8 @@ define network::interface (
   $bond_slaves     = [ ],
   $bond_xmit_hash_policy    = undef,
   $bond_num_grat_arp = undef,
+  $use_carrier     = undef,
+  $primary_reselect = undef,
 
   # For bridging
   $bridge_ports    = [ ],
@@ -323,7 +325,7 @@ define network::interface (
 
   # $subchannels is only valid for zLinux/SystemZ/s390x.
   if $::architecture == 's390x' {
-    validate_array($subchannels) 
+    validate_array($subchannels)
     validate_re($nettype, '^(qeth|lcs|ctc)$', "${name}::\$nettype may be 'qeth', 'lcs' or 'ctc' only and is set to <${nettype}>.")
     validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
   }
