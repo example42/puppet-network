@@ -177,4 +177,10 @@ allow-hotplug <%= @interface %>
 <% if @bond_xmit_hash_policy -%>
     bond_xmit_hash_policy <%= @bond_xmit_hash_policy %>
 <% end -%>
+<% if @use_carrier -%>
+    use_carrier <%= @use_carrier %>
+<% end -%>
+<% if @primary_reselect -%>
+    primary_reselect <%= @primary_reselect %>
+<% end -%>
 
