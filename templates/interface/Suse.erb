@@ -35,8 +35,8 @@ BRIDGE="<%= @bridge %>"
 <% if @bridge_fwddelay -%>
 BRIDGE_FORWARDDELAY="<%= @bridge_fwddelay %>"
 <% end -%>
-<% if @bridge_ports -%>
-BRIDGE_PORTS="<%= @bridge_ports %>"
+<% if @bridge_ports.size > 0 then -%>
+BRIDGE_PORTS="<%= @bridge_ports.join(' ') %>"
 <% end -%>
 <% if @bridge_stp -%>
 BRIDGE_STP="<%= @bridge_stp %>"
