@@ -4,7 +4,7 @@ describe 'network::interface' do
 
   let(:title) { 'eth0' }
   let(:node) { 'rspec.example42.com' }
-  let(:facts) { { :arch => 'i386' , :osfamily => 'RedHat' } }
+  let(:facts) { { :architecture => 'i386' , :osfamily => 'RedHat' } }
   let(:params) {
     { 'enable'       =>  true,
       'ipaddress'    =>  '10.42.42.42',
