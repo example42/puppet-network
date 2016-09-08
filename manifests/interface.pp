@@ -274,7 +274,7 @@ define network::interface (
   $nozeroconf      = undef,
   $linkdelay       = undef,
   $check_link_down = false,
-  $hotswap         = undef,
+  $hotplug         = undef,
 
   # RedHat specific for Open vSwitch
   $devicetype      = undef,
