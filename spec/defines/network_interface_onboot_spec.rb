@@ -4,6 +4,7 @@ NIC_CONFIG = '/etc/sysconfig/network-scripts/ifcfg-eth0'
 
 describe 'network::interface' do
 
+  let(:facts) { { :architecture => 'x86_64', } }
   let(:title) { 'eth0' }
 
   context 'RedHat OS' do
