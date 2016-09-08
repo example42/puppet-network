@@ -16,9 +16,11 @@ describe 'network::interface' do
     it {
       is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_ensure('present')
     }
+
     it {
       is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/IPADDR=\"10.42.42.42\"/)
     }
+
     it {
       is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/ONBOOT=\"yes\"/)
     }
