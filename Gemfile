@@ -12,5 +12,6 @@ gem 'puppet', ENV['PUPPET_VERSION'] || '~> 3.3.0'
 gem 'vagrant-wrapper'
 gem 'puppet-blacksmith'
 gem "fog-google"
-gem 'puppet_facts'
-gem 'rspec-puppet-facts'
+gem 'puppet_facts', :require => false
+gem 'rspec-puppet-facts', :require => false
+gem 'facter', :require => false
