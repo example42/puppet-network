@@ -102,6 +102,9 @@
 #  $check_link_down = false
 #    Set to true to add check_link_down function in the interface file
 #
+#  $hotswap = undef
+#    Set to no to prevent interface from being activated when hot swapped - Default is yes
+#
 # == RedHat only Open vSwitch specific parameters
 #
 #  $devicetype      = undef,
@@ -145,7 +148,7 @@
 #     The hardware addresses of QETH or Hipersocket hardware.
 #
 #  $nettype = undef,
-#     The networking hardware type.  qeth, lcs or ctc.  
+#     The networking hardware type.  qeth, lcs or ctc.
 #     The default is 'qeth'.
 #
 define network::interface (
@@ -271,6 +274,7 @@ define network::interface (
   $nozeroconf      = undef,
   $linkdelay       = undef,
   $check_link_down = false,
+  $hotplug         = undef,
 
   # RedHat specific for Open vSwitch
   $devicetype      = undef,
