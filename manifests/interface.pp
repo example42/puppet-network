@@ -232,6 +232,10 @@ define network::interface (
   $bond_slaves     = [ ],
   $bond_xmit_hash_policy    = undef,
   $bond_num_grat_arp = undef,
+  $bond_arp_all = undef,
+  $bond_arp_interval = undef,
+  $bond_arp_iptarget = undef,
+  $bond_fail_over_mac = undef,
   $use_carrier     = undef,
   $primary_reselect = undef,
 
