@@ -160,7 +160,7 @@ allow-hotplug <%= @interface %>
     arp_ip_target <%= @bond_arp_iptarget.join(',') %>
 <% end -%>
 <% if @bond_fail_over_mac -%>
-     fail_over_mac <%= @bond_fail_over_mac %>
+    fail_over_mac <%= @bond_fail_over_mac %>
 <% end -%>
 <% if @bond_master -%>
     bond-master <%= @bond_master %>
