@@ -139,6 +139,17 @@ define network::route (
         notify  => $network::manage_config_file_notify,
       }
     }
+    'Suse': {
+      file { "ifroute-${name}":
+        ensure  => $ensure,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/sysconfig/network/ifroute-${name}",
+        content => template('network/route-Suse.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+    }
     'Debian': {
       file { "routeup-${name}":
         ensure  => $ensure,

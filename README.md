@@ -331,7 +331,7 @@ This is tested on these OS:
 - RedHat osfamily 5 and 6
 - Debian 6 and 7
 - Ubuntu 10.04, 12.04 and 14.04
-- OpenSuse 12, SLES 11SP3
+- OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
 
 
 ##Development

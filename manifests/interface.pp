@@ -385,7 +385,10 @@ define network::interface (
   $manage_bootproto = $bootproto ? {
     ''     => $enable_dhcp ? {
       true  => 'dhcp',
-      false => 'none',
+      false => $::operatingsystemmajrelease ? {
+        '12'    => 'static',
+        default => 'none',
+      },
     },
     default => $bootproto,
   }
