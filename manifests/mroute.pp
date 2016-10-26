@@ -33,6 +33,9 @@
 # On Debian
 # Deploy 2 files 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
 #
+# On Suse
+# Deploys the file /etc/sysconfig/network/ifroute-$name.
+#
 define network::mroute (
   $routes,
   $interface          = $name,
@@ -78,6 +81,17 @@ define network::mroute (
         group   => 'root',
         path    => "/etc/network/if-down.d/z90-route-${name}",
         content => template('network/mroute_down-Debian.erb'),
+        notify  => $real_config_file_notify,
+      }
+    }
+    'SuSE': {
+      file { "route-${name}":
+        ensure  => $ensure,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/sysconfig/network/ifroute-${name}",
+        content => template('network/mroute-SuSE.erb'),
         notify  => $real_config_file_notify,
       }
     }
