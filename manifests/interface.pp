@@ -239,6 +239,10 @@ define network::interface (
   $use_carrier     = undef,
   $primary_reselect = undef,
 
+  # For teaming
+  $team_config = undef,
+  $team_master = undef,
+
   # For bridging
   $bridge_ports    = [ ],
   $bridge_stp      = undef,
