@@ -47,6 +47,17 @@ define network::rule (
         notify  => $network::manage_config_file_notify,
       }
     }
+    'Suse': {
+      file { "ifrule-${interface}":
+        ensure  => present,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        path    => "/etc/sysconfig/network/ifrule-${interface}",
+        content => template('network/rule-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+    }
     'Debian': {
       file { "ruleup-${name}":
         ensure  => $ensure,

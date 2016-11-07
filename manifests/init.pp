@@ -250,18 +250,7 @@ class network (
   }
 
   if $real_routes_hash {
-    if $::osfamily == 'Suse' {
-      file { '/etc/sysconfig/network/routes':
-        ensure  => $config_file_ensure,
-        mode    => $config_file_mode,
-        owner   => $config_file_owner,
-        group   => $config_file_group,
-        content => template("network/route-${::osfamily}.erb"),
-        notify  => $manage_config_file_notify,
-      }
-    } else {
-      create_resources('network::route', $real_routes_hash)
-    }
+    create_resources('network::route', $real_routes_hash)
   }
 
   if $real_mroutes_hash {
