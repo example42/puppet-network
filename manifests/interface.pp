@@ -386,13 +386,16 @@ define network::interface (
   }
 
   # Redhat and Suse specific
+  if $::operatingsystem == 'SLES' and $::operatingsystemrelease =~ /^12/ {
+    $bootproto_false = 'static'
+  } else {
+    $bootproto_false = 'none'
+  }
+
   $manage_bootproto = $bootproto ? {
     ''     => $enable_dhcp ? {
       true  => 'dhcp',
-      false => $::operatingsystemmajrelease ? {
-        '12'    => 'static',
-        default => 'none',
-      },
+      false => $bootproto_false
     },
     default => $bootproto,
   }
