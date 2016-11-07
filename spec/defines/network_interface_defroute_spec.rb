@@ -8,7 +8,7 @@ describe 'network::interface' do
 
   context 'RedHat OS' do
 
-    let(:facts) {{ :architecture => 'x86_64', :osfamily => 'RedHat' }}
+    let(:facts) {{ :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' }}
 
     context 'defroute set to true' do
 
