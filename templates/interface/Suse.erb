@@ -8,7 +8,7 @@ ETHERDEVICE="<%= @etherdevice %>"
 <% if @ethtool_opts -%>
 ETHTOOL_OPTIONS="<%= @ethtool_opts %>"
 <% end -%>
-<% if @manage_ipaddr -%>
+<% if @manage_ipaddr and ! @manage_ipaddr.empty? -%>
 IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
 <% if @netmask -%>
