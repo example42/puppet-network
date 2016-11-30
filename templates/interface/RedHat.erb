@@ -21,7 +21,7 @@ LAYER2="<%= @layer2 %>"
 <% if @nettype -%>
 NETTYPE="<%= @nettype %>"
 <% end -%>
-<% if @manage_ipaddr -%>
+<% if @manage_ipaddr and ! @manage_ipaddr.empty? -%>
 IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
 <% if @netmask -%>
