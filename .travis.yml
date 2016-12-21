@@ -1,6 +1,6 @@
 ---
 language: ruby
-before_install: rm Gemfile.lock || true
+before_install: rm Gemfile.lock || true; gem update bundler
 rvm:
   - 2.1.4
 script: bundle exec rake spec

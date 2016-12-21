@@ -22,7 +22,13 @@ LAYER2="<%= @layer2 %>"
 NETTYPE="<%= @nettype %>"
 <% end -%>
 <% if @manage_ipaddr and ! @manage_ipaddr.empty? -%>
+<% if @ipaddress.kind_of?(Array) -%>
+<%- (1..(@ipaddress.length)).each do |id| -%>
+IPADDR<%= id %>="<%= @ipaddress[id-1] %>"
+<% end -%>
+<% else -%>
 IPADDR="<%= @manage_ipaddr %>"
+<% end -%>
 <% end -%>
 <% if @netmask -%>
 NETMASK="<%= @netmask %>"
