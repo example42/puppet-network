@@ -124,6 +124,9 @@ LINKDELAY="<%= @linkdelay %>"
 <% if @hotplug -%>
 HOTPLUG="<%= @hotplug %>"
 <% end -%>
+<% if @persistent_dhclient -%>
+PERSISTENT_DHCLIENT="<%= @persistent_dhclient %>"
+<% end -%>
 <% if @devicetype -%>
 DEVICETYPE="<%= @devicetype %>"
 <% end -%>
