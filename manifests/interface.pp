@@ -283,6 +283,7 @@ define network::interface (
   $linkdelay       = undef,
   $check_link_down = false,
   $hotplug         = undef,
+  $persistent_dhclient = undef,
 
   # RedHat specific for Open vSwitch
   $devicetype      = undef,
