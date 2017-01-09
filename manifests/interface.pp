@@ -456,7 +456,7 @@ define network::interface (
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}",
             content => template($template),
-            notify  => $network::manage_config_file_notify
+            notify  => $network::manage_config_file_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
@@ -470,7 +470,7 @@ define network::interface (
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}.cfg",
             content => template($template),
-            notify  => $network::manage_config_file_notify
+            notify  => $network::manage_config_file_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
@@ -573,8 +573,8 @@ define network::interface (
           }
         }
         default: {
-          $create_ip_command = 'true'
-          $show_ip_command = 'true'
+          $create_ip_command = 'true '
+          $show_ip_command = 'true '
         }
       }
       exec { "create ipaddr ${title}":
