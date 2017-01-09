@@ -452,16 +452,32 @@ define network::interface (
       }
 
       if $network::config_file_per_interface {
-        file { "interface-${name}":
-          path    => "/etc/network/interfaces.d/${name}.cfg",
-          content => template($template),
-          notify  => $network::manage_config_file_notify
-        }
-        if ! defined(File_line['config_file_per_interface']) {
-          file_line { 'config_file_per_interface':
-            path   => '/etc/network/interfaces',
-            line   => 'source /etc/network/interfaces.d/*.cfg',
-            notify => $network::manage_config_file_notify,
+        if $::operatingsystem == 'CumulusLinux' {
+          file { "interface-${name}":
+            path    => "/etc/network/interfaces.d/${name}",
+            content => template($template),
+            notify  => $network::manage_config_file_notify
+          }
+          if ! defined(File_line['config_file_per_interface']) {
+            file_line { 'config_file_per_interface':
+              path   => '/etc/network/ifupdown2/ifupdown2.conf',
+              line   => 'addon_scripts_support=1',
+              match  => 'addon_scripts_suppor*',
+              notify => $network::manage_config_file_notify,
+            }
+          }
+        } else {
+          file { "interface-${name}":
+            path    => "/etc/network/interfaces.d/${name}.cfg",
+            content => template($template),
+            notify  => $network::manage_config_file_notify
+          }
+          if ! defined(File_line['config_file_per_interface']) {
+            file_line { 'config_file_per_interface':
+              path   => '/etc/network/interfaces',
+              line   => 'source /etc/network/interfaces.d/*.cfg',
+              notify => $network::manage_config_file_notify,
+            }
           }
         }
       } else {
