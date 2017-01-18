@@ -162,21 +162,18 @@ You have different possibile approaches in the usage of this module. Use the one
           gateway   => [ '192.168.1.1', '10.0.0.1', ],
         }
 
-* To configure network routes on Suse, use the routes_hash parameter, like in the following example:
+* To configure the default route on Suse, use the routes_hash parameter, like in the following example:
 
         class { 'network':
           routes_hash => {
-            'default' => {
-              destination => 'default',
-              gateway     => '192.168.0.1',
-              netmask     => '255.255.255.0',
+            'eth0' => {
+              ipaddress   => [ 'default', ],
+              gateway     => [ '192.168.0.1', ],
+              netmask     => [ '-', ],
               interface   => 'eth0',
-              type        => 'unicast',
             }
           }
         }
-
-The parameters netmask, interface and type are optional.
 
 * An alternative way to manage routes is using the network::mroute define, which expectes an hash of one of more routes where you specify the network and the gateway (either as ip or device name):
 
