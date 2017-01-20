@@ -31,6 +31,12 @@
 #   - On RedHat: files /etc/sysconfig/network-scripts/ifcfg-${name}
 #   You can copy and adapt network/templates/interface/${::osfamily}.erb
 #
+# [*restart_all_nic*]
+#   Boolean. Default: true
+#   Manages the way to apply interface creation/modification:
+#   - If true, will trigger a restart of all network interfaces
+#   - If false, will only start/restart this specific interface
+#
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
 #
@@ -158,6 +164,7 @@ define network::interface (
   $template        = "network/interface/${::osfamily}.erb",
   $options         = undef,
   $interface       = $name,
+  $restart_all_nic = true,
 
   $enable_dhcp     = false,
 
@@ -327,6 +334,7 @@ define network::interface (
 
   validate_bool($auto)
   validate_bool($enable)
+  validate_bool($restart_all_nic)
 
   validate_array($up)
   validate_array($pre_up)
@@ -440,6 +448,18 @@ define network::interface (
 
   # Resources
 
+  if $restart_all_nic {
+    $network_notify = $network::manage_config_file_notify
+  } else {
+    Exec { "network_restart_${name}":
+      command     => "ifdown ${name}; ifup ${name}",
+      path        => '/sbin',
+      refreshonly => true,
+    }
+
+    $network_notify = "Exec[network_restart_${name}]"
+  }
+
   case $::osfamily {
 
     'Debian': {
@@ -456,27 +476,27 @@ define network::interface (
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}",
             content => template($template),
-            notify  => $network::manage_config_file_notify,
+            notify  => $network_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
               path   => '/etc/network/ifupdown2/ifupdown2.conf',
               line   => 'addon_scripts_support=1',
               match  => 'addon_scripts_suppor*',
-              notify => $network::manage_config_file_notify,
+              notify => $network_notify,
             }
           }
         } else {
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}.cfg",
             content => template($template),
-            notify  => $network::manage_config_file_notify,
+            notify  => $network_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
               path   => '/etc/network/interfaces',
               line   => 'source /etc/network/interfaces.d/*.cfg',
-              notify => $network::manage_config_file_notify,
+              notify => $network_notify,
             }
           }
         }
@@ -486,7 +506,7 @@ define network::interface (
             mode   => '0644',
             owner  => 'root',
             group  => 'root',
-            notify => $network::manage_config_file_notify,
+            notify => $network_notify,
           }
         }
 
@@ -514,7 +534,7 @@ define network::interface (
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        notify  => $network::manage_config_file_notify,
+        notify  => $network_notify,
       }
     }
 
@@ -544,7 +564,7 @@ define network::interface (
         mode    => '0600',
         owner   => 'root',
         group   => 'root',
-        notify  => $network::manage_config_file_notify,
+        notify  => $network_notify,
       }
     }
 
