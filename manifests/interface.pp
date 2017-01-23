@@ -448,16 +448,15 @@ define network::interface (
 
   # Resources
 
-  if $restart_all_nic {
-    $network_notify = $network::manage_config_file_notify
-  } else {
-    Exec { "network_restart_${name}":
+  if $restart_all_nic == false and $::kernel == 'Linux' {
+    exec { "network_restart_${name}":
       command     => "ifdown ${name}; ifup ${name}",
       path        => '/sbin',
       refreshonly => true,
     }
-
     $network_notify = "Exec[network_restart_${name}]"
+  } else {
+    $network_notify = $network::manage_config_file_notify
   }
 
   case $::osfamily {
