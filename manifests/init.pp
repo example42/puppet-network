@@ -149,16 +149,6 @@ class network (
 
   # Class variables validation and management
 
-  validate_bool($config_dir_recurse)
-  validate_bool($config_dir_purge)
-  if $config_file_options_hash { validate_hash($config_file_options_hash) }
-  if $monitor_options_hash { validate_hash($monitor_options_hash) }
-  if $firewall_options_hash { validate_hash($firewall_options_hash) }
-  if $real_interfaces_hash { validate_hash($real_interfaces_hash) }
-  if $real_routes_hash { validate_hash($real_routes_hash) }
-  if $real_mroutes_hash { validate_hash($real_mroutes_hash) }
-  if $real_tables_hash { validate_hash($real_tables_hash) }
-
   $config_file_owner          = $::network::params::config_file_owner
   $config_file_group          = $::network::params::config_file_group
   $config_file_mode           = $::network::params::config_file_mode
