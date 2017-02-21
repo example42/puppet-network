@@ -28,7 +28,7 @@
 #   String. Optional. Default: Managed by module.
 #   Provide an alternative custom template to use for configuration of:
 #   - On Debian: file fragments in /etc/network/interfaces
-#   - On RedHat: files /etc/sysconfig/network-scripts/ifcfg-${name}
+#   - On RedHat: files /etc/sysconfig/network-scripts/ifcfg-${interface}
 #   You can copy and adapt network/templates/interface/${::osfamily}.erb
 #
 # [*restart_all_nic*]
@@ -449,12 +449,12 @@ define network::interface (
   # Resources
 
   if $restart_all_nic == false and $::kernel == 'Linux' {
-    exec { "network_restart_${name}":
-      command     => "ifdown ${name}; ifup ${name}",
+    exec { "network_restart_${interface}":
+      command     => "ifdown ${interface}; ifup ${interface}",
       path        => '/sbin',
       refreshonly => true,
     }
-    $network_notify = "Exec[network_restart_${name}]"
+    $network_notify = "Exec[network_restart_${interface}]"
   } else {
     $network_notify = $network::manage_config_file_notify
   }
@@ -472,8 +472,8 @@ define network::interface (
 
       if $network::config_file_per_interface {
         if $::operatingsystem == 'CumulusLinux' {
-          file { "interface-${name}":
-            path    => "/etc/network/interfaces.d/${name}",
+          file { "interface-${interface}":
+            path    => "/etc/network/interfaces.d/${interface}",
             content => template($template),
             notify  => $network_notify,
           }
@@ -486,8 +486,8 @@ define network::interface (
             }
           }
         } else {
-          file { "interface-${name}":
-            path    => "/etc/network/interfaces.d/${name}.cfg",
+          file { "interface-${interface}":
+            path    => "/etc/network/interfaces.d/${interface}.cfg",
             content => template($template),
             notify  => $network_notify,
           }
@@ -509,7 +509,7 @@ define network::interface (
           }
         }
 
-        concat::fragment { "interface-${name}":
+        concat::fragment { "interface-${interface}":
           target  => '/etc/network/interfaces',
           content => template($template),
           order   => $manage_order,
@@ -527,7 +527,7 @@ define network::interface (
     }
 
     'RedHat': {
-      file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+      file { "/etc/sysconfig/network-scripts/ifcfg-${interface}":
         ensure  => $ensure,
         content => template($template),
         mode    => '0644',
@@ -545,7 +545,7 @@ define network::interface (
           }
         }
         Package['vlan'] ->
-        File["/etc/sysconfig/network/ifcfg-${name}"]
+        File["/etc/sysconfig/network/ifcfg-${interface}"]
       }
       if $bridge {
         if !defined(Package['bridge-utils']) {
@@ -554,10 +554,10 @@ define network::interface (
           }
         }
         Package['bridge-utils'] ->
-        File["/etc/sysconfig/network/ifcfg-${name}"]
+        File["/etc/sysconfig/network/ifcfg-${interface}"]
       }
 
-      file { "/etc/sysconfig/network/ifcfg-${name}":
+      file { "/etc/sysconfig/network/ifcfg-${interface}":
         ensure  => $ensure,
         content => template($template),
         mode    => '0600',
