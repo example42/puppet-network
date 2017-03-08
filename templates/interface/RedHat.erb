@@ -6,6 +6,18 @@ TYPE="<%= @type %>"
 USERCTL="<%= @userctl %>"
 PEERDNS="<%= @manage_peerdns %>"
 PEERNTP="<%= @manage_peerntp %>"
+<% if @peer_outer_ipaddr -%>
+PEER_OUTER_IPADDR=<%= @peer_outer_ipaddr %>
+<% end -%>
+<% if @peer_inner_ipaddr-%>
+PEER_INNER_IPADDR=<%= @peer_inner_ipaddr %>
+<% end -%>
+<% if @my_outer_ipaddr -%>
+MY_OUTER_IPADDR=<%= @my_outer_ipaddr %>
+<% end -%>
+<% if @my_inner_ipaddr -%>
+MY_INNER_IPADDR=<%= @my_inner_ipaddr %>
+<% end -%>
 <% if @uuid -%>
 UUID="<%= @uuid %>"
 <% end -%>
@@ -32,8 +44,14 @@ IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
 <% if @netmask -%>
 <% if @ipaddress.kind_of?(Array) -%>
+<% if @netmask.kind_of?(Array) -%>
+<%- (1..(@netmask.length)).each do |id| -%>
+NETMASK<%= id %>="<%= @netmask[id-1] %>"
+<% end -%>
+<% else -%>
 <%- (1..(@ipaddress.length)).each do |id| -%>
 NETMASK<%= id %>="<%= @netmask %>"
+<% end -%>
 <% end -%>
 <% else -%>
 NETMASK="<%= @netmask %>"
