@@ -11,6 +11,7 @@
 #   $ipaddress - required
 #   $netmask   - required
 #   $gateway   - optional
+#   $metric    - optional
 #   $scope     - optional
 #   $source    - optional
 #   $table     - optional
@@ -99,6 +100,7 @@ define network::route (
   $ipaddress,
   $netmask,
   $gateway   = undef,
+  $metric    = undef,
   $scope     = undef,
   $source    = undef,
   $table     = undef,
@@ -111,6 +113,10 @@ define network::route (
 
   if $gateway {
     validate_array($gateway)
+  }
+
+  if $metric {
+    validate_integer($metric)
   }
 
   if $scope {
