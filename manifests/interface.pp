@@ -46,6 +46,7 @@
 #    Both ipaddress (standard name) and address (Debian param name) if set
 #    configure the ipv4 address of the interface.
 #    If both are present address is used.
+#    Note, that if $my_inner_ipaddr (for GRE) is set - it is used instead.
 #
 #  $manage_order  = 10,
 #    This is used by concat to define the order of your fragments,
@@ -111,7 +112,7 @@
 #  $hotswap = undef
 #    Set to no to prevent interface from being activated when hot swapped - Default is yes
 #
-# == RedHat only GRE interface specific parameters
+# == RedHat and Debian only GRE interface specific parameters
 #
 #  $peer_outer_ipaddr = undef
 #    IP address of the remote tunnel endpoint
@@ -410,11 +411,14 @@ define network::interface (
     'ppp': { $manage_address = undef }
     'wvdial': { $manage_address = undef }
     default: {
-        $manage_address = $address ? {
+      $manage_address = $my_inner_ipaddr ? {
+        undef     => $address ? {
           ''      => $ipaddress,
           default => $address,
-        }
+        },
+        default   => $my_inner_ipaddr,
       }
+    }
   }
 
   # Redhat and Suse specific

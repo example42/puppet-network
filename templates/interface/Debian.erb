@@ -99,6 +99,14 @@ allow-hotplug <%= @interface %>
 <% if @vlan_raw_device -%>
     vlan-raw-device <%= @vlan_raw_device %>
 <% end -%>
+<% if @peer_outer_ipaddr then -%>
+    up ip link set <%= @interface %> multicast on
+    pre-up ip tunnel add <%= @interface %> mode gre remote <%= @peer_outer_ipaddr %><% if @my_outer_ipaddr then %> local <%= @my_outer_ipaddr %><% end %> ttl 255
+<% if @peer_inner_ipaddr -%>
+    pointopoint <%= @peer_inner_ipaddr %>
+<% end -%>
+    post-down ip tunnel del <%= @interface %>
+<% end -%>
 <% if @up.length > 0 then -%>
 <% @up.each do |script| -%>
     up <%= script %>
