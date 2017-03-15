@@ -498,6 +498,14 @@ define network::interface (
       }
 
       if $network::config_file_per_interface {
+        if ! defined(File["/etc/network/interfaces.d"]) {
+          file { "/etc/network/interfaces.d":
+            ensure => 'directory',
+            mode   => '0755',
+            owner  => 'root',
+            group  => 'root',
+          }
+        }
         if $::operatingsystem == 'CumulusLinux' {
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}",
@@ -526,6 +534,8 @@ define network::interface (
             }
           }
         }
+        File["/etc/network/interfaces.d"] ->
+        File["interface-${name}"]
       } else {
         if ! defined(Concat['/etc/network/interfaces']) {
           concat { '/etc/network/interfaces':
