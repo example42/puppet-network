@@ -40,6 +40,10 @@
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
 #
+# [*description*]
+#   String. Optional. Default: undef
+#   Adds comment with given description in file before interface declaration.
+#
 # == Debian only parameters
 #
 #  $address       = undef,
@@ -203,6 +207,8 @@ define network::interface (
   $gateway               = undef,
   $hwaddr                = undef,
   $mtu                   = undef,
+
+  $description           = undef,
 
   ## Debian specific
   $manage_order          = '10',

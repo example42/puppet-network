@@ -1,4 +1,7 @@
 # Interface <%= @name %>
+<% if @description and ! @description.empty? -%>
+# <%= @description %>
+<% end -%>
 <% if @auto -%>
 auto <%= @interface %>
 <% end -%>
