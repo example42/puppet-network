@@ -160,6 +160,16 @@
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
+# == Suse and Debian only parameters
+#
+#  $aliases = undef
+#     Array of aliased IPs for given interface.
+#     Note, that for Debian generated interfaces will have static method and
+#     netmask 255.255.255.255.  If you need something other - generate
+#     interfaces by hand.  Also note, that interfaces will be named
+#     $interface:$idx, where $idx is IP index in list, starting from 0.
+#     If you're adding manual interfaces - beware of clashes.
+#
 # == Suse only parameters
 #
 # Check the arguments in the code for the other Suse specific settings

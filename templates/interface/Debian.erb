@@ -203,4 +203,23 @@ allow-hotplug <%= @interface %>
 <% if @primary_reselect -%>
     primary_reselect <%= @primary_reselect %>
 <% end -%>
+<% if @aliases -%>
+<% if @aliases.is_a? Array -%>
+<% @aliases.each_with_index do |val, idx| %>
+<% if @auto -%>
+auto <%= @interface %>:<%= idx %>
+<% end -%>
+<%= @stanza %> <%= @interface %>:<%= idx %> <%= @family %> static
+    address <%= val %>
+    netmask 255.255.255.255
+<% end -%>
+<% else -%>
+<% if @auto -%>
+auto <%= @interface %>:0
+<% end -%>
+<%= @stanza %> <%= @interface %>:0 <%= @family %> static
+    address <%= @aliases %>
+    netmask 255.255.255.255
+<% end -%>
+<% end -%>
 
