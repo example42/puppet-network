@@ -71,6 +71,15 @@
 #    Map to Debian interfaces parameters (with _ instead of -)
 #    Note that these params MUST be arrays, even if with only one element
 #
+#  $nonlocal_gateway = undef,
+#    Gateway, that does not belong to interface's network and needs extra
+#    route to be available. Shortcut for:
+#    
+#      post-up ip route add $nonlocal_gateway dev $interface
+#      post-up ip route add default via $nonlocal_gateway dev $interface
+#      pre-down ip route del default via $nonlocal_gateway dev $interface
+#      pre-down ip route del $nonlocal_gateway dev $interface
+#
 # Check the arguments in the code for the other Debian specific settings
 # If defined they are set in the used template.
 #
@@ -252,6 +261,9 @@ define network::interface (
   $accept_ra             = undef,
   $autoconf              = undef,
   $vlan_raw_device       = undef,
+
+  # Convenience shortcuts
+  $nonlocal_gateway      = undef,
 
   # Common ifupdown scripts
   $up                    = [ ],
