@@ -1,6 +1,8 @@
 # File Managed by Puppet
 DEVICE="<%= @interface %>"
+<% if ! @ovsbootproto -%>
 BOOTPROTO="<%= @manage_bootproto %>"
+<% end -%>
 ONBOOT="<%= @manage_onboot %>"
 TYPE="<%= @type %>"
 USERCTL="<%= @userctl %>"
