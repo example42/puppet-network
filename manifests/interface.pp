@@ -80,6 +80,12 @@
 #      pre-down ip route del default via $nonlocal_gateway dev $interface
 #      pre-down ip route del $nonlocal_gateway dev $interface
 #
+#  $additional_networks = [],
+#    Convenience shortcut to add more networks to the interface. Expands to:
+#
+#      up ip addr add $network dev $interface
+#      down ip addr del $network dev $interface
+#
 # Check the arguments in the code for the other Debian specific settings
 # If defined they are set in the used template.
 #
@@ -264,6 +270,7 @@ define network::interface (
 
   # Convenience shortcuts
   $nonlocal_gateway      = undef,
+  $additional_networks   = [ ],
 
   # Common ifupdown scripts
   $up                    = [ ],
