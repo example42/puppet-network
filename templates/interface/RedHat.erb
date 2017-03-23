@@ -1,6 +1,8 @@
 # File Managed by Puppet
 DEVICE="<%= @interface %>"
+<% if ! @ovsbootproto -%>
 BOOTPROTO="<%= @manage_bootproto %>"
+<% end -%>
 ONBOOT="<%= @manage_onboot %>"
 TYPE="<%= @type %>"
 USERCTL="<%= @userctl %>"
@@ -177,6 +179,9 @@ OVS_TUNNEL_OPTIONS="<%= @ovs_tunnel_options %>"
 <% end -%>
 <% if @ovsdhcpinterfaces -%>
 OVSDHCPINTERFACES="<%= @ovsdhcpinterfaces %>"
+<% end -%>
+<% if @ovsbootproto -%>
+OVSBOOTPROTO="<%= @ovsbootproto %>"
 <% end -%>
 <% if @ovsrequries -%>
 OVSREQURIES="<%= @ovsrequries %>"

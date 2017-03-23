@@ -156,6 +156,12 @@
 #  $ovs_tunnel_options = undef,
 #    Tunnel options (eg. "remote_ip") for "OVSTunnel" type.
 #
+#  $ovsdhcpinterfaces = undef,
+#    All the interfaces that can reach the DHCP server as a space separated list
+#
+#  $ovsbootproto = undef,
+#    Needs OVSBOOTPROTO instead of BOOTPROTO to enable DHCP on the bridge
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -326,6 +332,7 @@ define network::interface (
   $ovs_tunnel_type       = undef,
   $ovs_tunnel_options    = undef,
   $ovsdhcpinterfaces     = undef,
+  $ovsbootproto          = undef,
 
   # RedHat specifice for zLinux
   $subchannels           = undef,
