@@ -280,6 +280,20 @@ define network::interface (
   $bridge_maxwait        = undef,
   $bridge_waitport       = undef,
 
+  # For wpa_supplicant
+  $wpa_ssid              = undef,
+  $wpa_bssid             = undef,
+  $wpa_psk               = undef,
+  $wpa_key_mgmt          = [ ],
+  $wpa_group             = [ ],
+  $wpa_pairwise          = [ ],
+  $wpa_auth_alg          = [ ],
+  $wpa_proto             = [ ],
+  $wpa_identity          = undef,
+  $wpa_password          = undef,
+  $wpa_scan_ssid         = undef,
+  $wpa_ap_scan           = undef,
+
   ## RedHat specific
   $ipaddr                = '',
   $uuid                  = undef,
@@ -376,6 +390,11 @@ define network::interface (
   validate_array($slaves)
   validate_array($bond_slaves)
   validate_array($bridge_ports)
+  validate_array($wpa_key_mgmt)
+  validate_array($wpa_group)
+  validate_array($wpa_pairwise)
+  validate_array($wpa_auth_alg)
+  validate_array($wpa_proto)
 
   # $subchannels is only valid for zLinux/SystemZ/s390x.
   if $::architecture == 's390x' {

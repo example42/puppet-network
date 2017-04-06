@@ -195,4 +195,40 @@ allow-hotplug <%= @interface %>
 <% if @primary_reselect -%>
     primary_reselect <%= @primary_reselect %>
 <% end -%>
+<% if @wpa_ssid -%>
+    wpa-ssid <%= @wpa_ssid %>
+<% end -%>
+<% if @wpa_bssid -%>
+    wpa-bssid <%= @wpa_bssid %>
+<% end -%>
+<% if @wpa_psk -%>
+    wpa-psk <%= @wpa_psk %>
+<% end -%>
+<% if @wpa_key_mgmt.size > 0 then -%>
+    wpa-key-mgmt <%= @wpa_key_mgmt.join(' ') %>
+<% end -%>
+<% if @wpa_group.size > 0 then -%>
+    wpa-group <%= @wpa_group.join(' ') %>
+<% end -%>
+<% if @wpa_pairwise.size > 0 then -%>
+    wpa-pairwise <%= @wpa_pairwise.join(' ') %>
+<% end -%>
+<% if @wpa_auth_alg.size > 0 then -%>
+    wpa-auth-alg <%= @wpa_auth_alg.join(' ') %>
+<% end -%>
+<% if @wpa_proto.size > 0 then -%>
+    wpa-proto <%= @wpa_proto.join(' ') %>
+<% end -%>
+<% if @wpa_identity -%>
+    wpa-identity <%= @wpa_identity %>
+<% end -%>
+<% if @wpa_password -%>
+    wpa-password <%= @wpa_password %>
+<% end -%>
+<% if @wpa_scan_ssid -%>
+    wpa-scan-ssid <%= @wpa_scan_ssid %>
+<% end -%>
+<% if @wpa_ap_scan -%>
+    wpa-ap-scan <%= @wpa_ap_scan %>
+<% end -%>
 
