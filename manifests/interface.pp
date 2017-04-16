@@ -587,6 +587,15 @@ define network::interface (
         group   => 'root',
         notify  => $network_notify,
       }
+      if ($bridge or $type == "Bridge") {
+        if !defined(Package['bridge-utils']) {
+          package { 'bridge-utils':
+            ensure => 'present',
+          }
+        }
+        Package['bridge-utils'] ->
+        File["/etc/sysconfig/network/ifcfg-${name}"]
+      }
     }
 
     'Suse': {
