@@ -176,6 +176,12 @@
 #  $ovs_tunnel_options = undef,
 #    Tunnel options (eg. "remote_ip") for "OVSTunnel" type.
 #
+#  $ovsdhcpinterfaces = undef,
+#    All the interfaces that can reach the DHCP server as a space separated list
+#
+#  $ovsbootproto = undef,
+#    Needs OVSBOOTPROTO instead of BOOTPROTO to enable DHCP on the bridge
+#
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
@@ -310,6 +316,20 @@ define network::interface (
   $bridge_maxwait        = undef,
   $bridge_waitport       = undef,
 
+  # For wpa_supplicant
+  $wpa_ssid              = undef,
+  $wpa_bssid             = undef,
+  $wpa_psk               = undef,
+  $wpa_key_mgmt          = [ ],
+  $wpa_group             = [ ],
+  $wpa_pairwise          = [ ],
+  $wpa_auth_alg          = [ ],
+  $wpa_proto             = [ ],
+  $wpa_identity          = undef,
+  $wpa_password          = undef,
+  $wpa_scan_ssid         = undef,
+  $wpa_ap_scan           = undef,
+
   ## RedHat specific
   $ipaddr                = '',
   $uuid                  = undef,
@@ -318,6 +338,9 @@ define network::interface (
   $type                  = 'Ethernet',
   $ethtool_opts          = undef,
   $ipv6init              = undef,
+  $ipv6_autoconf         = undef,
+  $ipv6addr              = undef,
+  $ipv6_defaultgw        = undef,
   $dhcp_hostname         = undef,
   $srcaddr               = undef,
   $peerdns               = '',
@@ -362,6 +385,7 @@ define network::interface (
   $ovs_tunnel_type       = undef,
   $ovs_tunnel_options    = undef,
   $ovsdhcpinterfaces     = undef,
+  $ovsbootproto          = undef,
 
   # RedHat specifice for zLinux
   $subchannels           = undef,
@@ -402,6 +426,11 @@ define network::interface (
   validate_array($slaves)
   validate_array($bond_slaves)
   validate_array($bridge_ports)
+  validate_array($wpa_key_mgmt)
+  validate_array($wpa_group)
+  validate_array($wpa_pairwise)
+  validate_array($wpa_auth_alg)
+  validate_array($wpa_proto)
 
   # $subchannels is only valid for zLinux/SystemZ/s390x.
   if $::architecture == 's390x' {

@@ -3,7 +3,9 @@
 # <%= @description %>
 <% end -%>
 DEVICE="<%= @interface %>"
+<% if ! @ovsbootproto -%>
 BOOTPROTO="<%= @manage_bootproto %>"
+<% end -%>
 ONBOOT="<%= @manage_onboot %>"
 TYPE="<%= @type %>"
 USERCTL="<%= @userctl %>"
@@ -74,6 +76,15 @@ HWADDR="<%= @manage_hwaddr %>"
 <% end -%>
 <% if @ipv6init -%>
 IPV6INIT="<%= @ipv6init %>"
+<% end -%>
+<% if @ipv6_autoconf -%>
+IPV6_AUTOCONF="<%= @ipv6_autoconf %>"
+<% end -%>
+<% if @ipv6addr -%>
+IPV6_ADDR="<%= @ipv6addr %>"
+<% end -%>
+<% if @ipv6_defaultgw -%>
+IPV6_DEFAULTGW="<%= @ipv6_defaultgw %>"
 <% end -%>
 <% if @dhcp_hostname -%>
 DHCP_HOSTNAME="<%= @dhcp_hostname %>"
@@ -180,6 +191,9 @@ OVS_TUNNEL_OPTIONS="<%= @ovs_tunnel_options %>"
 <% end -%>
 <% if @ovsdhcpinterfaces -%>
 OVSDHCPINTERFACES="<%= @ovsdhcpinterfaces %>"
+<% end -%>
+<% if @ovsbootproto -%>
+OVSBOOTPROTO="<%= @ovsbootproto %>"
 <% end -%>
 <% if @ovsrequries -%>
 OVSREQURIES="<%= @ovsrequries %>"
