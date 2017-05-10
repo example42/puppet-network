@@ -1,8 +1,8 @@
-#network
+# network
 
 [![Build Status](https://travis-ci.org/example42/puppet-network.png?branch=master)](https://travis-ci.org/example42/puppet-network)
 
-####Table of Contents
+#### Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
@@ -15,32 +15,32 @@
 6. [Operating Systems Support](#operating-systems-support)
 7. [Development](#development)
 
-##Overview
+## Overview
 
 This module configures network interfaces and parameters.
 
-##Module Description
+## Module Description
 
 The module is based on **stdmod** naming standards version 0.9.0.
 
 Refer to http://github.com/stdmod/ for complete documentation on the common parameters.
 
 
-##Setup
+## Setup
 
-###Resources managed by network module
+### Resources managed by network module
 * This module enables the network service
 * Can manage any configuration file in the config_dir_path with network::conf
 * Can manage interfaces with network::interfaces
 
-###Setup Requirements
+### Setup Requirements
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 * PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
 * StdMod [stdmod module](https://github.com/stdmod/stdmod)
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
 
-###Beginning with module network
+### Beginning with module network
 
 The main class arguments can be provided either via Hiera (from Puppet 3.x) or direct parameters:
 
@@ -79,7 +79,7 @@ To configure a static interface with basic parameters
         }
 
 
-##Usage
+## Usage
 
 You have different possibile approaches in the usage of this module. Use the one you prefer.
 
@@ -257,7 +257,7 @@ rules and routing tables, this does not happen, so this route must be added
 manually.
 
 
-##Hiera examples
+## Hiera examples
 
 Here are some examples of usage via Hiera (with yaml backend).
 
@@ -322,7 +322,7 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
           100.100.244.0/22: 174.136.107.1
 
 
-##Operating Systems Support
+## Operating Systems Support
 
 This is tested on these OS:
 - RedHat osfamily 5 and 6
@@ -331,7 +331,7 @@ This is tested on these OS:
 - OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
 
 
-##Development
+## Development
 
 Pull requests (PR) and bug reports via GitHub are welcomed.
 
