@@ -36,7 +36,6 @@ Refer to http://github.com/stdmod/ for complete documentation on the common para
 ### Setup Requirements
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 * PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
-* StdMod [stdmod module](https://github.com/stdmod/stdmod)
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
 
