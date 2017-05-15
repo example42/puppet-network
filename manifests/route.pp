@@ -135,12 +135,12 @@ define network::route (
 
   case $::osfamily {
     'RedHat': {
-      file { "route-${name}":
+      file { "route-${interface}":
         ensure  => $ensure,
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        path    => "/etc/sysconfig/network-scripts/route-${name}",
+        path    => "/etc/sysconfig/network-scripts/route-${interface}",
         content => template('network/route-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
@@ -157,21 +157,21 @@ define network::route (
       }
     }
     'Debian': {
-      file { "routeup-${name}":
+      file { "routeup-${interface}":
         ensure  => $ensure,
         mode    => '0755',
         owner   => 'root',
         group   => 'root',
-        path    => "/etc/network/if-up.d/z90-route-${name}",
+        path    => "/etc/network/if-up.d/z90-route-${interface}",
         content => template('network/route_up-Debian.erb'),
         notify  => $network::manage_config_file_notify,
       }
-      file { "routedown-${name}":
+      file { "routedown-${interface}":
         ensure  => $ensure,
         mode    => '0755',
         owner   => 'root',
         group   => 'root',
-        path    => "/etc/network/if-down.d/z90-route-${name}",
+        path    => "/etc/network/if-down.d/z90-route-${interface}",
         content => template('network/route_down-Debian.erb'),
         notify  => $network::manage_config_file_notify,
       }
