@@ -321,6 +321,7 @@ define network::interface (
   $bonding_opts          = undef,
   $vlan                  = undef,
   $vlan_name_type        = undef,
+  $vlan_id               = undef,
   $physdev               = undef,
   $bridge                = undef,
   $arpcheck              = undef,
