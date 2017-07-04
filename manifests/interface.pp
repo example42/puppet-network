@@ -272,6 +272,7 @@ define network::interface (
 
   # For teaming
   $team_config           = undef,
+  $team_port_cfg         = undef,
   $team_master           = undef,
 
   # For bridging
