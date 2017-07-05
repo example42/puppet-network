@@ -302,6 +302,7 @@ define network::interface (
   $bond_arp_interval     = undef,
   $bond_arp_iptarget     = undef,
   $bond_fail_over_mac    = undef,
+  $bond_ad_select        = undef,
   $use_carrier           = undef,
   $primary_reselect      = undef,
 
