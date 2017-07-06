@@ -1,4 +1,7 @@
 # File Managed by Puppet
+<% if @description and ! @description.empty? -%>
+# <%= @description %>
+<% end -%>
 BOOTPROTO="<%= @manage_bootproto %>"
 STARTMODE="<%= @manage_startmode %>"
 USERCONTROL="<%= @usercontrol %>"

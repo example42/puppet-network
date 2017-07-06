@@ -1,4 +1,7 @@
 # File Managed by Puppet
+<% if @description and ! @description.empty? -%>
+# <%= @description %>
+<% end -%>
 DEVICE="<%= @interface %>"
 <% if ! @ovsbootproto -%>
 BOOTPROTO="<%= @manage_bootproto %>"

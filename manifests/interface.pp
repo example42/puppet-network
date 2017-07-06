@@ -40,12 +40,17 @@
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
 #
+# [*description*]
+#   String. Optional. Default: undef
+#   Adds comment with given description in file before interface declaration.
+#
 # == Debian only parameters
 #
 #  $address       = undef,
 #    Both ipaddress (standard name) and address (Debian param name) if set
 #    configure the ipv4 address of the interface.
 #    If both are present address is used.
+#    Note, that if $my_inner_ipaddr (for GRE) is set - it is used instead.
 #
 #  $manage_order  = 10,
 #    This is used by concat to define the order of your fragments,
@@ -65,6 +70,21 @@
 #  $post_down      = [ ],
 #    Map to Debian interfaces parameters (with _ instead of -)
 #    Note that these params MUST be arrays, even if with only one element
+#
+#  $nonlocal_gateway = undef,
+#    Gateway, that does not belong to interface's network and needs extra
+#    route to be available. Shortcut for:
+#    
+#      post-up ip route add $nonlocal_gateway dev $interface
+#      post-up ip route add default via $nonlocal_gateway dev $interface
+#      pre-down ip route del default via $nonlocal_gateway dev $interface
+#      pre-down ip route del $nonlocal_gateway dev $interface
+#
+#  $additional_networks = [],
+#    Convenience shortcut to add more networks to the interface. Expands to:
+#
+#      up ip addr add $network dev $interface
+#      down ip addr del $network dev $interface
 #
 # Check the arguments in the code for the other Debian specific settings
 # If defined they are set in the used template.
@@ -111,7 +131,7 @@
 #  $hotswap = undef
 #    Set to no to prevent interface from being activated when hot swapped - Default is yes
 #
-# == RedHat only GRE interface specific parameters
+# == RedHat and Debian only GRE interface specific parameters
 #
 #  $peer_outer_ipaddr = undef
 #    IP address of the remote tunnel endpoint
@@ -165,6 +185,16 @@
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
+# == Suse and Debian only parameters
+#
+#  $aliases = undef
+#     Array of aliased IPs for given interface.
+#     Note, that for Debian generated interfaces will have static method and
+#     netmask 255.255.255.255.  If you need something other - generate
+#     interfaces by hand.  Also note, that interfaces will be named
+#     $interface:$idx, where $idx is IP index in list, starting from 0.
+#     If you're adding manual interfaces - beware of clashes.
+#
 # == Suse only parameters
 #
 # Check the arguments in the code for the other Suse specific settings
@@ -198,6 +228,8 @@ define network::interface (
   $gateway               = undef,
   $hwaddr                = undef,
   $mtu                   = undef,
+
+  $description           = undef,
 
   ## Debian specific
   $manage_order          = '10',
@@ -241,6 +273,10 @@ define network::interface (
   $accept_ra             = undef,
   $autoconf              = undef,
   $vlan_raw_device       = undef,
+
+  # Convenience shortcuts
+  $nonlocal_gateway      = undef,
+  $additional_networks   = [ ],
 
   # Common ifupdown scripts
   $up                    = [ ],
@@ -440,11 +476,14 @@ define network::interface (
     'ppp': { $manage_address = undef }
     'wvdial': { $manage_address = undef }
     default: {
-        $manage_address = $address ? {
+      $manage_address = $my_inner_ipaddr ? {
+        undef     => $address ? {
           ''      => $ipaddress,
           default => $address,
-        }
+        },
+        default   => $my_inner_ipaddr,
       }
+    }
   }
 
   # Redhat and Suse specific
@@ -524,6 +563,14 @@ define network::interface (
       }
 
       if $network::config_file_per_interface {
+        if ! defined(File["/etc/network/interfaces.d"]) {
+          file { "/etc/network/interfaces.d":
+            ensure => 'directory',
+            mode   => '0755',
+            owner  => 'root',
+            group  => 'root',
+          }
+        }
         if $::operatingsystem == 'CumulusLinux' {
           file { "interface-${name}":
             path    => "/etc/network/interfaces.d/${name}",
@@ -552,6 +599,8 @@ define network::interface (
             }
           }
         }
+        File["/etc/network/interfaces.d"] ->
+        File["interface-${name}"]
       } else {
         if ! defined(Concat['/etc/network/interfaces']) {
           concat { '/etc/network/interfaces':
