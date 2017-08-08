@@ -506,6 +506,8 @@ define network::interface (
       'dhcp'  => 'yes',
       default => 'no',
     },
+    true    => 'yes',
+    false   => 'no',
     default => $peerdns,
   }
   $manage_peerntp = $peerntp ? {
