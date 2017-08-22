@@ -400,6 +400,8 @@ define network::interface (
   $firewall              = undef,
   $aliases               = undef,
   $remote_ipaddr         = undef,
+  $check_duplicate_ip    = undef,
+  $send_gratuitous_arp   = undef,
 
   # For bonding
   $bond_moduleopts       = undef,
@@ -451,6 +453,14 @@ define network::interface (
 
   if $nozeroconf != undef and ! ($nozeroconf in ['yes', 'no']) {
     fail('nozeroconf must be one of: undef, yes, no')
+  }
+
+  if $check_duplicate_ip != undef and ! ($check_duplicate_ip in ['yes', 'no']) {
+    fail('check_duplicate_ip must be one of: undef, yes, no')
+  }
+
+  if $send_gratuitous_arp != undef and ! ($send_gratuitous_arp in ['yes', 'no']) {
+    fail('send_gratuitous_arp must be one of: undef, yes, no')
   }
 
   $manage_hwaddr = $hwaddr ? {

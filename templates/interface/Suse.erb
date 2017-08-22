@@ -32,6 +32,9 @@ MTU="<%= @mtu %>"
 <% if @vlan -%>
 VLAN_ID="<%= @vlan %>"
 <% end -%>
+<% if @manage_hwaddr -%>
+LLADDR="<%= @manage_hwaddr %>"
+<% end -%>
 <% if @bridge -%>
 BRIDGE="<%= @bridge %>"
 <% end -%>
@@ -73,4 +76,10 @@ FIREWALL="<%= @firewall %>"
 <% end -%>
 <% if @remote_ipaddr -%>
 REMOTE_IPADDR="<%= @remote_ipaddr %>"
+<% end -%>
+<% if @check_duplicate_ip -%>
+CHECK_DUPLICATE_IP="<%= @check_duplicate_ip %>"
+<% end -%>
+<% if @send_gratuitous_arp -%>
+SEND_GRATUITOUS_ARP="<%= @send_gratuitous_arp %>"
 <% end -%>
