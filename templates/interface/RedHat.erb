@@ -38,6 +38,9 @@ LAYER2="<%= @layer2 %>"
 <% if @nettype -%>
 NETTYPE="<%= @nettype %>"
 <% end -%>
+<% if @zlinux_options -%>
+OPTIONS="<%= @zlinux_options %>"
+<% end -%>
 <% if @manage_ipaddr and ! @manage_ipaddr.empty? -%>
 <% if @ipaddress.kind_of?(Array) -%>
 <%- (1..(@ipaddress.length)).each do |id| -%>

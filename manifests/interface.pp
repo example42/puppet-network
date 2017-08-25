@@ -210,6 +210,16 @@
 #     The networking hardware type.  qeth, lcs or ctc.
 #     The default is 'qeth'.
 #
+#  $layer2 = undef,
+#     The networking layer mode in Red Hat 6. 0 or 1.
+#     The defauly is 0. From Red Hat 7 this is confifured using the options 
+#     parameter below.
+#
+#  $zlinux_options = undef
+#     You can add any valid sysfs attribute and its value to the OPTIONS 
+#     parameter.The Red Hat Enterprise Linux (7 )installation program currently 
+#     uses this to configure the layer mode (layer2) and the relative port 
+#     number (portno) of qeth devices. 
 define network::interface (
 
   $enable                = true,
@@ -389,10 +399,11 @@ define network::interface (
   $ovsdhcpinterfaces     = undef,
   $ovsbootproto          = undef,
 
-  # RedHat specifice for zLinux
+  # RedHat specific for zLinux
   $subchannels           = undef,
   $nettype               = undef,
   $layer2                = undef,
+  $zlinux_options        = undef,
 
   ## Suse specific
   $startmode             = '',
@@ -440,7 +451,12 @@ define network::interface (
   if $::architecture == 's390x' {
     validate_array($subchannels)
     validate_re($nettype, '^(qeth|lcs|ctc)$', "${name}::\$nettype may be 'qeth', 'lcs' or 'ctc' only and is set to <${nettype}>.")
-    validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
+    # Different parameters required for RHEL6 and RHEL7
+    if $::operatingsystemmajrelease =~ /^7/ {
+      validate_string($zlinux_options)
+    } else {
+      validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
+    }
   }
 
   if $arp != undef and ! ($arp in ['yes', 'no']) {
