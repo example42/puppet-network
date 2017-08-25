@@ -104,6 +104,7 @@ define network::route (
   $scope     = undef,
   $source    = undef,
   $table     = undef,
+  $family    = undef,
   $interface = $name,
   $ensure    = 'present'
 ) {
@@ -129,6 +130,10 @@ define network::route (
 
   if $table {
     validate_array($table)
+  }
+
+  if $family {
+    validate_array($family)
   }
 
   include ::network
