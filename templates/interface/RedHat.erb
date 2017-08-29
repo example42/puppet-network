@@ -69,7 +69,11 @@ NETMASK="<%= @netmask %>"
 BROADCAST="<%= @broadcast %>"
 <% end -%>
 <% if @gateway -%>
+<% if @ipaddress.kind_of?(Array) -%>
+GATEWAY1="<%= @gateway %>"
+<% else -%>
 GATEWAY="<%= @gateway %>"
+<% end -%>
 <% end -%>
 <% if @manage_defroute -%>
 DEFROUTE="<%= @manage_defroute %>"
