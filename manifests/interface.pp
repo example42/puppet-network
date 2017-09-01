@@ -602,12 +602,14 @@ define network::interface (
         }
         if $::operatingsystem == 'CumulusLinux' {
           file { "interface-${name}":
+            ensure  => $ensure,
             path    => "/etc/network/interfaces.d/${name}",
             content => template($template),
             notify  => $network_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
+              ensure => $ensure,
               path   => '/etc/network/ifupdown2/ifupdown2.conf',
               line   => 'addon_scripts_support=1',
               match  => 'addon_scripts_suppor*',
@@ -616,12 +618,14 @@ define network::interface (
           }
         } else {
           file { "interface-${name}":
+            ensure  => $ensure,
             path    => "/etc/network/interfaces.d/${name}.cfg",
             content => template($template),
             notify  => $network_notify,
           }
           if ! defined(File_line['config_file_per_interface']) {
             file_line { 'config_file_per_interface':
+              ensure => $ensure,
               path   => '/etc/network/interfaces',
               line   => 'source /etc/network/interfaces.d/*.cfg',
               notify => $network_notify,
@@ -641,6 +645,7 @@ define network::interface (
         }
 
         concat::fragment { "interface-${name}":
+          ensure  => $ensure,
           target  => '/etc/network/interfaces',
           content => template($template),
           order   => $manage_order,
