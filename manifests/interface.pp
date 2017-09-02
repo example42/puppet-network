@@ -592,8 +592,8 @@ define network::interface (
       }
 
       if $network::config_file_per_interface {
-        if ! defined(File["/etc/network/interfaces.d"]) {
-          file { "/etc/network/interfaces.d":
+        if ! defined(File['/etc/network/interfaces.d']) {
+          file { '/etc/network/interfaces.d':
             ensure => 'directory',
             mode   => '0755',
             owner  => 'root',
@@ -632,8 +632,8 @@ define network::interface (
             }
           }
         }
-        File["/etc/network/interfaces.d"] ->
-        File["interface-${name}"]
+        File['/etc/network/interfaces.d']
+        -> File["interface-${name}"]
       } else {
         if ! defined(Concat['/etc/network/interfaces']) {
           concat { '/etc/network/interfaces':
@@ -680,8 +680,8 @@ define network::interface (
             ensure => 'present',
           }
         }
-        Package['vlan'] ->
-        File["/etc/sysconfig/network/ifcfg-${name}"]
+        Package['vlan']
+        -> File["/etc/sysconfig/network/ifcfg-${name}"]
       }
       if $bridge {
         if !defined(Package['bridge-utils']) {
@@ -689,8 +689,8 @@ define network::interface (
             ensure => 'present',
           }
         }
-        Package['bridge-utils'] ->
-        File["/etc/sysconfig/network/ifcfg-${name}"]
+        Package['bridge-utils']
+        -> File["/etc/sysconfig/network/ifcfg-${name}"]
       }
 
       file { "/etc/sysconfig/network/ifcfg-${name}":
