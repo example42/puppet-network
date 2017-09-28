@@ -151,7 +151,7 @@ You have different possibile approaches in the usage of this module. Use the one
 
   On 'RedHat' osfamily: it will create the file '/etc/sysconfig/network-scripts/route-eth0'
 
-  You can provide to the main network class the routes_hash parameter to manage all your routes via an hash.
+  You can provide to the main network class the routes_hash parameter to manage all your routes via a hash.
 
 * This example add 2 static routes on the interface bond2
 
@@ -174,7 +174,7 @@ You have different possibile approaches in the usage of this module. Use the one
           }
         }
 
-* An alternative way to manage routes is using the network::mroute define, which expectes an hash of one of more routes where you specify the network and the gateway (either as ip or device name):
+* An alternative way to manage routes is using the network::mroute define, which expectes a hash of one or more routes where you specify the network and the gateway (either as ip or device name):
 
         network::mroute { 'bond2':
           routes => {
