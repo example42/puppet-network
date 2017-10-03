@@ -74,7 +74,7 @@
 #  $nonlocal_gateway = undef,
 #    Gateway, that does not belong to interface's network and needs extra
 #    route to be available. Shortcut for:
-#    
+#
 #      post-up ip route add $nonlocal_gateway dev $interface
 #      post-up ip route add default via $nonlocal_gateway dev $interface
 #      pre-down ip route del default via $nonlocal_gateway dev $interface
@@ -212,14 +212,14 @@
 #
 #  $layer2 = undef,
 #     The networking layer mode in Red Hat 6. 0 or 1.
-#     The defauly is 0. From Red Hat 7 this is confifured using the options 
+#     The defauly is 0. From Red Hat 7 this is confifured using the options
 #     parameter below.
 #
 #  $zlinux_options = undef
-#     You can add any valid sysfs attribute and its value to the OPTIONS 
-#     parameter.The Red Hat Enterprise Linux (7 )installation program currently 
-#     uses this to configure the layer mode (layer2) and the relative port 
-#     number (portno) of qeth devices. 
+#     You can add any valid sysfs attribute and its value to the OPTIONS
+#     parameter.The Red Hat Enterprise Linux (7 )installation program currently
+#     uses this to configure the layer mode (layer2) and the relative port
+#     number (portno) of qeth devices.
 define network::interface (
 
   $enable                = true,
