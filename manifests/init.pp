@@ -22,7 +22,12 @@
 #   - Second level: Interface options (check network::interface for the
 #     available options)
 #   If an hash is provided here, network::interface defines are declared with:
-#   create_resources("network::interface", $interfaces_hash)
+#   create_resources("network::interface", $interfaces_hash, $default_interfaces_hash)
+#
+# [*default_interfaces_hash*]
+#   Hash. Default {}.
+#   Values applied to all interfaces, if they don't specify a more specific value
+#   themselves.
 #
 # [*routes_hash*]
 #   Hash. Default undef.
@@ -56,6 +61,7 @@ class network (
   $hostname                  = undef,
 
   $interfaces_hash           = undef,
+  $default_interfaces_hash   = {},
   $routes_hash               = undef,
   $mroutes_hash              = undef,
   $rules_hash                = undef,
@@ -236,7 +242,7 @@ class network (
   # Create network interfaces from interfaces_hash, if present
 
   if $real_interfaces_hash {
-    create_resources('network::interface', $real_interfaces_hash)
+    create_resources('network::interface', $real_interfaces_hash, $default_interfaces_hash)
   }
 
   if $real_routes_hash {
