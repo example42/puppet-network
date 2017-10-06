@@ -304,6 +304,10 @@ define network::interface (
   $pre_down              = [ ],
   $post_down             = [ ],
 
+  # For virtual routing and forwarding (VRF)
+  $vrf                   = undef,
+  $vrf_table             = undef,
+
   # For bonding
   $slaves                = [ ],
   $bond_mode             = undef,
