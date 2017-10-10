@@ -571,7 +571,10 @@ define network::interface (
 
   if $restart_all_nic == false and $::kernel == 'Linux' {
     exec { "network_restart_${name}":
-      command     => "ifdown ${name}; ifup ${name}",
+      command     => $::operatingsystem ? {
+        'CumulusLinux' => 'ifreload -a',
+        default        => "ifdown ${name}; ifup ${name}",
+      },
       path        => '/sbin',
       refreshonly => true,
     }
