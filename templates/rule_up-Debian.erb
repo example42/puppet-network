@@ -2,7 +2,7 @@
 #
 ### File managed by Puppet
 #
-if [ "$IFACE" = "<%= @interface -%>" ]; then
+if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
 <%- (0..(@iprule.length-1)).each do |id| -%>
     ip rule add <%= @iprule[id] %>
 <%- end -%>
