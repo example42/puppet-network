@@ -37,6 +37,13 @@
 #   - If true, will trigger a restart of all network interfaces
 #   - If false, will only start/restart this specific interface
 #
+# [*reload_command*]
+#   String. Default: $::operatingsystem ? {'CumulusLinux' => 'ifreload -a',
+#                                          default        => "ifdown ${name}; ifup ${name}",
+#                                         }
+#   Defines the command(s) that will be used to reload a nic when restart_all_nic
+#   is set to false
+#
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
 #
@@ -228,6 +235,7 @@ define network::interface (
   $options               = undef,
   $interface             = $name,
   $restart_all_nic       = true,
+  $reload_command        = undef,
 
   $enable_dhcp           = false,
 
@@ -568,14 +576,16 @@ define network::interface (
   }
 
   # Resources
-
-  $interface_reload_command = $::operatingsystem ? {
-    'CumulusLinux' => 'ifreload -a',
-    default        => "ifdown ${name}; ifup ${name}",
+  $real_reload_command = $reload_command ? {
+    undef => $::operatingsystem ? {
+        'CumulusLinux' => 'ifreload -a',
+        default        => "ifdown ${name}; ifup ${name}",
+      },
+    default => $reload_command,
   }
   if $restart_all_nic == false and $::kernel == 'Linux' {
     exec { "network_restart_${name}":
-      command     => $interface_reload_command,
+      command     => $real_reload_command,
       path        => '/sbin',
       refreshonly => true,
     }
