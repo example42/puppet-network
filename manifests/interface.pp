@@ -37,7 +37,7 @@
 #   - If true, will trigger a restart of all network interfaces
 #   - If false, will only start/restart this specific interface
 #
-# [*interface_reload_command*]
+# [*reload_command*]
 #   String. Default: $::operatingsystem ? {'CumulusLinux' => 'ifreload -a',
 #                                          default        => "ifdown ${name}; ifup ${name}",
 #                                         }
