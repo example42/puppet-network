@@ -117,7 +117,7 @@ define network::route (
   }
 
   if $metric {
-    validate_integer($metric)
+    validate_array($metric)
   }
 
   if $scope {
