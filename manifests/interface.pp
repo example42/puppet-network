@@ -421,6 +421,10 @@ define network::interface (
   $remote_ipaddr         = undef,
   $check_duplicate_ip    = undef,
   $send_gratuitous_arp   = undef,
+  $pre_up_script         = undef,
+  $post_up_script        = undef,
+  $pre_down_script       = undef,
+  $post_down_script      = undef,
 
   # For bonding
   $bond_moduleopts       = undef,
