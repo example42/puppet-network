@@ -60,7 +60,7 @@ The module provides a generic network::conf define to manage any file in the con
           template => 'site/network/my_script',
         }
 
-The module provides as cross OS complaint define to manage single interfaces: network::interface
+The module provides a cross OS compliant define to manage single interfaces: network::interface
 
 IMPORTANT NOTICE: On Debian if you use network::interface once you must provide ALL the network::interface defines for all your interfaces
 
@@ -80,7 +80,7 @@ To configure a static interface with basic parameters
 
 ## Usage
 
-You have different possibile approaches in the usage of this module. Use the one you prefer.
+You have different possible approaches in the usage of this module. Use the one you prefer.
 
 * Just use the network::interface defines:
 
@@ -93,7 +93,7 @@ You have different possibile approaches in the usage of this module. Use the one
           netmask   => '255.255.255.0',
         }
 
-* Use the main network class and the interfaces_hash to configure all the interfaces (ideal with Hiera, here the parameter is explicitely passed):
+* Use the main network class and the interfaces_hash to configure all the interfaces (ideal with Hiera, here the parameter is explicitly passed):
 
         class { 'network':
           interfaces_hash => {
@@ -139,7 +139,7 @@ You have different possibile approaches in the usage of this module. Use the one
           template    => "site/network/interface/${::osfamily}.erb",
         }
 
-* The network::route can be used to define static routes on Debian and RedHat systems. The following example manage a static route on eth0
+* The network::route can be used to define static routes on Debian and RedHat systems. The following example manages a static route on eth0
 
         network::route { 'eth0':
           ipaddress => [ '192.168.17.0', ],
@@ -174,7 +174,7 @@ You have different possibile approaches in the usage of this module. Use the one
           }
         }
 
-* An alternative way to manage routes is using the network::mroute define, which expectes a hash of one or more routes where you specify the network and the gateway (either as ip or device name):
+* An alternative way to manage routes is using the network::mroute define, which expects a hash of one or more routes where you specify the network and the gateway (either as ip or device name):
 
         network::mroute { 'bond2':
           routes => {
@@ -343,4 +343,4 @@ When submitting bug report please include or link:
 - The Puppet code that triggers the error
 - The output of facter on the system where you try it
 - All the relevant error logs
-- Any other information useful to undestand the context
+- Any other information useful to understand the context
