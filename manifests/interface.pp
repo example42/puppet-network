@@ -401,7 +401,7 @@ define network::interface (
   $ovs_extra             = undef,
   $ovs_options           = undef,
   $ovs_patch_peer        = undef,
-  $ovsrequries           = undef,
+  $ovsrequires           = undef,
   $ovs_tunnel_type       = undef,
   $ovs_tunnel_options    = undef,
   $ovsdhcpinterfaces     = undef,
