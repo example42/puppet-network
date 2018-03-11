@@ -262,6 +262,12 @@ allow-hotplug <%= @interface %>
 <% if @wpa_ap_scan -%>
     wpa-ap-scan <%= @wpa_ap_scan %>
 <% end -%>
+<% if @vrf -%>
+    vrf <%= @vrf %>
+<% end -%>
+<% if @vrf_table -%>
+    vrf-table <%= @vrf_table %>
+<% end -%>
 <% if @aliases -%>
 <% if @aliases.is_a? Array -%>
 <% @aliases.each_with_index do |val, idx| %>
