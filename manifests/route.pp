@@ -27,7 +27,7 @@
 # === Actions:
 #
 # On Rhel
-# Deploys the file /etc/sysconfig/network-scripts/route-$name.
+# Deploys 2 files under/etc/sysconfig/network-scripts/, route-$name and route6-$name
 #
 # On Debian
 # Deploy 2 files 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
@@ -41,10 +41,14 @@
 #   }
 #
 #   network::route { 'bond2':
-#     ipaddress => [ '192.168.2.0', '10.0.0.0', ],
-#     netmask   => [ '255.255.255.0', '255.0.0.0', ],
-#     gateway   => [ '192.168.1.1', '10.0.0.1', ],
+#     ipaddress => [ '192.168.2.0', '10.0.0.0', '::', ],
+#     netmask   => [ '255.255.255.0', '255.0.0.0', '0', ],
+#     gateway   => [ '192.168.1.1', '10.0.0.1', 'fd00::1', ],
+#     family    => [ 'inet4', 'inet4', 'inet6', ],
 #   }
+#
+# Note that for the familiy parameter, everything else than "inet6" will be written
+# as an IPv4 route.
 #
 # A routing table can also be specified for the route:
 #
@@ -147,6 +151,15 @@ define network::route (
         group   => 'root',
         path    => "/etc/sysconfig/network-scripts/route-${name}",
         content => template('network/route-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+      file { "route6-${name}":
+        ensure  => $ensure,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/sysconfig/network-scripts/route6-${name}",
+        content => template('network/route6-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
