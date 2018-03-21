@@ -39,7 +39,7 @@
 #
 # [*reload_command*]
 #   String. Default: $::operatingsystem ? {'CumulusLinux' => 'ifreload -a',
-#                                          default        => "ifdown ${name}; ifup ${name}",
+#                                          default        => "ifdown ${interface}; ifup ${interface}",
 #                                         }
 #   Defines the command(s) that will be used to reload a nic when restart_all_nic
 #   is set to false
