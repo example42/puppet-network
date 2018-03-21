@@ -370,6 +370,7 @@ define network::interface (
   $peerdns               = '',
   $peerntp               = '',
   $onboot                = '',
+  $onparent              = undef,
   $defroute              = undef,
   $dns1                  = undef,
   $dns2                  = undef,
