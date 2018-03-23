@@ -261,9 +261,12 @@ class network (
     create_resources('network::routing_table', $real_tables_hash)
   }
 
-  # Configure default gateway (On RedHat). Also hostname is set.
+  # Configure sysconfig/network (On RedHat).
   if $::osfamily == 'RedHat'
-  and $network::gateway {
+    and ($network::gateway
+    or $network::hostname
+    or $network::ipv6enable
+    or $network::nozeroconf) {
     file { '/etc/sysconfig/network':
       ensure  => $config_file_ensure,
       mode    => $config_file_mode,
