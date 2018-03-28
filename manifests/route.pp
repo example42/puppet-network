@@ -47,7 +47,7 @@
 #     family    => [ 'inet4', 'inet4', 'inet6', ],
 #   }
 #
-# Note that for the familiy parameter, everything else than "inet6" will be written
+# Note that for the family parameter, everything else than "inet6" will be written
 # as an IPv4 route.
 #
 # A routing table can also be specified for the route:
@@ -153,14 +153,16 @@ define network::route (
         content => template('network/route-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
-      file { "route6-${name}":
-        ensure  => $ensure,
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        path    => "/etc/sysconfig/network-scripts/route6-${name}",
-        content => template('network/route6-RedHat.erb'),
-        notify  => $network::manage_config_file_notify,
+      if 'inet6' in $family {
+        file { "route6-${name}":
+          ensure  => $ensure,
+          mode    => '0644',
+          owner   => 'root',
+          group   => 'root',
+          path    => "/etc/sysconfig/network-scripts/route6-${name}",
+          content => template('network/route6-RedHat.erb'),
+          notify  => $network::manage_config_file_notify,
+        }
       }
     }
     'Suse': {
