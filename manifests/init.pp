@@ -52,9 +52,6 @@
 #   An hash of routing tables to be applied
 #   If an hash is provided here, network::routing_table defines are declared with:
 #   create_resources("network::routing_table", $tables_hash)
-
-# Refer to https://github.com/stdmod for official documentation
-# on the stdmod parameters used
 #
 class network (
 

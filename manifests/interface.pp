@@ -402,9 +402,11 @@ define network::interface (
   $my_outer_ipaddr       = undef,
   $my_inner_ipaddr       = undef,
 
-  # RedHat specific for Open vSwitch
-  $devicetype            = undef,
-  $bond_ifaces           = undef,
+  # RedHat and Debian specific for Open vSwitch
+  $devicetype            = undef, # On RedHat. Same of ovs_type for Debian 
+  $bond_ifaces           = undef, # On RedHat Same of ovs_bonds for Debian
+  $ovs_type              = undef, # Debian
+  $ovs_bonds             = undef, # Debian
   $ovs_bridge            = undef,
   $ovs_ports             = undef,
   $ovs_extra             = undef,

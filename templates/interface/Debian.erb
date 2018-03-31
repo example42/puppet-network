@@ -268,6 +268,33 @@ allow-hotplug <%= @interface %>
 <% if @vrf_table -%>
     vrf-table <%= @vrf_table %>
 <% end -%>
+<% if @ovs_bridge -%>
+    ovs_bridge <%= @ovs_bridge %>
+<% end -%>
+<% if @ovs_ports -%>
+    ovs_ports <%= @ovs_ports %>
+<% end -%>
+<% if @ovs_type -%>
+    ovs_type <%= @ovs_type %>
+<% end -%>
+<% if @ovs_bonds -%>
+    ovs_bonds <%= @ovs_bonds %>
+<% end -%>
+<% if @ovs_patch_peer -%>
+    ovs_patch_peer <%= @ovs_patch_peer %>
+<% end -%>
+<% if @ovs_tunnel_type -%>
+    ovs_tunnel_type <%= @ovs_tunnel_type %>
+<% end -%>
+<% if @ovs_tunnel_options -%>
+    ovs_tunnel_options <%= @ovs_tunnel_options %>
+<% end -%>
+<% if @ovs_options -%>
+    ovs_options <%= @ovs_options %>
+<% end -%>
+<% if @ovs_extra -%>
+    ovs_extra <%= @ovs_extra %>
+<% end -%>
 <% if @aliases -%>
 <% if @aliases.is_a? Array -%>
 <% @aliases.each_with_index do |val, idx| %>
