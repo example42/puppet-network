@@ -64,7 +64,8 @@ The module provides a generic network::conf define to manage any file in the con
 
 The module provides a cross OS compliant define to manage single interfaces: network::interface
 
-IMPORTANT NOTICE: On Debian if you use network::interface once you must provide ALL the network::interface defines for all your interfaces
+IMPORTANT NOTICE: On Debian if you use network::interface once you must provide ALL the network::interface defines for all your interfaces. It requires separate declarations for each IP stack on each interface.
+Please keep in mind Debian and RedHat do not share the same approach in IPv4 / IPv6 management and thus require different hash structures.
 
 To configure a dhcp interface
 
@@ -80,7 +81,7 @@ To configure a static interface with basic parameters
         }
 
 
-## Usage
+## Generic interface parameters configation examples
 
 You have different possible approaches in the usage of this module. Use the one you prefer.
 
@@ -149,6 +150,8 @@ Same information as Hiera data in yaml format:
           enable_dhcp => true,
           template    => "site/network/interface/${::osfamily}.erb",
         }
+
+## Network routes management examples
 
 * The network::route can be used to define static routes on Debian and RedHat systems. The following example manages a static route on eth0
 
@@ -307,6 +310,121 @@ Bond interface:
       bond_miimon: '100'
       bond_slaves: []
 
+Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliase config and VLAN config :
+
+    'eth0:0v4':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'interface':       'eth0:0'
+   'ipaddress':       'X.X.X.X/22'
+   'family':          'inet'
+
+'eth0:0v6':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'autoconf':        '0'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'interface':       'eth0:0'
+   'ipaddress':       'X.X.X.1::85/64'
+   'family':          'inet6}'
+
+'eth1v4':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '0'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'interface':       'eth1'
+   'ipaddress':       'X.X.X.1/29'
+   'family':          'inet'
+
+'eth1v6':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '0'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'interface':       'eth1'
+   'ipaddress':       'X.X.X.1:bb:43::2/64'
+   'family':          'inet6'
+
+'eth1.12v4':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'vlan':            'yes'
+   'interface':       'eth1.12'
+   'ipaddress':       'X.X.X.1/29'
+   'family':          'inet'
+
+'eth1.12v6':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'autoconf':        '0'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'vlan':            'yes'
+   'interface':       'eth1.12'
+   'ipaddress':       'X.X.X.1:dd:3::2/64'
+   'family':          'inet6}'
+
+'eth0v4':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'dns_nameservers': 'X.X.X.1 X.X.X.1 X.X.X.1'
+   'interface':       'eth0'
+   'ipaddress':       'X.X.X.X/22'
+   'gateway':         'X.X.X.1'
+   'family':          'inet}'
+
+'eth0v6':
+   'enable':          'true'
+   'bootproto':       'none'
+   'peerdns':         'no'
+   'userctl':         'no'
+   'restart_all_nic': 'false'
+   'accept_ra':       '1'
+   'autoconf':        '0'
+   'type':            'Ethernet'
+   'mtu':             '1500'
+   'interface':       'eth0'
+   'ipaddress':       'X.X.X.1::85/64'
+   'gateway':         'X.X.X.1::1'
+   'family':          'inet6'
+
+
 Configuration of multiple static routes (using the ```network::route``` define, when more than one route is added the elements of the arrays have to be ordered coherently):
 
     network::routes_hash:
@@ -337,7 +455,7 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
 This is tested on these OS:
 - RedHat osfamily 5 and 6
 - Debian 6 and 7
-- Ubuntu 10.04, 12.04 and 14.04
+- Ubuntu 10.04, 12.04, 14.04, partly verified on Ubuntu 16.04
 - OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
 
 
