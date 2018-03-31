@@ -214,6 +214,9 @@ OVSBOOTPROTO="<%= @ovsbootproto %>"
 <% if @ovsrequires -%>
 OVSREQUIRES="<%= @ovsrequires %>"
 <% end -%>
+<% if @nm_name -%>
+NAME="<%= @nm_name %>"
+<% end -%>
 <% if @check_link_down == true -%>
 check_link_down() {
    return 1;

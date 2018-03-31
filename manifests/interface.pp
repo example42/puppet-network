@@ -396,6 +396,7 @@ define network::interface (
   $check_link_down       = false,
   $hotplug               = undef,
   $persistent_dhclient   = undef,
+  $nm_name               = undef,
 
   # RedHat specific for GRE
   $peer_outer_ipaddr     = undef,
