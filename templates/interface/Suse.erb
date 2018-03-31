@@ -83,3 +83,15 @@ CHECK_DUPLICATE_IP="<%= @check_duplicate_ip %>"
 <% if @send_gratuitous_arp -%>
 SEND_GRATUITOUS_ARP="<%= @send_gratuitous_arp %>"
 <% end -%>
+<% if @pre_up_script -%>
+PRE_UP_SCRIPT="<%= @pre_up_script %>"
+<% end -%>
+<% if @post_up_script -%>
+POST_UP_SCRIPT="<%= @post_up_script %>"
+<% end -%>
+<% if @pre_down_script -%>
+PRE_DOWN_SCRIPT="<%= @pre_down_script %>"
+<% end -%>
+<% if @post_down_script -%>
+POST_DOWN_SCRIPT="<%= @post_down_script %>"
+<% end -%>
