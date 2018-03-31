@@ -167,6 +167,9 @@
 #    For types other than "OVSBridge" type. It specifies the OVS bridge
 #    to which port, patch or tunnel should be attached to.
 #
+#  $ovs_ports       = undef,
+#    It specifies the OVS ports should OVS bridge attach
+#
 #  $ovs_extra       = undef,
 #    Optional: extra ovs-vsctl commands seperate by "--" (double dash)
 #
@@ -403,6 +406,7 @@ define network::interface (
   $devicetype            = undef,
   $bond_ifaces           = undef,
   $ovs_bridge            = undef,
+  $ovs_ports             = undef,
   $ovs_extra             = undef,
   $ovs_options           = undef,
   $ovs_patch_peer        = undef,
