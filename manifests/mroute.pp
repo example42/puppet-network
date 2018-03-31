@@ -17,6 +17,13 @@
 #       '100.100.244.0/22' => '174.136.107.1',
 #     }
 #
+# [*route_up_template*]
+#   Template to use to manage route up setup. Default is defined according to
+#   $::osfamily
+#
+# [*route_down_template*]
+#   Template to use to manage route down script. Used only on Debian family.
+#
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
 #   Defines the notify argument of the created file.
@@ -38,9 +45,11 @@
 #
 define network::mroute (
   $routes,
-  $interface          = $name,
-  $config_file_notify = 'class_default',
-  $ensure             = 'present'
+  $interface           = $name,
+  $config_file_notify  = 'class_default',
+  $ensure              = 'present',
+  $route_up_template   = undef,
+  $route_down_template = undef,
 ) {
   # Validate our arrays
   validate_hash($routes)
@@ -52,6 +61,22 @@ define network::mroute (
     default         => $config_file_notify,
   }
 
+  $real_route_up_template = $route_up_template ? {
+    undef   => $::osfamily ? {
+      'RedHat' => 'network/mroute-RedHat.erb',
+      'Debian' => 'network/mroute_up-Debian.erb',
+      'SuSE'   => 'network/mroute-SuSE.erb',
+    },
+    default =>  $route_up_template,
+  }
+  $real_route_down_template = $route_down_template ? {
+    undef   => $::osfamily ? {
+      'Debian' => 'network/mroute_down-Debian.erb',
+      default  => undef,
+    },
+    default =>  $route_down_template,
+  }
+
   case $::osfamily {
     'RedHat': {
       file { "route-${name}":
@@ -60,7 +85,7 @@ define network::mroute (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/sysconfig/network-scripts/route-${name}",
-        content => template('network/mroute-RedHat.erb'),
+        content => template($real_route_up_template),
         notify  => $real_config_file_notify,
       }
     }
@@ -71,7 +96,7 @@ define network::mroute (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/network/if-up.d/z90-route-${name}",
-        content => template('network/mroute_up-Debian.erb'),
+        content => template($real_route_up_template),
         notify  => $real_config_file_notify,
       }
       file { "routedown-${name}":
@@ -80,7 +105,7 @@ define network::mroute (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/network/if-down.d/z90-route-${name}",
-        content => template('network/mroute_down-Debian.erb'),
+        content => template($real_route_down_template),
         notify  => $real_config_file_notify,
       }
     }
@@ -91,7 +116,7 @@ define network::mroute (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/sysconfig/network/ifroute-${name}",
-        content => template('network/mroute-SuSE.erb'),
+        content => template($real_route_up_template),
         notify  => $real_config_file_notify,
       }
     }

@@ -1,3 +1,12 @@
+2017-03-31 Release 3.4.0
+- Added nm_name parameter for RedHat interfaces #184 
+- Added option to customise route up template in network::mroute #121 
+- Fix for vlan package on Debian 9 #205
+- Added VRF support for Cumulus Linux
+- Support for Suse pre/post scripts
+- Add IPv6 support for Debian in network::interface
+- Add OVS support for Debian in network::interface
+
 2015-12-30 Release 3.2.0
 - Added network::mroute define
 - Smaller fixes and enhancements

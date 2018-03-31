@@ -396,6 +396,7 @@ define network::interface (
   $check_link_down       = false,
   $hotplug               = undef,
   $persistent_dhclient   = undef,
+  $nm_name               = undef,
 
   # RedHat specific for GRE
   $peer_outer_ipaddr     = undef,
@@ -614,7 +615,8 @@ define network::interface (
 
     'Debian': {
       if $vlan_raw_device {
-        if !defined(Package['vlan']) {
+        if versioncmp('9.0', $::operatingsystemrelease) >= 0
+        and !defined(Package['vlan']) {
           package { 'vlan':
             ensure => 'present',
           }

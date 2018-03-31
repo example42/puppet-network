@@ -310,7 +310,7 @@ Bond interface:
       bond_miimon: '100'
       bond_slaves: []
 
-Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliase config and VLAN config :
+Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliaseconfig and VLAN config :
 
     'eth0:0v4':
        'enable':          'true'
@@ -337,7 +337,7 @@ Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliase config
        'mtu':             '1500'
        'interface':       'eth0:0'
        'ipaddress':       'X.X.X.1::85/64'
-       'family':          'inet6}'
+       'family':          'inet6'
     
     'eth1v4':
        'enable':          'true'
@@ -392,7 +392,7 @@ Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliase config
        'vlan':            'yes'
        'interface':       'eth1.12'
        'ipaddress':       'X.X.X.1:dd:3::2/64'
-       'family':          'inet6}'
+       'family':          'inet6'
     
     'eth0v4':
        'enable':          'true'
@@ -407,7 +407,7 @@ Debian/Ubuntu IPv4/IPv6 management example for basic IP config, IP aliase config
        'interface':       'eth0'
        'ipaddress':       'X.X.X.X/22'
        'gateway':         'X.X.X.1'
-       'family':          'inet}'
+       'family':          'inet'
     
     'eth0v6':
        'enable':          'true'
@@ -439,21 +439,21 @@ Configuration of multiple static routes (using the ```network::route``` define, 
           - 174.136.107.1
 
 
-
-Configuration of multiple static routes (using the newer ```network::mroute``` define) you can specify as gateway either a device or an IP:
+Configuration of multiple static routes (using the newer ```network::mroute``` define) you can specify as gateway either a device or an IP or also add a table reference:
 
     network::mroutes_hash:
       eth0:
         routes:
           99.99.228.0/24: eth0
           100.100.244.0/22: 174.136.107.1
+          101.99.228.0/24: 'eth0 table 1'
 
 
 ## Operating Systems Support
 
 This is tested on these OS:
-- RedHat osfamily 5 and 6
-- Debian 6 and 7
+- RedHat osfamily 5, 6 and 7
+- Debian 6, 7 and 8
 - Ubuntu 10.04, 12.04, 14.04, partly verified on Ubuntu 16.04
 - OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
 
