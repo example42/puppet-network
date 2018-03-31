@@ -614,7 +614,8 @@ define network::interface (
 
     'Debian': {
       if $vlan_raw_device {
-        if !defined(Package['vlan']) {
+        if versioncmp('9', $operatingsystemreleaese) < 0
+        and !defined(Package['vlan']) {
           package { 'vlan':
             ensure => 'present',
           }
