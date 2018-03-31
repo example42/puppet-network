@@ -16,35 +16,24 @@
 6. [Operating Systems Support](#operating-systems-support)
 7. [Development](#development)
 
-## Looking for maintainers
-
-This module has been written in Puppet 2 times, during these years it has preserved backwards and forwards compatibility, currently it works on Puppet 5 and can probably work on future versions with minimal changes.
-
-It has some design issues (management of multiple routes in network::route, proliferation of parameters in network::interface, management of hostname) that would make a rewrite mostly backward incompatible both in terms of supported Puppet versions and, more important, in terms of changed parameters and relevant users' data structures.
-
-We have no interest and motivation in maintaining a module based on so old foundations, and we are looking for users and contributors who are interested in maintaining it, in the current shape, dealing with the various pending PR and keeping it backward compatible with existing data.
-
-We will provide a modern and alternative implementation of essential network management in the [psick module](https://github.com/example42/puppet-psick) module, as a psick::network profile and psick::network::interface and psick::network::route defines (if data has to change, let's change it in the psick namespace).
-
-Any volunteer please contact @alvagante on GitHub.
-
 ## Overview
 
-This module configures network interfaces and parameters.
+This module configures networking on Linux and Solaris. It manages network parameters, interfaces, routes,
+rules and routing tables.
 
 ## Module Description
 
-The module is based on **stdmod** naming standards version 0.9.0.
+Main class is used as entrypoint for general variables.
+ 
+It manages hostname configuration and has hiera hash lookups to generate the following, provided, resources:
 
-Refer to http://github.com/stdmod/ for complete documentation on the common parameters.
-
+- network::interface - Define to manage network interfaces
+- network::route - Define to manage network routes
+- network::mroute - Define to manage network routes - Alternative with easier management of multiple routes per interface
+- network::routing_table - Define to manage iproute2 routing tables
+- network::rule - Define to manage network rules
 
 ## Setup
-
-### Resources managed by network module
-* This module enables the network service
-* Can manage any configuration file in the config_dir_path with network::conf
-* Can manage interfaces with network::interfaces
 
 ### Setup Requirements
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
@@ -106,7 +95,7 @@ You have different possible approaches in the usage of this module. Use the one 
           netmask   => '255.255.255.0',
         }
 
-* Use the main network class and the interfaces_hash to configure all the interfaces (ideal with Hiera, here the parameter is explicitly passed):
+* Use the main network class and the interfaces_hash to configure all the interfaces 
 
         class { 'network':
           interfaces_hash => {
@@ -119,6 +108,15 @@ You have different possible approaches in the usage of this module. Use the one 
             },
           },
         }
+
+Same information as Hiera data in yaml format:
+
+        network::interfaces_hash:
+          eth0:
+            enable_dhcp: true
+          eth1:
+            ipaddress: '10.42.42.50'
+            netmask: '255.255.255.0'
 
 * Use the main network class and the usual stdmod parameters to manage the (main) network configuration file
 
