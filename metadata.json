@@ -1,6 +1,6 @@
 {
   "name": "example42-network",
-  "version": "3.3.0",
+  "version": "3.4.1",
   "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "license": "Apache-2.0",
@@ -43,7 +43,9 @@
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
         "11 SP1",
-        "11 SP3"
+        "11 SP3",
+        "12",
+        "12 SP1"
       ]
     },
     {
@@ -59,7 +61,17 @@
       "operatingsystemrelease": [
         "10.04",
         "12.04",
-        "14.04"
+        "14.04",
+        "16.04"
+      ]
+    },
+    {
+      "operatingsystem": "CumulusLinux",
+      "operatingsystemrelease": [
+        "2.5.0",
+        "3.0.0",
+        "3.1.0",
+        "3.2.0"
       ]
     },
     {
@@ -72,22 +84,18 @@
   ],
   "requirements": [
     {
-      "name": "pe",
-      "version_requirement": "3.2.x"
-    },
-    {
       "name": "puppet",
-      "version_requirement": "3.x"
+      "version_requirement": ">= 3.0.0 <7.0.0"
     }
   ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 2.0.1"
+      "version_requirement": ">= 2.0.1 <7.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0 <7.0.0"
     }
   ]
 }

@@ -10,7 +10,11 @@
 #
 #   $ipaddress - required
 #   $netmask   - required
-#   $gateway   - required
+#   $gateway   - optional
+#   $metric    - optional
+#   $scope     - optional
+#   $source    - optional
+#   $table     - optional
 #
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
@@ -42,7 +46,7 @@
 #     gateway   => [ '192.168.1.1', '10.0.0.1', ],
 #   }
 #
-# A specifc routing table can also be specified for the route:
+# A routing table can also be specified for the route:
 #
 #   network::route { 'eth1':
 #     ipaddress => [ '192.168.3.0', ],
@@ -51,16 +55,37 @@
 #     table     => [ 'vlan22' ],
 #   }
 #
-# If adding routes to specific routing tables on an interface with multiple
-# routes, it is required to explicitly add the 'main' table to all other routes.
+# If adding routes to a routing table on an interface with multiple routes, it
+# is necessary to specify false or 'main' for the table on the other routes.
 # The 'main' routing table is where routes are added by default.
 #
+# The same applies if adding scope, source or gateway, i.e. false needs to be
+# specified for those routes without values for those parameters, if defining
+# multiple routes for the same interface.
+#
+# The first two routes in the following example are functionally equivalent to
+# the routes added in the example above for bond2.
+#
 #   network::route { 'bond2':
-#     ipaddress => [ '192.168.2.0', '10.0.0.0', '192.168.3.0', ]
-#     netmask   => [ '255.255.255.0', '255.0.0.0', '255.255.255.0', ],
-#     gateway   => [ '192.168.1.1', '10.0.0.1', '192.168.3.1', ],
-#     table     => [ 'main', 'main', 'vlan22' ],
+#     ipaddress => [ '192.168.2.0', '10.0.0.0', '0.0.0.0', '192.168.3.0' ]
+#     netmask   => [ '255.255.255.0', '255.0.0.0', '0.0.0.0', '255.255.255.0' ],
+#     gateway   => [ '192.168.1.1', '10.0.0.1', '192.168.3.1', false ],
+#     scope     => [ false, false, false, 'link', ],
+#     source    => [ false, false, false, '192.168.3.10', ],
+#     table     => [ false, false, 'vlan22' 'vlan22', ],
 #   }
+#
+# The second two routes yield the following routes in table vlan22:
+#
+# # ip route show table vlan22
+# default via 192.168.3.1 dev bond2
+# 192.168.3.0/255.255.255.0 dev bond2 scope link src 192.168.3.10
+#
+# Normally the link level routing (192.168.3.0/255.255.255.0) is added
+# automatically by the kernel when an interface is brought up. When using routing
+# rules and routing tables, this does not happen, so this route must be added
+# manually.
+#
 #
 # === Authors:
 #
@@ -74,18 +99,41 @@
 define network::route (
   $ipaddress,
   $netmask,
-  $gateway,
+  $gateway   = undef,
+  $metric    = undef,
+  $scope     = undef,
+  $source    = undef,
   $table     = undef,
+  $family    = undef,
   $interface = $name,
   $ensure    = 'present'
 ) {
   # Validate our arrays
   validate_array($ipaddress)
   validate_array($netmask)
-  validate_array($gateway)
+
+  if $gateway {
+    validate_array($gateway)
+  }
+
+  if $metric {
+    validate_array($metric)
+  }
+
+  if $scope {
+    validate_array($scope)
+  }
+
+  if $source {
+    validate_array($source)
+  }
 
   if $table {
     validate_array($table)
+  }
+
+  if $family {
+    validate_array($family)
   }
 
   include ::network
@@ -99,6 +147,17 @@ define network::route (
         group   => 'root',
         path    => "/etc/sysconfig/network-scripts/route-${name}",
         content => template('network/route-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+    }
+    'Suse': {
+      file { "ifroute-${name}":
+        ensure  => $ensure,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        path    => "/etc/sysconfig/network/ifroute-${name}",
+        content => template('network/route-Suse.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
