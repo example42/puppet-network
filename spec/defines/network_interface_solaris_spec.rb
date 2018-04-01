@@ -21,7 +21,7 @@ describe 'network::interface' do
     it {
       is_expected.to contain_host(node).with_ip('10.42.42.42')
     }
-  }
+  end
 
   describe 'Test network::interface on Solaris' do
     it 'should create a hostname file' do
