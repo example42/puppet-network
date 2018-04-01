@@ -260,7 +260,8 @@ class network (
 
   # Configure default gateway (On RedHat). Also hostname is set.
   if $::osfamily == 'RedHat'
-  and $network::gateway {
+  and ($::network::gateway
+  or $::network::hostname) {
     file { '/etc/sysconfig/network':
       ensure  => $config_file_ensure,
       mode    => $config_file_mode,

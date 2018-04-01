@@ -4,7 +4,6 @@
 
 #### Table of Contents
 
-0. [Looking for maintainers](#looking-for-maintainers)
 1. [Overview](#overview)
 2. [Module Description](#module-description)
 3. [Setup](#setup)
