@@ -108,7 +108,7 @@ define network::route (
   $scope     = undef,
   $source    = undef,
   $table     = undef,
-  $family    = undef,
+  $family    = [ 'inet4' ],
   $interface = $name,
   $ensure    = 'present'
 ) {
