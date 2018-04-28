@@ -1,6 +1,6 @@
 {
   "name": "example42-network",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "license": "Apache-2.0",

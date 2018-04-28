@@ -1,3 +1,12 @@
+2017-04-28 Release 3.4.2
+- Added ipv6 support for RedHat routes #213 (tor.ledre@gmail.com)
+- Added ipv6 support for ip rule #213 (i.garnizov@gmail.com)
+
+2017-04-01 Release 3.4.1
+- Fix for Hostname isn't set without gateway #208
+- Fix for Debian version comparison
+- Documentation improvements (i.garnizov@gmail.com)
+
 2017-03-31 Release 3.4.0
 - Added nm_name parameter for RedHat interfaces #184 
 - Added option to customise route up template in network::mroute #121 
