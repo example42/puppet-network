@@ -15,6 +15,7 @@
 #   $scope     - optional
 #   $source    - optional
 #   $table     - optional
+#   $cidr      - optional
 #
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
@@ -108,6 +109,7 @@ define network::route (
   $scope     = undef,
   $source    = undef,
   $table     = undef,
+  $cidr      = undef,
   $family    = [ 'inet4' ],
   $interface = $name,
   $ensure    = 'present'
@@ -134,6 +136,15 @@ define network::route (
 
   if $table {
     validate_array($table)
+  }
+
+  if $cidr {
+    validate_array($cidr)
+    $_cidr = $cidr
+  } else {
+    $_cidr = $netmask.map |$nmitem| {
+      netmask_to_masklen($nmitem)
+    }
   }
 
   if $family {
