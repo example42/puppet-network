@@ -4,6 +4,6 @@
 #
 if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
 <%- (0..(@iprule.length-1)).each do |id| -%>
-    ip<%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule show | grep -q "<%= @iprule[id] %>" && ip <%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule del <%= @iprule[id] %>
+    ip<%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule show | grep -qF "<%= @iprule[id] %>" && ip <%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule del <%= @iprule[id] %>
 <%- end -%>
 fi

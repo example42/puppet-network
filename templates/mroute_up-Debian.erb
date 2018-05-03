@@ -5,6 +5,6 @@
 ###
 if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
 <% @routes.each do |net,gw| -%>
-  ip route show | grep -q "<%= net %>" || ip route add <%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
+  ip route show | grep -qF "<%= net %>" || ip route add <%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
 <% end -%>
 fi
