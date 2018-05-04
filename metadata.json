@@ -98,7 +98,7 @@
     {
       "name": "puppetlabs/concat",
       "version_requirement": ">= 1.0.0 <7.0.0"
-    }
+    },
     {
       "name": "yelp/netstdlib",
       "version_requirement": ">= 0.0.1 <7.0.0"
