@@ -142,9 +142,7 @@ define network::route (
     validate_array($cidr)
     $_cidr = $cidr
   } else {
-    $_cidr = $netmask.map |$nmitem| {
-      netmask_to_masklen($nmitem)
-    }
+    $_cidr = build_cidr_array($netmask)
   }
 
   if $family {
