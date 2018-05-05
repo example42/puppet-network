@@ -1,3 +1,6 @@
+2017-05-05 Release 3.4.3
+- Fixed support for Debian 9  #206 (dakr@solute.de)
+
 2017-04-28 Release 3.4.2
 - Added ipv6 support for RedHat routes #213 (tor.ledre@gmail.com)
 - Added ipv6 support for ip rule #213 (i.garnizov@gmail.com)
