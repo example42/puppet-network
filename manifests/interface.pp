@@ -596,7 +596,7 @@ define network::interface (
   $real_reload_command = $reload_command ? {
     undef => $::operatingsystem ? {
         'CumulusLinux' => 'ifreload -a',
-        default        => "ifdown ${interface}; ifup ${interface}",
+        default        => "ifdown ${interface} --force ; ifup ${interface}",
       },
     default => $reload_command,
   }

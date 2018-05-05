@@ -1,7 +1,7 @@
 module Puppet::Parser::Functions
   newfunction(:build_cidr_array, :type => :rvalue) do |args|
     unless args.length == 1 then
-      raise Puppet::ParseError, ("netmask_to_masklen(): wrong number of arguments (#{args.length}; must be 1)")
+      raise Puppet::ParseError, ("build_cidr_array(): wrong number of arguments (#{args.length}; must be 1)")
     end
     new_array = []
     args[0].each do |item|
