@@ -130,7 +130,7 @@ describe 'network' do
       }}
 
       it {
-        is_expected.to contain_file('network.conf').with_notify("Exec[/sbin/ifdown -a && /sbin/ifup -a]")
+        is_expected.to contain_file('network.conf').with_notify("Exec[/sbin/ifdown -a --force ; /sbin/ifup -a]")
       }
 
     end
