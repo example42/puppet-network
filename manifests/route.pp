@@ -12,6 +12,7 @@
 #   $netmask   - required
 #   $gateway   - optional
 #   $metric    - optional
+#   $mtu       - optional
 #   $scope     - optional
 #   $source    - optional
 #   $table     - optional
@@ -106,6 +107,7 @@ define network::route (
   $netmask,
   $gateway   = undef,
   $metric    = undef,
+  $mtu       = undef,
   $scope     = undef,
   $source    = undef,
   $table     = undef,
@@ -124,6 +126,10 @@ define network::route (
 
   if $metric {
     validate_array($metric)
+  }
+
+  if $mtu {
+    validate_integer($mtu)
   }
 
   if $scope {
