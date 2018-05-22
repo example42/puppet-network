@@ -367,6 +367,7 @@ define network::interface (
   $ipv6init              = undef,
   $ipv6_autoconf         = undef,
   $ipv6addr              = undef,
+  $ipv6addr_secondaries  = [],
   $ipv6_defaultgw        = undef,
   $dhcp_hostname         = undef,
   $srcaddr               = undef,
