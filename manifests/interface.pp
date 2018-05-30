@@ -367,6 +367,7 @@ define network::interface (
   $ipv6init              = undef,
   $ipv6_autoconf         = undef,
   $ipv6addr              = undef,
+  $ipv6addr_secondaries  = [],
   $ipv6_defaultgw        = undef,
   $dhcp_hostname         = undef,
   $srcaddr               = undef,
@@ -596,7 +597,7 @@ define network::interface (
   $real_reload_command = $reload_command ? {
     undef => $::operatingsystem ? {
         'CumulusLinux' => 'ifreload -a',
-        default        => "ifdown ${interface}; ifup ${interface}",
+        default        => "ifdown ${interface} --force ; ifup ${interface}",
       },
     default => $reload_command,
   }

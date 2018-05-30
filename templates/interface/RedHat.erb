@@ -90,6 +90,9 @@ IPV6_AUTOCONF="<%= @ipv6_autoconf %>"
 <% if @ipv6addr -%>
 IPV6ADDR="<%= @ipv6addr %>"
 <% end -%>
+<% unless @ipv6addr_secondaries.empty? -%>
+IPV6ADDR_SECONDARIES="<%= @ipv6addr_secondaries.sort.join(' ') %>"
+<% end -%>
 <% if @ipv6_defaultgw -%>
 IPV6_DEFAULTGW="<%= @ipv6_defaultgw %>"
 <% end -%>
