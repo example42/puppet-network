@@ -1,11 +1,21 @@
 {
   "name": "example42-network",
   "version": "3.4.1",
-  "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
-  "license": "Apache-2.0",
-  "project_page": "https://github.com/example42/puppet-network",
   "summary": "Example42 Network Module",
+  "license": "Apache-2.0",
+  "source": "https://github.com/example42/puppet-network",
+  "project_page": "https://github.com/example42/puppet-network",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 2.0.1 <7.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0 <7.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -86,16 +96,6 @@
     {
       "name": "puppet",
       "version_requirement": ">= 3.0.0 <7.0.0"
-    }
-  ],
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 2.0.1 <7.0.0"
-    },
-    {
-      "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0 <7.0.0"
     }
   ]
 }
