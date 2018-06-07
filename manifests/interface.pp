@@ -138,6 +138,9 @@
 #  $hotswap = undef
 #    Set to no to prevent interface from being activated when hot swapped - Default is yes
 #
+#  $vid = undef
+#    Set to specify vlan id #
+#
 # == RedHat and Debian only GRE interface specific parameters
 #
 #  $peer_outer_ipaddr = undef
@@ -387,6 +390,7 @@ define network::interface (
   $vlan                  = undef,
   $vlan_name_type        = undef,
   $vlan_id               = undef,
+  $vid                   = undef,
   $physdev               = undef,
   $bridge                = undef,
   $arpcheck              = undef,
@@ -406,7 +410,7 @@ define network::interface (
   $my_inner_ipaddr       = undef,
 
   # RedHat and Debian specific for Open vSwitch
-  $devicetype            = undef, # On RedHat. Same of ovs_type for Debian 
+  $devicetype            = undef, # On RedHat. Same of ovs_type for Debian
   $bond_ifaces           = undef, # On RedHat Same of ovs_bonds for Debian
   $ovs_type              = undef, # Debian
   $ovs_bonds             = undef, # Debian
