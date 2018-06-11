@@ -1,3 +1,9 @@
+2018-06-11 Release 3.4.4
+- Added extra_options_$family params to network::interface
+- Added vid option to network::interface #237 (kobybr)
+- Added support for IPV6ADDR_SECONDARIES on Red Hat systems (tjikkun)
+- Add new mtu parameter to routes (tt-mtc)
+
 2018-05-05 Release 3.4.3
 - Fixed support for Debian 9  #206 (dakr@solute.de)
 

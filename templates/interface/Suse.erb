@@ -95,3 +95,8 @@ PRE_DOWN_SCRIPT="<%= @pre_down_script %>"
 <% if @post_down_script -%>
 POST_DOWN_SCRIPT="<%= @post_down_script %>"
 <% end -%>
+<% if @extra_options_suse -%>
+<% @extra_options_suse.each do |k,v| -%>
+<%= k %>="<%= v %>"
+<% end -%>
+<% end -%>

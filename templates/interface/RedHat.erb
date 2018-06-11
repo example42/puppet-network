@@ -223,6 +223,11 @@ OVSREQUIRES="<%= @ovsrequires %>"
 <% if @nm_name -%>
 NAME="<%= @nm_name %>"
 <% end -%>
+<% if @extra_options_redhat -%>
+<% @extra_options_redhat.each do |k,v| -%>
+<%= k %>="<%= v %>"
+<% end -%>
+<% end -%>
 <% if @check_link_down == true -%>
 check_link_down() {
    return 1;

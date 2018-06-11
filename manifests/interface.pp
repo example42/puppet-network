@@ -47,6 +47,12 @@
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
 #
+# [*options_extra_redhat*]
+# [*options_extra_debian*]
+# [*options_extra_suse*]
+#   Custom hashes of options that are added to the default template that manages
+#   interfaces respectively under RedHat, Debian and Suse families
+#
 # [*description*]
 #   String. Optional. Default: undef
 #   Adds comment with given description in file before interface declaration.
@@ -239,6 +245,9 @@ define network::interface (
   $ensure                = 'present',
   $template              = "network/interface/${::osfamily}.erb",
   $options               = undef,
+  $options_extra_redhat  = undef,
+  $options_extra_debian  = undef,
+  $options_extra_suse    = undef,
   $interface             = $name,
   $restart_all_nic       = true,
   $reload_command        = undef,
