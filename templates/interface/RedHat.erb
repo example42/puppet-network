@@ -223,8 +223,8 @@ OVSREQUIRES="<%= @ovsrequires %>"
 <% if @nm_name -%>
 NAME="<%= @nm_name %>"
 <% end -%>
-<% if @extra_options_redhat -%>
-<% @extra_options_redhat.each do |k,v| -%>
+<% if @options_extra_redhat -%>
+<% @options_extra_redhat.each do |k,v| -%>
 <%= k %>="<%= v %>"
 <% end -%>
 <% end -%>

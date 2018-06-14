@@ -8,8 +8,11 @@ describe 'network::interface' do
     let(:node) { 'rspec.example42.com' }
     let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' } }
     let(:params) {
-      { 'enable'       =>  true,
-        'ipaddress'    =>  '10.42.42.42',
+      { 'enable'                =>  true,
+        'ipaddress'             =>  '10.42.42.42',
+        'options_extra_redhat'  => {
+          'IPV4_FAILURE_FATAL'  => 'yes',
+        },
       }
     }
 
@@ -23,6 +26,10 @@ describe 'network::interface' do
 
     it {
       is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/ONBOOT=\"yes\"/)
+    }
+
+    it {
+      is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/IPV4_FAILURE_FATAL=\"yes\"/)
     }
 
   end

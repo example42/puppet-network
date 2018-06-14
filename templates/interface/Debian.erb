@@ -314,8 +314,8 @@ auto <%= @interface %>:0
     netmask 255.255.255.255
 <% end -%>
 <% end -%>
-<% if @extra_options_debian -%>
-<% @extra_options_debian.each do |k,v| -%>
+<% if @options_extra_debian -%>
+<% @options_extra_debian.each do |k,v| -%>
     <%= k %> <%= v %>
 <% end -%>
 <% end -%>
