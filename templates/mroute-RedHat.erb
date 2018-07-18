@@ -2,5 +2,11 @@
 ### File managed by Puppet
 ###
 <% @routes.each do |net,gw| -%>
-<%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
+<%= net -%>
+<%
+  if gw.kind_of?(Array)
+    gw.each do | g | %> nexthop via <%= g %><% end %>
+  <%- elsif /^\d/.match(gw) %> via <%= gw %>
+  <%- else %> dev <%= gw %>
+  <%- end -%>
 <% end -%>

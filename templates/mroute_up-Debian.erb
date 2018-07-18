@@ -7,7 +7,12 @@ if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
 <% @routes.each do |net,gw| -%>
   if ! ip <% if net.include? ":" -%>-6 <% end -%> route show <% if @table -%>table <%= @table %> <% end -%> | grep -qF "<%= net %> "
   then
-    ip route add <% if @table -%>table <%= @table %> <%end%><%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
+    ip route add <% if @table -%>table <%= @table %> <%end%><%= net %><%
+      if gw.kind_of?(Array)
+        gw.each do | g | %> nexthop via <%= g %><% end %>
+      <%- elsif /^\d/.match(gw) %> via <%= gw %>
+      <%- else %> dev <%= gw %>
+      <%- end -%>
   fi
 <% end -%>
 fi
