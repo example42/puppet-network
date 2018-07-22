@@ -378,6 +378,8 @@ define network::interface (
   $ethtool_opts          = undef,
   $ipv6init              = undef,
   $ipv6_autoconf         = undef,
+  $ipv6_privacy          = undef,
+  $ipv6_addr_gen_mode    = undef,
   $ipv6addr              = undef,
   $ipv6addr_secondaries  = [],
   $ipv6_defaultgw        = undef,
