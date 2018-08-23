@@ -6,6 +6,9 @@ describe 'network' do
 
     ['Debian', 'RedHat'].each do |osfamily|
 
+      operatingsystem = 'Debian' if osfamily == 'Debian'
+      operatingsystem = 'RedHat' if osfamily == 'RedHat'
+
       context "#{osfamily} configuration via custom template" do
 
         let(:params) {{
@@ -14,6 +17,7 @@ describe 'network' do
         }}
         let(:facts) {{
           :osfamily => osfamily,
+          :operatingsystem => operatingsystem,
         }}
 
         it {
@@ -32,6 +36,7 @@ describe 'network' do
         }}
         let(:facts) {{
           :osfamily => osfamily,
+          :operatingsystem => operatingsystem,
         }}
 
         it {
@@ -47,6 +52,7 @@ describe 'network' do
         }}
         let(:facts) {{
           :osfamily => osfamily,
+          :operatingsystem => operatingsystem,
         }}
 
         it {
@@ -63,6 +69,7 @@ describe 'network' do
         }}
         let(:facts) {{
           :osfamily => osfamily,
+          :operatingsystem => operatingsystem,
         }}
 
         it {
@@ -87,6 +94,7 @@ describe 'network' do
         }}
         let(:facts) {{
           :osfamily => osfamily,
+          :operatingsystem => operatingsystem,
         }}
 
         it {
@@ -105,6 +113,7 @@ describe 'network' do
 
       let(:facts) {{
         :osfamily => 'RedHat',
+        :operatingsystem => 'RedHat',
       }}
       let(:params) {{
         :config_file_source => "puppet:///modules/network/spec.conf",
@@ -124,6 +133,7 @@ describe 'network' do
 
       let(:facts) {{
         :osfamily => 'Debian',
+        :operatingsystem => 'Debian',
       }}
       let(:params) {{
         :config_file_source => "puppet:///modules/network/spec.conf",
