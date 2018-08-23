@@ -2,5 +2,5 @@
 ### File managed by Puppet
 ###
 <% @routes.each do |net,gw| -%>
-<% if @table -%>table <%= @table %> <% end %><%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
+<%= net %> <% if /^\d/.match(gw) %>via<% else %>dev<% end %> <%= gw %>
 <% end -%>
