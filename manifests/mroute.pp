@@ -50,6 +50,7 @@ define network::mroute (
   $ensure              = 'present',
   $route_up_template   = undef,
   $route_down_template = undef,
+  $table               = undef,
 ) {
   # Validate our arrays
   validate_hash($routes)
