@@ -72,7 +72,7 @@ class network (
   $ipv6enable                = undef,
 
   # Stdmod commons
-  $package_name              = undef,
+  $package_name              = $::network::params::package_name,
   $package_ensure            = 'present',
 
   $service_restart_exec      = $::network::params::service_restart_exec,
@@ -197,6 +197,11 @@ class network (
       ensure => $package_ensure,
       name   => $package_name,
     }
+    Package['network'] -> Network::Interface<||>
+    Package['network'] -> Network::Route<||>
+    Package['network'] -> Network::Mroute<||>
+    Package['network'] -> Network::Rule<||>
+    Package['network'] -> Network::Routing_table<||>
   }
 
   if $config_file_path
