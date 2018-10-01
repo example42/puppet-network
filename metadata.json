@@ -1,6 +1,6 @@
 {
   "name": "example42-network",
-  "version": "3.4.5",
+  "version": "3.5.0",
   "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "summary": "Example42 Network Module",
@@ -74,7 +74,8 @@
         "10.04",
         "12.04",
         "14.04",
-        "16.04"
+        "16.04",
+        "18.04"
       ]
     },
     {

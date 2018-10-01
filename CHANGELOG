@@ -3,6 +3,18 @@
 - Added vid option to network::interface #237 (kobybr)
 - Added support for IPV6ADDR_SECONDARIES on Red Hat systems (tjikkun)
 - Add new mtu parameter to routes (tt-mtc)
+2018-10-01 Release 3.5.0
+- Use _cidr variable to generate routing config on EL #250 (stdietrich)
+- Added support for routes with multiple GWs for RedHat and Debian #244 (odvlad)
+- Added support for Ubuntu 1804 (legacy networking without netplan) #203
+- Added missing IPv6 parameters on RedHat systems #242 (NiklausHofer)
+
+2019-06-15 Release 3.4.5
+- Fixed incorrect variable names for extra_options #239 (beergeek)
+
+2019-06-11 Release 3.4.4
+- Added per family extra_options param to network::interface
+- Added VID parameter to RedHat template (kobybr)
 
 2018-05-05 Release 3.4.3
 - Fixed support for Debian 9  #206 (dakr@solute.de)
