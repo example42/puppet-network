@@ -5,7 +5,7 @@
 ###
 if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
 <% @routes.each do |net,gw| -%>
-  if ip <% if net.include? ":" -%>-6 <% end -%> route show <% if @table -%>table <%= @table %> <% end -%> | grep -qF "<%= net %> "
+  if ip route show | grep -qF "<%= net %> "
   then
     ip route del <% if @table -%>table <%= @table %> <% end -%><%= net %><%
       if gw.kind_of?(Array)
