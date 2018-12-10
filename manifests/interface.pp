@@ -392,6 +392,7 @@ define network::interface (
   $defroute              = undef,
   $dns1                  = undef,
   $dns2                  = undef,
+  $dns3                  = undef,
   $domain                = undef,
   $nm_controlled         = undef,
   $master                = undef,
