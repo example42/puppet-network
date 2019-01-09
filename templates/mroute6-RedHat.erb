@@ -1,7 +1,7 @@
 ###
 ### File managed by Puppet
 ###
-<% @ipv4_routes.each do |net,gw| -%>
+<% @ipv6_routes.each do |net,gw| -%>
 <%= net -%>
 <%
   if gw.kind_of?(Array)
