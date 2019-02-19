@@ -771,13 +771,14 @@ define network::interface (
             $create_ip_command = "ipadm create-addr -T dhcp ${title}/dhcp"
             $show_ip_command = "ipadm show-addr ${title}/dhcp"
           } else {
-            $create_ip_command = "ipadm create-addr -T static -a ${ipaddress}/${netmask} ${title}/v4static"
+            $cidr = netmask_to_masklen($netmask)
+            $create_ip_command = "ipadm create-addr -T static -a ${ipaddress}/${cidr} ${title}/v4static"
             $show_ip_command = "ipadm show-addr ${title}/v4static"
           }
         }
         default: {
-          $create_ip_command = 'true '
-          $show_ip_command = 'true '
+          $create_ip_command = '/usr/bin/true'
+          $show_ip_command = '/usr/bin/true'
         }
       }
       exec { "create ipaddr ${title}":
@@ -792,12 +793,6 @@ define network::interface (
         content => inline_template("<%= @ipaddress %> netmask <%= @netmask %>\n"),
         require => Exec["create ipaddr ${title}"],
         tag     => 'solaris',
-      }
-      host { $::fqdn:
-        ensure       => present,
-        ip           => $ipaddress,
-        host_aliases => [$::hostname],
-        require      => File["hostname iface ${title}"],
       }
       if ! defined(Service['svc:/network/physical:default']) {
         service { 'svc:/network/physical:default':

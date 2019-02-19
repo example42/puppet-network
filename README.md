@@ -40,6 +40,11 @@ It manages hostname configuration and has hiera hash lookups to generate the fol
 * Puppet version >= 2.7.x
 * Facter version >= 1.6.2
 
+ATTENTION: on Solaris an additional module is required:
+* YELP [netstdlib module](https://github.com/Yelp/puppet-netstdlib)
+
+This module will not get loaded automatically when installing from forge.
+
 ### Beginning with module network
 
 The main class arguments can be provided either via Hiera (from Puppet 3.x) or direct parameters:
@@ -453,8 +458,10 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
 This is tested on these OS:
 - RedHat osfamily 5, 6 and 7
 - Debian 6, 7 and 8
-- Ubuntu 10.04, 12.04, 14.04, partly verified on Ubuntu 16.04
+- Ubuntu 10.04, 12.04, 14.04, 16.04
 - OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
+- Solaris 10 and 11
+- OpenIndiana (OpenSolaris) 11 (Hipster release)
 
 
 ## Development

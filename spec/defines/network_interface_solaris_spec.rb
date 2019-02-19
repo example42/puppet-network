@@ -21,11 +21,15 @@ describe 'network::interface' do
     it {
       is_expected.to contain_host(node).with_ip('10.42.42.42')
     }
+  end
 
-    it {
-      is_expected.to contain_service('svc:/network/physical:default').with_ensure('running')
-    }
-
+  describe 'Test network::interface on Solaris' do
+    it 'should create a hostname file' do
+      should contain_file('hostname iface eth0').with_content(/10.42.42.42/)
+    end
+    it 'should restart network service' do
+      should contain_service('svc:/network/physical:default').with_ensure('running')
+    end
   end
 
 end
