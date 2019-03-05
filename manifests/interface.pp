@@ -116,6 +116,10 @@
 #  $hwaddr        = undef,
 #    hwaddr if set configures the mac address of the interface.
 #
+#  $prefix        = undef,
+#    Network PREFIX aka CIDR notation of the network mask. The PREFIX
+#    takes precedence if both PREFIX and NETMASK are set.
+#
 #  $bootproto        = '',
 #    Both enable_dhcp (standard) and bootproto (Debian specific param name),
 #    if set, configure dhcp on the interface via the bootproto setting.
@@ -371,6 +375,7 @@ define network::interface (
 
   ## RedHat specific
   $ipaddr                = '',
+  $prefix                = undef,
   $uuid                  = undef,
   $bootproto             = '',
   $userctl               = 'no',
