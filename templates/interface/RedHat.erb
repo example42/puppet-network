@@ -64,6 +64,9 @@ NETMASK<%= id %>="<%= @netmask %>"
 <% else -%>
 NETMASK="<%= @netmask %>"
 <% end -%>
+<% if @prefix -%>
+PREFIX="<%= @prefix %>"
+<% end -%>
 <% end -%>
 <% if @broadcast -%>
 BROADCAST="<%= @broadcast %>"
