@@ -431,8 +431,8 @@ Configuration of multiple static routes (using the ```network::route``` define, 
           - 99.99.228.0
           - 100.100.244.0
         netmask:
-          - 24
-          - 22
+          - 255.255.255.0
+          - 255.255.252.0
         gateway:
           - 192.168.0.1
           - 174.136.107.1
