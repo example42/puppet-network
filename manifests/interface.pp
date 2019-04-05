@@ -107,6 +107,7 @@
 #  $type          = 'Ethernet',
 #    Defaults to 'Ethernet', but following types are supported for OVS:
 #    "OVSPort", "OVSIntPort", "OVSBond", "OVSTunnel" and "OVSPatchPort".
+#    'InfiniBand' type is supported as well.
 #
 #  $ipaddr        = undef,
 #    Both ipaddress (standard name) and ipaddr (RedHat param name) if set
@@ -207,6 +208,12 @@
 #
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
+#
+# == RedHat only InfiniBand specific parameters
+#
+#  $connected_mode = undef,
+#     Enable or not InfiniBand CONNECTED_MODE. It true, CONNECTED_MODE=yes will
+#     be added to ifcfg file.
 #
 # == Suse and Debian only parameters
 #
@@ -420,6 +427,9 @@ define network::interface (
   $persistent_dhclient   = undef,
   $nm_name               = undef,
 
+  # RedHat specific for InfiniBand
+  $connected_mode        = undef,
+
   # RedHat specific for GRE
   $peer_outer_ipaddr     = undef,
   $peer_inner_ipaddr     = undef,
@@ -524,6 +534,14 @@ define network::interface (
 
   if $send_gratuitous_arp != undef and ! ($send_gratuitous_arp in ['yes', 'no']) {
     fail('send_gratuitous_arp must be one of: undef, yes, no')
+  }
+
+  if $::osfamily != 'RedHat' and ($type == 'InfiniBand' or $connected_mode) {
+    fail('InfiniBand parameters are supported only for RedHat family.')
+  }
+
+  if $type != 'InfiniBand' and $connected_mode != undef {
+    fail('CONNECTED_MODE parameter available for InfiniBand interfaces only')
   }
 
   $manage_hwaddr = $hwaddr ? {
