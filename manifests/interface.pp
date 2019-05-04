@@ -544,6 +544,10 @@ define network::interface (
     fail('CONNECTED_MODE parameter available for InfiniBand interfaces only')
   }
 
+  if $prefix != undef and $netmask != undef {
+    fail('Use either netmask or prefix to define the netmask for the interface')
+  }
+
   $manage_hwaddr = $hwaddr ? {
     default => $hwaddr,
   }
