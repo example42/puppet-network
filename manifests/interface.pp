@@ -579,7 +579,7 @@ define network::interface (
   }
 
   # Redhat and Suse specific
-  if $::operatingsystem == 'SLES' and $::operatingsystemrelease =~ /^12/ {
+  if $::operatingsystem == 'SLES' and versioncmp($::operatingsystemrelease, 12) >= 0 {
     $bootproto_false = 'static'
   } else {
     $bootproto_false = 'none'

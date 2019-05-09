@@ -37,7 +37,7 @@ It manages hostname configuration and has hiera hash lookups to generate the fol
 ### Setup Requirements
 * PuppetLabs [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 * PuppetLabs [concat module](https://github.com/puppetlabs/puppetlabs-concat)
-* Puppet version >= 2.7.x
+* Puppet version >= 3.0.0 < 7.0.0
 * Facter version >= 1.6.2
 
 ### Beginning with module network
@@ -451,10 +451,25 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
 ## Operating Systems Support
 
 This is tested on these OS:
-- RedHat osfamily 5, 6 and 7
-- Debian 6, 7 and 8
-- Ubuntu 10.04, 12.04, 14.04, partly verified on Ubuntu 16.04
-- OpenSuse 12, SLES 11SP3, SLES 12 SP1 (ifrule files are only supported on Suse with wicked >= 0.6.33)
+
+- RedHat
+  - 5
+  - 6
+  - 7
+- Debian
+  - 6
+  - 7
+  - 8
+- Ubuntu
+  - 10.04
+  - 12.04
+  - 14.04
+  - partly verified on Ubuntu 16.04
+- Suse (ifrule files are only supported on Suse with wicked >= 0.6.33)
+  - OpenSuse 12
+  - SLES 11SP3
+  - SLES 12SP1
+  - SLES 15
 
 
 ## Development
