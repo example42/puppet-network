@@ -1,8 +1,3 @@
-2018-06-11 Release 3.4.4
-- Added extra_options_$family params to network::interface
-- Added vid option to network::interface #237 (kobybr)
-- Added support for IPV6ADDR_SECONDARIES on Red Hat systems (tjikkun)
-- Add new mtu parameter to routes (tt-mtc)
 2018-10-01 Release 3.5.0
 - Use _cidr variable to generate routing config on EL #250 (stdietrich)
 - Added support for routes with multiple GWs for RedHat and Debian #244 (odvlad)
@@ -12,7 +7,11 @@
 2019-06-15 Release 3.4.5
 - Fixed incorrect variable names for extra_options #239 (beergeek)
 
-2019-06-11 Release 3.4.4
+2018-06-11 Release 3.4.4
+- Added extra_options_$family params to network::interface
+- Added vid option to network::interface #237 (kobybr)
+- Added support for IPV6ADDR_SECONDARIES on Red Hat systems (tjikkun)
+- Add new mtu parameter to routes (tt-mtc)
 - Added per family extra_options param to network::interface
 - Added VID parameter to RedHat template (kobybr)
 
