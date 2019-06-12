@@ -1,3 +1,9 @@
+2019-04-05 Release 3.5.1
+- Added support for add support for InfiniBand interface type on RHEL based Systems (odivlad)
+- Removing incorrect network prefix format from yaml example (jimmyt86)
+- Added support for Add support for PREFIX parameter as an alternative to NETMASK on RHEL based systems #263 (mrolli)
+- Added support for up to 3 DNS Servers in resolve.conf #258 (juztas)
+
 2018-10-01 Release 3.5.0
 - Use _cidr variable to generate routing config on EL #250 (stdietrich)
 - Added support for routes with multiple GWs for RedHat and Debian #244 (odvlad)
