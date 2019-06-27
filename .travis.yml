@@ -26,7 +26,11 @@ matrix:
   include:
     -
       rvm: 2.5.3
-      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
+      env: CHECK="rubocop"
+      stage: static
+    -
+      rvm: 2.5.3
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file syntax lint metadata_lint"
       stage: static
     -
       rvm: 2.3.0
@@ -49,6 +53,10 @@ matrix:
       stage: deploy
   
   allow_failures:
+    -
+      rvm: 2.5.3
+      env: CHECK="rubocop"
+      stage: static
     - 
       rvm: 2.3.0
       env: PUPPET_GEM_VERSION="~> 3"
