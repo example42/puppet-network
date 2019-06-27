@@ -17,6 +17,9 @@ define network::netplan (
   Hash $tunnels            = {},
   Hash $vlans              = {},
 
+  Optional[String] $file_content                = undef,
+  Optional[String] $file_source                 = undef,
+
 ) {
 
   $netplan_data = {
@@ -32,8 +35,14 @@ define network::netplan (
     }
   }
 
+  $real_file_content = $file_source ? {
+    undef   => pick($file_content,to_yaml($netplan_data)),
+    default => undef,
+  }
+
   file { "${config_dir_path}/${config_file_name}":
     ensure  => $ensure,
-    content => to_yaml($netplan_data),
+    content => $real_file_content,
+    source  => $file_source,
   }
 }

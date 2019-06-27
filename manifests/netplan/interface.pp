@@ -5,6 +5,7 @@
 define network::netplan::interface (
   Enum['present','absent'] $ensure = 'present',
 
+  String $interface_name    = $title,
   String $config_file_name  = "50-${title}-yaml",
   String $interface_type    = 'ethernet',
   Hash   $interface_options = {},
