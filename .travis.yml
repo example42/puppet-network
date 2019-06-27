@@ -25,6 +25,7 @@ matrix:
   fast_finish: true
   include:
     -
+      rvm: 2.5.3
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
       stage: static
     -
@@ -46,6 +47,7 @@ matrix:
     -
       env: DEPLOY_TO_FORGE=yes
       stage: deploy
+  
   allow_failures:
     - 
       rvm: 2.3.0
