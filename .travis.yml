@@ -12,7 +12,7 @@ script:
   - 'bundle exec rake $CHECK'
 bundler_args: --without system_tests
 rvm:
-  - 2.1.9
+  - 2.3.0
   - 2.5.3
 stages:
   - static
@@ -28,11 +28,11 @@ matrix:
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
       stage: static
     -
-      rvm: 2.1.9
+      rvm: 2.3.0
       env: PUPPET_GEM_VERSION="~> 3"
       stage: spec
     -
-      rvm: 2.1.9
+      rvm: 2.3.0
       env: PUPPET_GEM_VERSION="~> 4"
       stage: spec
     -
@@ -46,6 +46,15 @@ matrix:
     -
       env: DEPLOY_TO_FORGE=yes
       stage: deploy
+  allow_failures:
+    - 
+      rvm: 2.3.0
+      env: PUPPET_GEM_VERSION="~> 3"
+      stage: spec
+    -
+      rvm: 2.3.0
+      env: PUPPET_GEM_VERSION="~> 4"
+      stage: spec
 branches:
   only:
     - master
