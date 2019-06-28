@@ -9,7 +9,7 @@
 # === Actions:
 #
 # On RHEL
-# Deploys /etc/sysconfig/networking-scripts/rule-$name
+# Deploys /etc/sysconfig/networking-scripts/rule-$name and /etc/sysconfig/networking-scripts/rule6-$name
 #
 # On Debian
 # Deploys 2 files, 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
@@ -25,7 +25,7 @@
 # Marcus Furlong <furlongm@gmail.com>
 #
 
-define network::legacy::rule (
+define network::rule (
   $iprule,
   $interface = $name,
   $family    = undef,
@@ -48,7 +48,16 @@ define network::legacy::rule (
         group   => root,
         mode    => '0644',
         path    => "/etc/sysconfig/network-scripts/rule-${interface}",
-        content => template('network/legacy/rule-RedHat.erb'),
+        content => template('network/rule-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+      file { "rule6-${interface}":
+        ensure  => present,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        path    => "/etc/sysconfig/network-scripts/rule6-${interface}",
+        content => template('network/rule6-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
@@ -59,7 +68,7 @@ define network::legacy::rule (
         group   => root,
         mode    => '0644',
         path    => "/etc/sysconfig/network/ifrule-${interface}",
-        content => template('network/legacy/rule-RedHat.erb'),
+        content => template('network/rule-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
@@ -70,7 +79,7 @@ define network::legacy::rule (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/network/if-up.d/z90-rule-${name}",
-        content => template('network/legacy/rule_up-Debian.erb'),
+        content => template('network/rule_up-Debian.erb'),
         notify  => $network::manage_config_file_notify,
       }
       file { "ruledown-${name}":
@@ -79,10 +88,11 @@ define network::legacy::rule (
         owner   => 'root',
         group   => 'root',
         path    => "/etc/network/if-down.d/z90-rule-${name}",
-        content => template('network/legacy/rule_down-Debian.erb'),
+        content => template('network/rule_down-Debian.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
     default: { fail('Operating system not supported')  }
   }
 } # define network::rule
+
