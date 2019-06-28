@@ -9,7 +9,7 @@
 # === Actions:
 #
 # On RHEL
-# Deploys /etc/sysconfig/networking-scripts/rule-$name
+# Deploys /etc/sysconfig/networking-scripts/rule-$name and /etc/sysconfig/networking-scripts/rule6-$name
 #
 # On Debian
 # Deploys 2 files, 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
@@ -49,6 +49,15 @@ define network::rule (
         mode    => '0644',
         path    => "/etc/sysconfig/network-scripts/rule-${interface}",
         content => template('network/rule-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+      file { "rule6-${interface}":
+        ensure  => present,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        path    => "/etc/sysconfig/network-scripts/rule6-${interface}",
+        content => template('network/rule6-RedHat.erb'),
         notify  => $network::manage_config_file_notify,
       }
     }
