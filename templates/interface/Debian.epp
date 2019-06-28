@@ -1,0 +1,9 @@
+# Interface <%= $interface %> managed by Puppet
+# <%= $description %>
+<% if $options['auto'] -%>
+auto <%= $interface %>
+<% end -%>
+<%= $stanza %> <%= $interface %> <%= $family %> <%= $manage_method %>
+<% $settings.each | $k,$v | { -%>
+    <%= $k %> <%= $v %>
+<% end -%>

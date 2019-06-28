@@ -1,0 +1,224 @@
+# File Managed by Puppet
+<% if @description and ! @description.empty? -%>
+# <%= @description %>
+<% end -%>
+DEVICE="<%= @interface %>"
+<% if ! @ovsbootproto -%>
+BOOTPROTO="<%= @manage_bootproto %>"
+<% end -%>
+ONBOOT="<%= @manage_onboot %>"
+TYPE="<%= @type %>"
+USERCTL="<%= @userctl %>"
+PEERDNS="<%= @manage_peerdns %>"
+PEERNTP="<%= @manage_peerntp %>"
+<% if @peer_outer_ipaddr -%>
+PEER_OUTER_IPADDR=<%= @peer_outer_ipaddr %>
+<% end -%>
+<% if @peer_inner_ipaddr-%>
+PEER_INNER_IPADDR=<%= @peer_inner_ipaddr %>
+<% end -%>
+<% if @my_outer_ipaddr -%>
+MY_OUTER_IPADDR=<%= @my_outer_ipaddr %>
+<% end -%>
+<% if @my_inner_ipaddr -%>
+MY_INNER_IPADDR=<%= @my_inner_ipaddr %>
+<% end -%>
+<% if @uuid -%>
+UUID="<%= @uuid %>"
+<% end -%>
+<% if @ethtool_opts -%>
+ETHTOOL_OPTS="<%= @ethtool_opts %>"
+<% end -%>
+<% if @subchannels -%>
+SUBCHANNELS="<%= @subchannels.sort.join(',') %>"
+<% end -%>
+<% if @layer2 -%>
+LAYER2="<%= @layer2 %>"
+<% end -%>
+<% if @nettype -%>
+NETTYPE="<%= @nettype %>"
+<% end -%>
+<% if @zlinux_options -%>
+OPTIONS="<%= @zlinux_options %>"
+<% end -%>
+<% if @manage_ipaddr and ! @manage_ipaddr.empty? -%>
+<% if @ipaddress.kind_of?(Array) -%>
+<%- (1..(@ipaddress.length)).each do |id| -%>
+IPADDR<%= id %>="<%= @ipaddress[id-1] %>"
+<% end -%>
+<% else -%>
+IPADDR="<%= @manage_ipaddr %>"
+<% end -%>
+<% end -%>
+<% if @netmask -%>
+<% if @ipaddress.kind_of?(Array) -%>
+<% if @netmask.kind_of?(Array) -%>
+<%- (1..(@netmask.length)).each do |id| -%>
+NETMASK<%= id %>="<%= @netmask[id-1] %>"
+<% end -%>
+<% else -%>
+<%- (1..(@ipaddress.length)).each do |id| -%>
+NETMASK<%= id %>="<%= @netmask %>"
+<% end -%>
+<% end -%>
+<% else -%>
+NETMASK="<%= @netmask %>"
+<% end -%>
+<% end -%>
+<% if @broadcast -%>
+BROADCAST="<%= @broadcast %>"
+<% end -%>
+<% if @gateway -%>
+<% if @ipaddress.kind_of?(Array) -%>
+GATEWAY1="<%= @gateway %>"
+<% else -%>
+GATEWAY="<%= @gateway %>"
+<% end -%>
+<% end -%>
+<% if @manage_defroute -%>
+DEFROUTE="<%= @manage_defroute %>"
+<% end -%>
+<% if @manage_hwaddr -%>
+HWADDR="<%= @manage_hwaddr %>"
+<% end -%>
+<% if @ipv6init -%>
+IPV6INIT="<%= @ipv6init %>"
+<% end -%>
+<% if @ipv6_autoconf -%>
+IPV6_AUTOCONF="<%= @ipv6_autoconf %>"
+<% end -%>
+<% if @ipv6addr -%>
+IPV6ADDR="<%= @ipv6addr %>"
+<% end -%>
+<% if @ipv6_defaultgw -%>
+IPV6_DEFAULTGW="<%= @ipv6_defaultgw %>"
+<% end -%>
+<% if @dhcp_hostname -%>
+DHCP_HOSTNAME="<%= @dhcp_hostname %>"
+<% end -%>
+<% if @srcaddr -%>
+SRCADDR="<%= @srcaddr %>"
+<% end -%>
+<% if @dns1 -%>
+DNS1="<%= @dns1 %>"
+<% end -%>
+<% if @dns2 -%>
+DNS2="<%= @dns2 %>"
+<% end -%>
+<% if @domain -%>
+DOMAIN="<%= @domain %>"
+<% end -%>
+<% if @nm_controlled -%>
+NM_CONTROLLED="<%= @nm_controlled %>"
+<% end -%>
+<% if @master -%>
+MASTER="<%= @master %>"
+<% end -%>
+<% if @slave  -%>
+SLAVE="<%= @slave %>"
+<% end -%>
+<% if @bonding_master -%>
+BONDING_MASTER="<%= @bonding_master %>"
+<% end -%>
+<% if @bonding_opts -%>
+BONDING_OPTS="<%= @bonding_opts %>"
+<% else -%>
+<% if @bond_mode or @bond_miimon -%>
+BONDING_OPTS="<%- if @bond_mode -%>mode=<%= @bond_mode %><%- end -%><%- if @bond_miimon -%> miimon=<%= @bond_miimon %><%- end -%>"
+<% end -%>
+<% end -%>
+<% if @team_config -%>
+TEAM_CONFIG='<%= @team_config -%>'
+<% end -%>
+<% if @team_master -%>
+TEAM_MASTER=<%= @team_master %>
+<% end -%>
+<% if @team_port_config -%>
+TEAM_PORT_CONFIG='<%= @team_port_config %>'
+<% end -%>
+<% if @mtu -%>
+MTU="<%= @mtu %>"
+<% end -%>
+<% if @vlan -%>
+VLAN="<%= @vlan %>"
+<% end -%>
+<% if @vlan_id -%>
+VLAN_ID="<%= @vlan_id %>"
+<% end -%>
+<% if @vlan_name_type -%>
+VLAN_NAME_TYPE="<%= @vlan_name_type %>"
+<% end -%>
+<% if @physdev -%>
+PHYSDEV="<%= @physdev %>"
+<% end -%>
+<% if @bridge -%>
+BRIDGE="<%= @bridge %>"
+<% end -%>
+<% if @bridge_stp -%>
+STP="<%= @bridge_stp %>"
+<% end -%>
+<% if @arpcheck -%>
+ARPCHECK="<%= @arpcheck %>"
+<% end -%>
+<% if @arp -%>
+ARP="<%= @arp %>"
+<% end -%>
+<% if @zone -%>
+ZONE="<%= @zone %>"
+<% end -%>
+<% if @onparent-%>
+ONPARENT="<%= @onparent %>"
+<% end -%>
+<% if @nozeroconf -%>
+NOZEROCONF="<%= @nozeroconf %>"
+<% end -%>
+<% if @linkdelay -%>
+LINKDELAY="<%= @linkdelay %>"
+<% end -%>
+<% if @hotplug -%>
+HOTPLUG="<%= @hotplug %>"
+<% end -%>
+<% if @persistent_dhclient -%>
+PERSISTENT_DHCLIENT="<%= @persistent_dhclient %>"
+<% end -%>
+<% if @devicetype -%>
+DEVICETYPE="<%= @devicetype %>"
+<% end -%>
+<% if @ovs_bridge -%>
+OVS_BRIDGE="<%= @ovs_bridge %>"
+<% end -%>
+<% if @bond_ifaces -%>
+BOND_IFACES="<%= @bond_ifaces %>"
+<% end -%>
+<% if @ovs_extra -%>
+OVS_EXTRA="<%= @ovs_extra %>"
+<% end -%>
+<% if @ovs_options -%>
+OVS_OPTIONS="<%= @ovs_options %>"
+<% end -%>
+<% if @ovs_patch_peer -%>
+OVS_PATCH_PEER="<%= @ovs_patch_peer %>"
+<% end -%>
+<% if @ovs_tunnel_type -%>
+OVS_TUNNEL_TYPE="<%= @ovs_tunnel_type %>"
+<% end -%>
+<% if @ovs_tunnel_options -%>
+OVS_TUNNEL_OPTIONS="<%= @ovs_tunnel_options %>"
+<% end -%>
+<% if @ovsdhcpinterfaces -%>
+OVSDHCPINTERFACES="<%= @ovsdhcpinterfaces %>"
+<% end -%>
+<% if @ovsbootproto -%>
+OVSBOOTPROTO="<%= @ovsbootproto %>"
+<% end -%>
+<% if @ovsrequires -%>
+OVSREQUIRES="<%= @ovsrequires %>"
+<% end -%>
+<% if @nm_name -%>
+NAME="<%= @nm_name %>"
+<% end -%>
+<% if @check_link_down == true -%>
+check_link_down() {
+   return 1;
+}
+<% end -%>
