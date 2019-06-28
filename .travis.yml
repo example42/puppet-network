@@ -73,7 +73,7 @@ notifications:
   email: false
 deploy:
   provider: puppetforge
-  user: puppet
+  user: example42
   password:
     secure: ""
   on:
