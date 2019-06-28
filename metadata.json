@@ -1,7 +1,8 @@
 {
   "name": "example42-network",
-  "version": "3.5.0",
-  "author": "Alessandro Franceschi",
+  "version": "4.0.1.alpha1",
+  "source": "https://github.com/example42/puppet-network",
+  "author": "example42 Gmbh and others",
   "summary": "Example42 Network Module",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/puppet-network",
@@ -22,7 +23,8 @@
       "operatingsystemrelease": [
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -30,7 +32,8 @@
       "operatingsystemrelease": [
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -38,7 +41,8 @@
       "operatingsystemrelease": [
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -46,7 +50,8 @@
       "operatingsystemrelease": [
         "5",
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -99,7 +104,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0 <7.0.0"
+      "version_requirement": ">= 4.0.0 <7.0.0"
     }
   ],
   "pdk-version": "1.10.0",
