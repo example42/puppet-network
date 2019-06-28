@@ -65,6 +65,9 @@ NETMASK<%= id %>="<%= @netmask %>"
 NETMASK="<%= @netmask %>"
 <% end -%>
 <% end -%>
+<% if @prefix -%>
+PREFIX="<%= @prefix %>"
+<% end -%>
 <% if @broadcast -%>
 BROADCAST="<%= @broadcast %>"
 <% end -%>
@@ -87,8 +90,17 @@ IPV6INIT="<%= @ipv6init %>"
 <% if @ipv6_autoconf -%>
 IPV6_AUTOCONF="<%= @ipv6_autoconf %>"
 <% end -%>
+<% if @ipv6_privacy -%>
+IPV6_PRIVACY="<%= @ipv6_privacy %>"
+<% end -%>
+<% if @ipv6_addr_gen_mode -%>
+IPV6_ADDR_GEN_MODE="<%= @ipv6_addr_gen_mode %>"
+<% end -%>
 <% if @ipv6addr -%>
 IPV6ADDR="<%= @ipv6addr %>"
+<% end -%>
+<% unless @ipv6addr_secondaries.empty? -%>
+IPV6ADDR_SECONDARIES="<%= @ipv6addr_secondaries.sort.join(' ') %>"
 <% end -%>
 <% if @ipv6_defaultgw -%>
 IPV6_DEFAULTGW="<%= @ipv6_defaultgw %>"
@@ -104,6 +116,9 @@ DNS1="<%= @dns1 %>"
 <% end -%>
 <% if @dns2 -%>
 DNS2="<%= @dns2 %>"
+<% end -%>
+<% if @dns3 -%>
+DNS3="<%= @dns3 %>"
 <% end -%>
 <% if @domain -%>
 DOMAIN="<%= @domain %>"
@@ -144,6 +159,9 @@ VLAN="<%= @vlan %>"
 <% end -%>
 <% if @vlan_id -%>
 VLAN_ID="<%= @vlan_id %>"
+<% end -%>
+<% if @vid -%>
+VID="<%= @vid %>"
 <% end -%>
 <% if @vlan_name_type -%>
 VLAN_NAME_TYPE="<%= @vlan_name_type %>"
@@ -217,8 +235,16 @@ OVSREQUIRES="<%= @ovsrequires %>"
 <% if @nm_name -%>
 NAME="<%= @nm_name %>"
 <% end -%>
+<% if @options_extra_redhat -%>
+<% @options_extra_redhat.each do |k,v| -%>
+<%= k %>="<%= v %>"
+<% end -%>
+<% end -%>
 <% if @check_link_down == true -%>
 check_link_down() {
    return 1;
 }
+<% end -%>
+<% if @connected_mode -%>
+CONNECTED_MODE=yes
 <% end -%>
