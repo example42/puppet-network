@@ -36,6 +36,11 @@ class network::params {
     default  => undef,
   }
 
+  $package_name = $::operatingsystem ? {
+    'Ubuntu' => 'ifupdown',
+    default  => undef,
+  }
+
   case $::osfamily {
     'Debian','RedHat','Amazon','Suse', 'Solaris': { }
     default: {

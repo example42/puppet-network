@@ -1,4 +1,4 @@
-# == Definition: network::routing_table
+# == Definition: network::legacy::routing_table
 #
 # Configures /etc/iproute2/rt_tables
 #

@@ -1,7 +1,6 @@
 #
-# = Define: network::interface
+# = Define: network::legacy::interface
 #
-# 
 # This define manages interfaces.
 # Currently only Debian and RedHat families supported.
 # Some parameters are supported only for specific families
@@ -47,6 +46,12 @@
 #
 # [*options*]
 #   A generic hash of custom options that can be used in a custom template
+#
+# [*options_extra_redhat*]
+# [*options_extra_debian*]
+# [*options_extra_suse*]
+#   Custom hashes of options that are added to the default template that manages
+#   interfaces respectively under RedHat, Debian and Suse families
 #
 # [*description*]
 #   String. Optional. Default: undef
@@ -102,6 +107,7 @@
 #  $type          = 'Ethernet',
 #    Defaults to 'Ethernet', but following types are supported for OVS:
 #    "OVSPort", "OVSIntPort", "OVSBond", "OVSTunnel" and "OVSPatchPort".
+#    'InfiniBand' type is supported as well.
 #
 #  $ipaddr        = undef,
 #    Both ipaddress (standard name) and ipaddr (RedHat param name) if set
@@ -110,6 +116,10 @@
 #
 #  $hwaddr        = undef,
 #    hwaddr if set configures the mac address of the interface.
+#
+#  $prefix        = undef,
+#    Network PREFIX aka CIDR notation of the network mask. The PREFIX
+#    takes precedence if both PREFIX and NETMASK are set.
 #
 #  $bootproto        = '',
 #    Both enable_dhcp (standard) and bootproto (Debian specific param name),
@@ -138,6 +148,9 @@
 #
 #  $hotswap = undef
 #    Set to no to prevent interface from being activated when hot swapped - Default is yes
+#
+#  $vid = undef
+#    Set to specify vlan id #
 #
 # == RedHat and Debian only GRE interface specific parameters
 #
@@ -196,6 +209,12 @@
 # Check the arguments in the code for the other RedHat specific settings
 # If defined they are set in the used template.
 #
+# == RedHat only InfiniBand specific parameters
+#
+#  $connected_mode = undef,
+#     Enable or not InfiniBand CONNECTED_MODE. It true, CONNECTED_MODE=yes will
+#     be added to ifcfg file.
+#
 # == Suse and Debian only parameters
 #
 #  $aliases = undef
@@ -237,6 +256,9 @@ define network::legacy::interface (
   $ensure                = 'present',
   $template              = "network/legacy/interface/${::osfamily}.erb",
   $options               = undef,
+  $options_extra_redhat  = undef,
+  $options_extra_debian  = undef,
+  $options_extra_suse    = undef,
   $interface             = $name,
   $restart_all_nic       = true,
   $reload_command        = undef,
@@ -360,6 +382,7 @@ define network::legacy::interface (
 
   ## RedHat specific
   $ipaddr                = '',
+  $prefix                = undef,
   $uuid                  = undef,
   $bootproto             = '',
   $userctl               = 'no',
@@ -367,7 +390,10 @@ define network::legacy::interface (
   $ethtool_opts          = undef,
   $ipv6init              = undef,
   $ipv6_autoconf         = undef,
+  $ipv6_privacy          = undef,
+  $ipv6_addr_gen_mode    = undef,
   $ipv6addr              = undef,
+  $ipv6addr_secondaries  = [],
   $ipv6_defaultgw        = undef,
   $dhcp_hostname         = undef,
   $srcaddr               = undef,
@@ -378,6 +404,7 @@ define network::legacy::interface (
   $defroute              = undef,
   $dns1                  = undef,
   $dns2                  = undef,
+  $dns3                  = undef,
   $domain                = undef,
   $nm_controlled         = undef,
   $master                = undef,
@@ -387,6 +414,7 @@ define network::legacy::interface (
   $vlan                  = undef,
   $vlan_name_type        = undef,
   $vlan_id               = undef,
+  $vid                   = undef,
   $physdev               = undef,
   $bridge                = undef,
   $arpcheck              = undef,
@@ -399,6 +427,9 @@ define network::legacy::interface (
   $persistent_dhclient   = undef,
   $nm_name               = undef,
 
+  # RedHat specific for InfiniBand
+  $connected_mode        = undef,
+
   # RedHat specific for GRE
   $peer_outer_ipaddr     = undef,
   $peer_inner_ipaddr     = undef,
@@ -406,7 +437,7 @@ define network::legacy::interface (
   $my_inner_ipaddr       = undef,
 
   # RedHat and Debian specific for Open vSwitch
-  $devicetype            = undef, # On RedHat. Same of ovs_type for Debian 
+  $devicetype            = undef, # On RedHat. Same of ovs_type for Debian
   $bond_ifaces           = undef, # On RedHat Same of ovs_bonds for Debian
   $ovs_type              = undef, # Debian
   $ovs_bonds             = undef, # Debian
@@ -505,6 +536,18 @@ define network::legacy::interface (
     fail('send_gratuitous_arp must be one of: undef, yes, no')
   }
 
+  if $::osfamily != 'RedHat' and ($type == 'InfiniBand' or $connected_mode) {
+    fail('InfiniBand parameters are supported only for RedHat family.')
+  }
+
+  if $type != 'InfiniBand' and $connected_mode != undef {
+    fail('CONNECTED_MODE parameter available for InfiniBand interfaces only')
+  }
+
+  if $prefix != undef and $netmask != undef {
+    fail('Use either netmask or prefix to define the netmask for the interface')
+  }
+
   $manage_hwaddr = $hwaddr ? {
     default => $hwaddr,
   }
@@ -540,7 +583,7 @@ define network::legacy::interface (
   }
 
   # Redhat and Suse specific
-  if $::operatingsystem == 'SLES' and $::operatingsystemrelease =~ /^12/ {
+  if $::operatingsystem == 'SLES' and versioncmp($::operatingsystemrelease, 12) >= 0 {
     $bootproto_false = 'static'
   } else {
     $bootproto_false = 'none'
@@ -609,7 +652,7 @@ define network::legacy::interface (
     }
     $network_notify = "Exec[network_restart_${name}]"
   } else {
-    $network_notify = $::network::manage_config_file_notify
+    $network_notify = $network::manage_config_file_notify
   }
 
   case $::osfamily {
@@ -685,8 +728,8 @@ define network::legacy::interface (
 
       }
 
-      if ! defined(Network::Legacy::Interface['lo']) {
-        network::legacy::interface { 'lo':
+      if ! defined(Network::Interface['lo']) {
+        network::interface { 'lo':
           address      => '127.0.0.1',
           method       => 'loopback',
           manage_order => '05',

@@ -1,4 +1,4 @@
-# == Definition: network::mroute
+# == Definition: network::legacy::mroute
 #
 # Manages multiples routes on a single file
 # Configures /etc/sysconfig/networking-scripts/route-$name on Rhel
@@ -16,6 +16,16 @@
 #       '99.99.228.0/24'   => 'bond1',
 #       '100.100.244.0/22' => '174.136.107.1',
 #     }
+#   }
+#
+#   ECMP route with two gateways example (works only with RedHat and Debian):
+#
+#   network::mroute { 'bond1':
+#     routes => {
+#       '99.99.228.0/24'   => 'bond1',
+#       '100.100.244.0/22' => ['174.136.107.1', '174.136.107.2'],
+#     }
+#   }
 #
 # [*route_up_template*]
 #   Template to use to manage route up setup. Default is defined according to
@@ -75,6 +85,13 @@ define network::legacy::mroute (
       default  => undef,
     },
     default =>  $route_down_template,
+  }
+
+  if $::osfamily == 'SuSE' {
+    $networks = keys($routes)
+    network::mroute::validate_gw { $networks:
+      routes => $routes,
+    }
   }
 
   case $::osfamily {

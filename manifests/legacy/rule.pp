@@ -1,4 +1,4 @@
-# == Definition: network::rule
+# == Definition: network::legacy::rule
 #
 # Configures /etc/sysconfig/networking-scripts/rule-$name on RHEL
 #
@@ -25,7 +25,7 @@
 # Marcus Furlong <furlongm@gmail.com>
 #
 
-define network::rule (
+define network::legacy::rule (
   $iprule,
   $interface = $name,
   $family    = undef,
@@ -95,4 +95,3 @@ define network::rule (
     default: { fail('Operating system not supported')  }
   }
 } # define network::rule
-
