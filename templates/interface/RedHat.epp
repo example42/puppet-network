@@ -1,10 +1,7 @@
 # Interface <%= $interface %> managed by Puppet
 # <%= $description %>
+<%= $header -%>
 <% $settings.each | $k,$v | { -%>
 <%= $k %>=<%= $v %>
 <% } -%>
-<% if $options['check_link_down'] { -%>
-check_link_down() {
-   return 1;
-}
-<% } -%>
+<%= $footer -%>

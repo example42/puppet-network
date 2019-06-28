@@ -9,7 +9,7 @@ define network::interface (
   Enum['present','absent'] $ensure = 'present',
 
   String $template                 = "network/interface/${::osfamily}.epp",
-  Optional $config_path            = undef,
+  Optional[String] $config_path    = undef,
 
   Boolean $enable_dhcp             = false,
 
@@ -24,6 +24,8 @@ define network::interface (
   Optional[Stdlib::Compat::Ipv6] $ipv6_netmask = undef,
 
   Hash $extra_settings              = {},
+  Optional[String] $extra_header    = undef,
+  Optional[String] $extra_footer    = undef,
   Boolean $use_default_settings     = true,
 
   Hash $options                    = {},
@@ -41,13 +43,30 @@ define network::interface (
       $os_settings = {
         DEVICE        => $interface,
         NM_CONTROLLED => 'no',
+        IPADDR        => $ipv4_address,
+        IPV6ADDR      => $ipv6_address,
       }
+      $os_footer = lookupvar($options['check_link_down') ? {
+        true  => @(EOF)
+          check_link_down() {
+            return 1;
+          }
+          |- EOF
+        false => ''
+      }
+      $os_header = ''
     }
     'Debian': {
       $os_settings = {
       }
+      $os_header = "${stanza} ${interface} ${family} ${method}"
+      $os_footer = ''
+    }
+    'SuSE': {
       $os_settings = {
       }
+      $os_header = ''
+      $os_footer = ''
     }
     default: {}
   }
@@ -56,14 +75,18 @@ define network::interface (
   # $settings variable is used in templates
   if $use_default_settings {
     $settings = $os_settings + $extra_settings
+    $header = $os_header + $extra_header
+    $footer = $os_footer + $extra_footer
   } else {
     $settings = $extra_settings
+    $header = $extra_header
+    $footer = $extra_footer
   }
   # Content used in interface configuration file
   $template_type=$template[-4,4]
   case $template_type {
     '.epp': {
-      $content = epp($template,$settings)
+      $content = epp($template,$settings,$header,$footer)
     }
     '.erb': {
       $content = template($template)
