@@ -1,0 +1,2 @@
+# File managed by Puppet
+<%= $ipv4_address %> netmask <%= $ipv4_netmask %>

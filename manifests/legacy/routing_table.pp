@@ -1,4 +1,4 @@
-# == Definition: network::routing_table
+# == Definition: network::legacy::routing_table
 #
 # Configures /etc/iproute2/rt_tables
 #
@@ -21,9 +21,9 @@
 # Marcus Furlong <furlongm@gmail.com>
 #
 
-define network::routing_table (
-  String $table_id,
-  String $table = $name
+define network::legacy::routing_table (
+  $table_id,
+  $table = $name
   ) {
 
   if ! defined(Concat['/etc/iproute2/rt_tables']) {

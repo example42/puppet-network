@@ -1,0 +1,2 @@
+---
+network::use_netplan: true

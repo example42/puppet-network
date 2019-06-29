@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+### File managed by Puppet
+#
+if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
+<%- (0..(@iprule.length-1)).each do |id| -%>
+  if ! ip<%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule show | grep -qF "<%= @iprule[id] %>"
+  then
+    ip <%- if @family and @family[id] == 'inet6' -%> -6<%- end -%> rule add <%= @iprule[id] %>
+  fi
+<%- end -%>
+fi

@@ -1,0 +1,6 @@
+###
+### File managed by Puppet
+###
+<%- (0..(@ipaddress.length-1)).each do |id| -%>
+<%- if @family and @family[id] == 'inet6' -%><%= @ipaddress[id] %>/<%= @_cidr[id] %><%- if @gateway and @gateway[id] -%> via <%= @gateway[id] %><%- end -%> dev <%= @interface %><%- if @scope and @scope[id] -%> scope <%= @scope[id] %><%- end -%><%- if @source and @source[id] -%> src <%= @source[id] %><%- end -%><%- if @table and @table[id] -%> table <%= @table[id] %><% end %><%- if @metric and @metric[id] -%> metric <%= @metric[id] %><% end %>
+<%- end -%><%- end %>
