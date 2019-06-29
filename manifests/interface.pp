@@ -16,17 +16,19 @@ define network::interface (
   String $interface                = $title,
   String $description              = "Interface $title",
 
-  Optional[Stdlib::Compat::Ipv4] $ipv4_address   = undef,
-  Optional[Stdlib::Compat::Ipv4] $ipv4_netmask   = undef,
-  Optional[Stdlib::Compat::Ipv4] $ipv4_broadcast = undef,
+  Optional[Stdlib::IP::Address::V4] $ipv4_address   = undef,
+  Optional[Stdlib::IP::Address::V4] $ipv4_netmask   = undef,
+  Optional[Stdlib::IP::Address::V4] $ipv4_broadcast = undef,
 
-  Optional[Stdlib::Compat::Ipv6] $ipv6_address = undef,
-  Optional[Stdlib::Compat::Ipv6] $ipv6_netmask = undef,
+  Optional[Stdlib::IP::Address::V6] $ipv6_address = undef,
+  Optional[Stdlib::IP::Address::V6] $ipv6_netmask = undef,
 
   Hash $extra_settings              = {},
   Optional[String] $extra_header    = undef,
   Optional[String] $extra_footer    = undef,
   Boolean $use_default_settings     = true,
+
+  Array $os_features                = ['check_link_down','auto'],
 
   Hash $options                    = {},
   Boolean $restart_all_nic         = true,
@@ -46,19 +48,19 @@ define network::interface (
         IPADDR        => $ipv4_address,
         IPV6ADDR      => $ipv6_address,
       }
-      $os_footer = lookupvar($options['check_link_down') ? {
-        true  => @(EOF)
+      if 'check_link_down' in $os_features {
+        $os_footer = @("EOF")
           check_link_down() {
             return 1;
           }
           |- EOF
-        false => ''
+      } else {
+        $os_footer = ''
       }
       $os_header = ''
     }
     'Debian': {
-      $os_settings = {
-      }
+      $os_settings = {}
       $os_header = "${stanza} ${interface} ${family} ${method}"
       $os_footer = ''
     }
@@ -74,11 +76,11 @@ define network::interface (
 
   # $settings variable is used in templates
   if $use_default_settings {
-    $settings = $os_settings + $extra_settings
+    $settings = delete_undef_values($os_settings + $extra_settings)
     $header = $os_header + $extra_header
     $footer = $os_footer + $extra_footer
   } else {
-    $settings = $extra_settings
+    $settings = delete_undef_values($extra_settings)
     $header = $extra_header
     $footer = $extra_footer
   }
@@ -181,7 +183,7 @@ define network::interface (
       }
       # Configuration
       if $::network::config_file_per_interface {
-        # Scenario with a file per interface 
+        # Scenario with a file per interface
         if ! defined(File['/etc/network/interfaces.d']) {
           file { '/etc/network/interfaces.d':
             ensure => 'directory',
