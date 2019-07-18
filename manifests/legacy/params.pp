@@ -1,8 +1,8 @@
-# Class: network::params
+# Class: network::legacy::params
 #
 # Defines all the variables used in the module.
 #
-class network::params {
+class network::legacy::params {
 
   $service_restart_exec = $::osfamily ? {
     'Debian'  => '/sbin/ifdown -a --force ; /sbin/ifup -a',

@@ -56,17 +56,15 @@
 # Deploys the file /etc/sysconfig/network/ifroute-$name.
 #
 define network::route (
-  Optional[Hash] $routes           = {},
-  Optional[Hash] $ipv6_routes      = {},
-  String $interface                = $title,
-  String $config_file_notify       = 'class_default',
-  Enum['present','absent'] $ensure = 'present',
-  Enum['v4','v6'] $family          = 'ipv4',
-  Optional[$route_up_template      = undef,
-  $route_down_template = undef,
+  Optional[Hash] $routes                = {},
+  Optional[Hash] $ipv6_routes           = {},
+  String $interface                     = $title,
+  String $config_file_notify            = 'class_default',
+  Enum['present','absent'] $ensure      = 'present',
+  Enum['ipv4','ipv6'] $family           = 'ipv4',
+  Optional[String] $route_up_template   = undef,
+  Optional[String] $route_down_template = undef,
 ) {
-  # Validate our arrays
-  validate_hash($routes)
 
   include ::network
 
@@ -117,7 +115,7 @@ define network::route (
           group   => 'root',
           path    => "/etc/sysconfig/network-scripts/route6-${name}",
           content => template('network/route6-RedHat.erb'),
-          notify  => $network::manage_config_file_notify,
+          notify  => $real_config_file_notify,
         }
       }
     }
