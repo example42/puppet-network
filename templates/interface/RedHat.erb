@@ -138,8 +138,8 @@ BONDING_MASTER="<%= @bonding_master %>"
 <% if @bonding_opts -%>
 BONDING_OPTS="<%= @bonding_opts %>"
 <% else -%>
-<% if @bond_mode or @bond_miimon -%>
-BONDING_OPTS="<%- if @bond_mode -%>mode=<%= @bond_mode %><%- end -%><%- if @bond_miimon -%> miimon=<%= @bond_miimon %><%- end -%>"
+<% if @bond_mode or @bond_miimon or @bond_downdelay or @bond_updelay or @bond_lacp_rate or @bond_primary or @bond_xmit_hash_policy or @bond_arp_interval or @bond_arp_iptarget or @bond_fail_over_mac or @bond_ad_select or @use_carrier or @primary_reselect -%>
+BONDING_OPTS="<%- if @bond_mode -%>mode=<%= @bond_mode -%><%- end -%><%- if @bond_miimon -%> miimon=<%= @bond_miimon -%><%- end -%><%- if @bond_downdelay -%> downdelay=<%= @bond_downdelay -%><%- end -%><%- if @bond_updelay -%> updelay=<%= @bond_updelay -%><%- end -%><%- if @bond_lacp_rate -%> lacp_rate=<%= @bond_lacp_rate -%><%- end -%><%- if @bond_primary -%> primary=<%= @bond_primary -%><%- end -%><%- if @bond_xmit_hash_policy -%> xmit_hash_policy=<%= @bond_xmit_hash_policy -%><%- end -%><%- if @bond_arp_interval -%> arp_interval=<%= @bond_arp_interval -%><%- end -%><%- if @bond_arp_iptarget -%> arp_iptarget=<%= @bond_arp_iptarget -%><%- end -%><%- if @bond_fail_over_mac -%> fail_over_mac=<%= @bond_fail_over_mac -%><%- end -%><%- if @bond_ad_select -%> ad_select=<%= @bond_ad_select -%><%- end -%><%- if @use_carrier -%> use_carrier=<%= @use_carrier -%><%- end -%><%- if @primary_reselect -%> primary_reselect=<%= @primary_reselect -%><%- end -%>"
 <% end -%>
 <% end -%>
 <% if @team_config -%>
