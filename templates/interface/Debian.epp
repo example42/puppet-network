@@ -1,7 +1,7 @@
-# Interface <%= $interface %> managed by Puppet
-# <%= $description %>
-<%= $header -%>
-<% $settings.each | $k,$v | { -%>
-    <%= $k %> <%= $v %>
-<% end -%>
-<%= $footer -%>
+# Interface <%= $params['interface'] %> managed by Puppet
+# <%= $params['description'] %>
+<%= $params['header'] -%>
+<% $params['settings'].each | $k,$v | { -%>
+  <%= $k %> <%= $v %>
+<% } -%>
+<%= $params['footer'] -%>

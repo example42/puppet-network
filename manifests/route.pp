@@ -59,7 +59,7 @@ define network::route (
   Optional[Hash] $routes                = {},
   Optional[Hash] $ipv6_routes           = {},
   String $interface                     = $title,
-  String $config_file_notify            = 'class_default',
+  Variant[Undef,Resource,String] $config_file_notify = 'class_default',
   Enum['present','absent'] $ensure      = 'present',
   Enum['ipv4','ipv6'] $family           = 'ipv4',
   Optional[String] $route_up_template   = undef,

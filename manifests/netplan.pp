@@ -3,7 +3,7 @@
 # Define to manage a netplan configuration file
 #
 define network::netplan (
-  String $config_file_name = "50-${title}-yaml",
+  String $config_file_name = "50-${title}.yaml",
   Enum['present','absent'] $ensure = 'present',
   String $renderer = 'networkd',
   Numeric $version         = 2,

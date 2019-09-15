@@ -1,0 +1,19 @@
+###
+# Sample configurations using legacy defines
+---
+network::routes_legacy: true
+network::interfaces_legacy: true
+network::rule_legacy: true
+network::tables_legacy: true
+network::routes_hash:
+  eth1:
+    routes:
+      '10.42.50.0/24': '10.42.43.1'
+      '10.42.100.0/24': '10.42.43.1'
+      '10.42.251.0/24': '10.42.43.1'
+network::interfaces_hash:
+  'eth0':
+    enable_dhcp: true
+  'eth1':
+    ipaddress: '10.42.43.104'
+    netmask: '255.255.255.0'

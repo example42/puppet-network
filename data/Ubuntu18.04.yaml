@@ -1,0 +1,3 @@
+---
+network::use_netplan: true
+network::service_restart_exec: 'netplan apply'

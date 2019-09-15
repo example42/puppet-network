@@ -32,7 +32,7 @@ Main class is used as entrypoint for general variables and wrapper for Hiera dri
 
 Classes:
 
-- network::hostname - Manages hostname
+- network::hostname - Manages the system hostname
 
 Defines:
 
@@ -40,6 +40,8 @@ Defines:
 - network::route - Manages network routes
 - network::routing_table - Manages iproute2 routing tables
 - network::rule - Manages network rules
+- network::netplan - Generic netplan.io configuration
+- network::netplan::interface - Netplan.io interface configuration
 
 Legacy defines (inherited from version 3 of the module):
 
@@ -53,6 +55,10 @@ Legacy defines (inherited from version 3 of the module):
 
 ### What puppet-network affects
 
+The main network class does nothing with default values for parameters but can be included and used
+as entrypoints to manage via Hiera hashes of the defines provided in the modules.
+
+Single defines manage the relevant network entity (interfaces, routes, rules, tables ...)
 
 ### Setup Requirements
 
@@ -68,7 +74,7 @@ Include the main class to be able to manage via Hiera the network resources hand
 
     include network
     
-This does nothing by default, but allows to configure network resources with Hiera data like:
+This allows to configure network resources with Hiera data like:
 
     network::hostname: server.example.com
     network::interfaces_hash:
@@ -89,12 +95,47 @@ This does nothing by default, but allows to configure network resources with Hie
 
 ## Reference
 
+For full reference look at the defines documentation.
+
+For configuration examples via Hiera look at the examples directory.
 
 ## Backwards compatibility
 
+If you are using the version 3 of this module and are configuring networking via Hiera data, you must set the relevant
+legacy options so that hashes of interface, route, and other resources can be maintained ad the legacy defines used.
+You have to set this for each network resource type. By default the new versions are used.
+On hiera configure something like (Yaml format):
+
+    network::interfaces_legacy: true 
+    network::rules_legacy: true 
+    network::tables_legacy: true 
+    network::routes_legacy: true 
+
+Given the quite critical nature of the resources manages we highly recommend to test carefully the effect of an upgrade of
+this module on your current infrastructure and to keep the first runs on noop mode.
+
+Some configuration files might change as well, in minor details like new lines or spaces, even when using the legacy 
+options. To avoid automatic restart of network service on a configuration change set:
+
+    network::config_file_notify: false
 
 ## Limitations
 
+This module works currently supports only the major Linux distributions (RedHat and derivatives, Debian and derivatives, included Cumulus, SuSE
+and derivatives, Solaris).
+
+The legacy defines are introduced for backwards compatibility only and are not supposed to be improved in the future.
+The new, default, defines, are designed in a way to be more easily adaptable to custom needs (for example there's no need to add parameters
+for any new or uncommon configuration entry).
 
 ## Development
+
+To contribute to the module submit a Pull Request on GitHub.
+
+Please be sure to provide:
+
+- Code changes for syntax and lint
+- Relevant documentation
+- Relevant spec tests
+
 

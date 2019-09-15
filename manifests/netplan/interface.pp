@@ -6,11 +6,12 @@ define network::netplan::interface (
   Enum['present','absent'] $ensure = 'present',
 
   String $interface_name    = $title,
-  String $config_file_name  = "50-${title}-yaml",
+  String $config_file_name  = "50-${title}.yaml",
   String $interface_type    = 'ethernet',
   Hash   $interface_options = {},
 
   Stdlib::Absolutepath $config_dir_path = '/etc/netplan',
+  Optional[String]$reload_command  = undef,
 
   String $renderer = 'networkd',
   Numeric $version = 2,
@@ -18,8 +19,8 @@ define network::netplan::interface (
   Boolean $dhcp4        = false,
   Boolean $dhcp6        = false,
 
-  Optional[Stdlib::MAC]             $macaddress = undef,
-  Variant[Undef,Array]              $addresses  = undef,
+  Optional[Stdlib::MAC]             $macaddress = getvar("networking.interfaces.${interface_name}.mac"),
+  Variant[Undef,Network::NetplanAddresses] $addresses  = undef,
   Variant[Undef,Array]              $routes     = undef,
   Optional[Stdlib::IP::Address::V4] $gateway4   = undef,
   Optional[Stdlib::IP::Address::V6] $gateway6   = undef,
@@ -31,25 +32,32 @@ define network::netplan::interface (
 
 ) {
 
+  # Define how to restart network service
+  $network_notify = pick_default($reload_command, $::network::manage_config_file_notify)
+
   $match_values = $macaddress ? {
-    undef => undef,
+    undef   => {},
     default => {
-      match => {
+      match   => {
         macaddress => $macaddress,
       }
     }
   }
 
+  if $nameservers_addresses or $nameservers_search {
+    $nameservers_values = {
+      addresses => $nameservers_addresses,
+      search    => $nameservers_search,
+    }
+  } else {
+    $nameservers_values = {}
+  }
   $default_values = {
     dhcp4     => $dhcp4,
     dhcp6     => $dhcp6,
     addresses => $addresses,
     gateway4  => $gateway4,
     gateway6  => $gateway6,
-    nameservers => {
-      addresses => $nameservers_addresses,
-      search    => $nameservers_search,
-    },
     routes    => $routes,
   }
 
@@ -57,7 +65,7 @@ define network::netplan::interface (
     'network' => {
       'version'            => $version,
       "${interface_type}s" => {
-        $interface_name => delete_undef_values($default_values + $match_values + $interface_options),
+        $interface_name => delete_undef_values($default_values + $match_values + $nameservers_values + $interface_options),
       }
     }
   }
@@ -70,6 +78,7 @@ define network::netplan::interface (
     ensure  => $ensure,
     content => $real_file_content,
     source  => $file_source,
+    notify  => $network_notify,
   }
 
 }
