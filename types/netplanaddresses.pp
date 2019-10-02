@@ -1,4 +1,4 @@
-type Network::Netplanaddresses = Array[
+type Network::NetplanAddresses = Array[
   Variant[
     Stdlib::IP::Address::V4::CIDR,
     Variant[
