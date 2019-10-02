@@ -33,7 +33,19 @@ define network::netplan::interface (
 ) {
 
   # Define how to restart network service
-  $network_notify = pick_default($reload_command, $::network::manage_config_file_notify)
+  if $reload_command {
+    $network_notify = 'Exec[network::netplan::interface reload]'
+    if !defined(Exec['network::netplan::interface reload']) {
+      exec { 'network::netplan::interface reload':
+        command     => $reload_command,
+        refreshonly => true,
+        path        => $::path
+      }
+    }
+    pick_default($reload_command, $::network::manage_config_file_notify)
+  } else {
+    $network_notify = pick_default($::network::manage_config_file_notify)
+  }
 
   $match_values = $macaddress ? {
     undef   => {},
