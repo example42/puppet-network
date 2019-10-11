@@ -73,7 +73,11 @@ BROADCAST="<%= @broadcast %>"
 <% end -%>
 <% if @gateway -%>
 <% if @ipaddress.kind_of?(Array) -%>
+<% if @operatingsystemmajrelease.to_i > 6 -%>
 GATEWAY1="<%= @gateway %>"
+<% else -%>
+GATEWAY="<%= @gateway %>"
+<% end -%>
 <% else -%>
 GATEWAY="<%= @gateway %>"
 <% end -%>
