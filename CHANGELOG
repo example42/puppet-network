@@ -1,3 +1,11 @@
+2019-10-11 Release 3.5.2
+- Fixed gateway management on RedHat interfaces with multiple IP #176
+- Fixed 'string compared wit an integer' on Suse (pseiler)
+- Feature/hash policy (benibr)
+- Added all bonding opts to redhat template (benibr)
+- Deploy rule6 on RedHat - Fixes #279 (peterverraedt)
+- Ubuntu/Debian route up/down fix #278 (elmobp)
+
 2019-04-05 Release 3.5.1
 - Added support for add support for InfiniBand interface type on RHEL based Systems (odivlad)
 - Removing incorrect network prefix format from yaml example (jimmyt86)
