@@ -63,6 +63,9 @@ allow-hotplug <%= @interface %>
 <% if @mode -%>
     mode <%= @mode %>
 <% end -%>
+<% if @promisc -%>
+    promisc <%= @promisc %>
+<% end -%>
 <% if @endpoint -%>
     endpoint <%= @endpoint %>
 <% end -%>

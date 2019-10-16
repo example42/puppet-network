@@ -158,6 +158,9 @@ TEAM_PORT_CONFIG='<%= @team_port_config %>'
 <% if @mtu -%>
 MTU="<%= @mtu %>"
 <% end -%>
+<% if @promisc -%>
+PROMISC="<%= @promisc %>"
+<% end -%>
 <% if @vlan -%>
 VLAN="<%= @vlan %>"
 <% end -%>

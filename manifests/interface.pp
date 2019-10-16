@@ -57,6 +57,10 @@
 #   String. Optional. Default: undef
 #   Adds comment with given description in file before interface declaration.
 #
+# [*promisc*]
+#   String. yes|no Optional. Default: undef
+#   Value of PROMISC config entry.
+#
 # == Debian only parameters
 #
 #  $address       = undef,
@@ -274,6 +278,7 @@ define network::interface (
   $mtu                   = undef,
 
   $description           = undef,
+  $promisc               = undef,
 
   ## Debian specific
   $manage_order          = '10',
