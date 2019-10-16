@@ -728,8 +728,8 @@ define network::legacy::interface (
 
       }
 
-      if ! defined(Network::Interface['lo']) {
-        network::interface { 'lo':
+      if ! defined(Network::Legacy::Interface['lo']) {
+        network::legacy::interface { 'lo':
           address      => '127.0.0.1',
           method       => 'loopback',
           manage_order => '05',
