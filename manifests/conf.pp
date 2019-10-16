@@ -40,7 +40,6 @@
 # [*mode*]
 # [*owner*]
 # [*group*]
-# [*config_file_require*]
 # [*replace*]
 #   String. Optional. Default: undef
 #   All these parameters map directly to the created file attributes.
@@ -48,11 +47,21 @@
 #   If defined, config file file has, for example: mode => $mode
 #
 # [*config_file_notify*]
-#   String. Optional. Default: 'class_default'
-#   Defines the notify argument of the created file.
-#   The default special value implies the same behaviour of the main class
-#   configuration file. Set to undef to remove any notify, or set
-#   the name(s) of the resources to notify
+#   String or Boolean. Optional. Default: 'class_default'
+#   Defines the content of the notify argument of the created file.
+#   The default string 'class_default' uses $::network::manage_config_file_notify
+#   variable from main network class, which can be set via the hiera key:
+#   network::config_file_notify.
+#   Set to undef or Boolean false to remove any notify, leave default value or
+#   set Boolean true to use class defaults, or define, as a string,
+#   the name(s) of the resources to notify. Ie: 'Service[network]',
+#
+# [*config_file_require*]
+#   String or Boolean. Optional. Default: 'class_default'
+#   Defines the require argument of the created file.
+#   The default is to leave this undefined and don't force any dependency.
+#   Set the name of a resource to require (must be in the catalog) for custom
+#   need Ie: 'Package[network-tools]'
 #
 # [*options_hash*]
 #   Hash. Default undef. Needs: 'template'.
@@ -85,9 +94,18 @@ define network::conf (
   $manage_mode    = pick($mode, $::network::config_file_mode)
   $manage_owner   = pick($owner, $::network::config_file_owner)
   $manage_group   = pick($group, $::network::config_file_group)
-  $manage_require = pick($config_file_require, $::network::config_file_require)
+  $manage_require = $config_file_require ? {
+    'class_default' => pick_default($::network::manage_config_file_require),
+    true            => pick_default($::network::manage_config_file_require),
+    false           => undef,
+    undef           => undef,
+    default         => $config_file_require,
+  }
   $manage_notify  = $config_file_notify ? {
-    'class_default' => $::network::manage_config_file_notify,
+    'class_default' => pick_default($::network::manage_config_file_notify),
+    true            => pick_default($::network::manage_config_file_notify),
+    false           => undef,
+    undef           => undef,
     default         => $config_file_notify,
   }
   $manage_content = $content ? {

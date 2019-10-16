@@ -169,7 +169,19 @@ class network (
     'undef'         => undef,
     ''              => undef,
     undef           => undef,
+    true            => "Exec[${service_restart_exec}]",
+    false           => undef,
     default         => $config_file_notify,
+  }
+
+  $manage_config_file_require  = $config_file_require ? {
+    'class_default' => undef,
+    'undef'         => undef,
+    ''              => undef,
+    undef           => undef,
+    true            => undef,
+    false           => undef,
+    default         => $config_file_require,
   }
 
   $manage_hostname = pick($hostname, $::fqdn)
