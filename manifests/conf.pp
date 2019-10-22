@@ -62,6 +62,9 @@
 #   The default is to leave this undefined and don't force any dependency.
 #   Set the name of a resource to require (must be in the catalog) for custom
 #   need Ie: 'Package[network-tools]'
+#   If value is true, class' default is used (which is undef but can be
+#   overwritten by user.
+#   If false value remains undefined.
 #
 # [*options_hash*]
 #   Hash. Default undef. Needs: 'template'.
@@ -95,15 +98,15 @@ define network::conf (
   $manage_owner   = pick($owner, $::network::config_file_owner)
   $manage_group   = pick($group, $::network::config_file_group)
   $manage_require = $config_file_require ? {
-    'class_default' => pick_default($::network::manage_config_file_require),
-    true            => pick_default($::network::manage_config_file_require),
+    'class_default' => $::network::manage_config_file_require,
+    true            => $::network::manage_config_file_require,
     false           => undef,
     undef           => undef,
     default         => $config_file_require,
   }
   $manage_notify  = $config_file_notify ? {
-    'class_default' => pick_default($::network::manage_config_file_notify),
-    true            => pick_default($::network::manage_config_file_notify),
+    'class_default' => $::network::manage_config_file_notify,
+    true            => $::network::manage_config_file_notify,
     false           => undef,
     undef           => undef,
     default         => $config_file_notify,
