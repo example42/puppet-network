@@ -55,6 +55,11 @@
 #
 class network (
 
+  String $package_name,
+  String $service_restart_exec,
+  Stdlib::Absolutepath $config_dir_path,
+  Stdlib::Absolutepath $config_file_path,
+
   $hostname                  = undef,
 
   $interfaces_hash           = undef,
@@ -72,12 +77,8 @@ class network (
   $ipv6enable                = undef,
 
   # Stdmod commons
-  $package_name              = $::network::params::package_name,
   $package_ensure            = 'present',
 
-  $service_restart_exec      = $::network::params::service_restart_exec,
-
-  $config_file_path          = $::network::params::config_file_path,
   $config_file_require       = undef,
   $config_file_notify        = 'class_default',
   $config_file_source        = undef,
@@ -87,7 +88,6 @@ class network (
 
   $config_file_per_interface = false,
 
-  $config_dir_path           = $::network::params::config_dir_path,
   $config_dir_source         = undef,
   $config_dir_purge          = false,
   $config_dir_recurse        = true,
@@ -108,7 +108,8 @@ class network (
 
   $hiera_merge               = false,
 
-  ) inherits ::network::params {
+  ) {
+
 
   # Hiera import
 

@@ -1,0 +1,5 @@
+---
+network::service_restart_exec: '/sbin/ifdown -a --force ; /sbin/ifup -a'
+network::config_file_path: '/etc/network/interfaces'
+network::config_dir_path: '/etc/network'
+network::package_name: 'ifupdown'

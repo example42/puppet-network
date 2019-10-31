@@ -1,0 +1,2 @@
+--- 
+network::service_restart_exec: '/usr/sbin/svcadm restart svc:/network/physical:default'
