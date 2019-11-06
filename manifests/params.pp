@@ -7,7 +7,7 @@ class network::params {
   $service_restart_exec = $::osfamily ? {
     'Debian'  => '/sbin/ifdown -a --force ; /sbin/ifup -a',
     'Solaris' => '/usr/sbin/svcadm restart svc:/network/physical:default',
-    default   => 'service network restart',
+    default   => 'service NetworkManager restart',
   }
 
   $config_file_path = $::osfamily ? {
