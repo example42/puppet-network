@@ -9,7 +9,7 @@ class network::params {
     'Solaris' => '/usr/sbin/svcadm restart svc:/network/physical:default',
     'RedHat'  => $facts['os']['release']['major'] ? {
        '8'    => 'service NetworkManager restart',
-       }
+       },
     default   => 'service network restart',
   }
 
