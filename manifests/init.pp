@@ -276,7 +276,7 @@ class network (
       notify  => $network::manage_config_file_notify,
     }
     case $::lsbmajdistrelease {
-      '7': {
+      ['7','8']: {
         exec { 'sethostname':
           command => "/usr/bin/hostnamectl set-hostname ${manage_hostname}",
           unless  => "/usr/bin/hostnamectl status | grep 'Static hostname: ${manage_hostname}'",
