@@ -8,7 +8,8 @@ class network::params {
     'Debian'  => '/sbin/ifdown -a --force ; /sbin/ifup -a',
     'Solaris' => '/usr/sbin/svcadm restart svc:/network/physical:default',
     'RedHat'  => $facts['os']['release']['major'] ? {
-       '8'    => 'service NetworkManager restart',
+      '8'     => 'service NetworkManager restart',
+      default => 'service network restart',
        },
     default   => 'service network restart',
   }
