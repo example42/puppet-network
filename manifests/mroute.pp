@@ -34,6 +34,11 @@
 # [*route_down_template*]
 #   Template to use to manage route down script. Used only on Debian family.
 #
+# [*table*]
+#   Optional parameter.
+#   Route table to add routes in. Default - main route table.
+#   Note, that all routes in mroute resource will be placed into supplied table.
+#
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
 #   Defines the notify argument of the created file.
@@ -60,6 +65,7 @@ define network::mroute (
   $ensure              = 'present',
   $route_up_template   = undef,
   $route_down_template = undef,
+  $table               = undef,
 ) {
   # Validate our arrays
   validate_hash($routes)
@@ -91,6 +97,13 @@ define network::mroute (
     $networks = keys($routes)
     network::mroute::validate_gw { $networks:
       routes => $routes,
+    }
+  }
+
+  # TODO: add support for other distros
+  if $::osfamily != 'RedHat' and $table {
+    notify {"table parameter in mroute has no effect on ${::osfamily}!":
+      loglevel => warning,
     }
   }
 
