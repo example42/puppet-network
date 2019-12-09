@@ -5,8 +5,9 @@
 <%= net -%>
 <%
   if gw.kind_of?(Array)
-    gw.each do | g | %> nexthop via <%= g %><% end %>
-  <%- elsif /^\d/.match(gw) %> via <%= gw %>
-  <%- else %> dev <%= gw %>
+    gw.each do | g | %> nexthop via <%= g %><% end -%>
+  <%- elsif /^\d/.match(gw) %> via <%= gw -%>
+  <%- else %> dev <%= gw -%>
   <%- end -%>
+<%- if @table %> table <%= @table %><% end %>
 <% end -%>
