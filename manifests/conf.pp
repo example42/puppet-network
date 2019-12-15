@@ -57,7 +57,7 @@
 #   the name(s) of the resources to notify. Ie: 'Service[network]',
 #
 # [*config_file_require*]
-#   String or Boolean. Optional. Default: 'class_default'
+#   String or Boolean. Optional. Default: undef
 #   Defines the require argument of the created file.
 #   The default is to leave this undefined and don't force any dependency.
 #   Set the name of a resource to require (must be in the catalog) for custom
@@ -101,14 +101,12 @@ define network::conf (
     'class_default' => $::network::manage_config_file_require,
     true            => $::network::manage_config_file_require,
     false           => undef,
-    undef           => undef,
     default         => $config_file_require,
   }
   $manage_notify  = $config_file_notify ? {
     'class_default' => $::network::manage_config_file_notify,
     true            => $::network::manage_config_file_notify,
     false           => undef,
-    undef           => undef,
     default         => $config_file_notify,
   }
   $manage_content = $content ? {
