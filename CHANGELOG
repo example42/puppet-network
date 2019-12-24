@@ -1,3 +1,9 @@
+2019-12-24 Release 3.5.3
+- Added support for Rhel 8 #292 #296 (olifre FcoCalero)
+- Fixed forge package with .git dir #298 (a3li)
+- Fixed network::conf resource relationship managemeng #290 and #289 (findmyname666)
+- Added table support on mroute for RedHat (odivlad)
+
 2019-10-11 Release 3.5.2
 - Fixed gateway management on RedHat interfaces with multiple IP #176
 - Fixed 'string compared wit an integer' on Suse (pseiler)
