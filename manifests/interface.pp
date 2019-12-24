@@ -509,7 +509,7 @@ define network::interface (
     validate_array($subchannels)
     validate_re($nettype, '^(qeth|lcs|ctc)$', "${name}::\$nettype may be 'qeth', 'lcs' or 'ctc' only and is set to <${nettype}>.")
     # Different parameters required for RHEL6 and RHEL7
-    if $::operatingsystemmajrelease =~ /^7/ {
+    if $::operatingsystemmajrelease =~ /^7|^8/ {
       validate_string($zlinux_options)
     } else {
       validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
