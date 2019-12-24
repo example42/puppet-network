@@ -1,11 +1,12 @@
 {
   "name": "example42-network",
   "version": "3.5.3",
-  "source": "https://github.com/example42/puppet-network",
   "author": "Alessandro Franceschi",
   "summary": "Example42 Network Module",
   "license": "Apache-2.0",
+  "source": "https://github.com/example42/puppet-network",
   "project_page": "https://github.com/example42/puppet-network",
+  "issues_url": "https://github.com/example42/puppet-network/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
