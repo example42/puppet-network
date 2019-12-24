@@ -7,7 +7,7 @@ class network::params {
   $service_restart_exec = $::osfamily ? {
     'Debian'  => '/sbin/ifdown -a --force ; /sbin/ifup -a',
     'Solaris' => '/usr/sbin/svcadm restart svc:/network/physical:default',
-    'RedHat'  => $::operatingsystemmajver ? {
+    'RedHat'  => $::operatingsystemmajrelease ? {
       '8'     => 'nmcli connection reload && nmcli networking off && nmcli networking on',
       default => 'service network restart',
     },
