@@ -6,7 +6,7 @@ describe 'network::interface' do
 
     let(:title) { 'eth0' }
     let(:node) { 'rspec.example42.com' }
-    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' } }
+    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' , :operatingsystemmajrelease => '7' } }
     let(:params) {
       { 'enable'                =>  true,
         'ipaddress'             =>  '10.42.42.42',
@@ -37,7 +37,7 @@ describe 'network::interface' do
   context 'Test network:interface on RedHat with multiple IPs' do
     let(:title) { 'eth0' }
     let(:node) { 'rspec.example42.com' }
-    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' } }
+    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => '7' } }
     let(:params) {
       { 'enable'       =>  true,
         'ipaddress'    =>  ['192.168.0.1','192.168.0.2'],

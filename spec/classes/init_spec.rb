@@ -18,6 +18,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
           :operatingsystem => operatingsystem,
+          :operatingsystemmajrelease => '7',
         }}
 
         it {
@@ -37,6 +38,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
           :operatingsystem => operatingsystem,
+          :operatingsystemmajrelease => '7',
         }}
 
         it {
@@ -53,6 +55,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
           :operatingsystem => operatingsystem,
+          :operatingsystemmajrelease => '7',
         }}
 
         it {
@@ -70,6 +73,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
           :operatingsystem => operatingsystem,
+          :operatingsystemmajrelease => '7',
         }}
 
         it {
@@ -95,6 +99,7 @@ describe 'network' do
         let(:facts) {{
           :osfamily => osfamily,
           :operatingsystem => operatingsystem,
+          :operatingsystemmajrelease => '7',
         }}
 
         it {
@@ -114,6 +119,7 @@ describe 'network' do
       let(:facts) {{
         :osfamily => 'RedHat',
         :operatingsystem => 'RedHat',
+        :operatingsystemmajrelease => '7',
       }}
       let(:params) {{
         :config_file_source => "puppet:///modules/network/spec.conf",
@@ -134,6 +140,7 @@ describe 'network' do
       let(:facts) {{
         :osfamily => 'Debian',
         :operatingsystem => 'Debian',
+        :operatingsystemmajrelease => '7',
       }}
       let(:params) {{
         :config_file_source => "puppet:///modules/network/spec.conf",
@@ -152,6 +159,7 @@ describe 'network' do
     let(:facts) {{
       :osfamily        => 'BSD',
       :operatingsystem => 'Nexenta',
+      :operatingsystemmajrelease => '7',
     }}
 
     it {
