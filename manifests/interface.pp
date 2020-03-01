@@ -487,6 +487,7 @@ define network::interface (
 
   include ::network
 
+  validate_re($ensure, '^(present|absent)$', "Ensure can only be present or absent (to add or remove an interface). Current value: ${ensure}")
   validate_bool($auto)
   validate_bool($enable)
   validate_bool($restart_all_nic)
