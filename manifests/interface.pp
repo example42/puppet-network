@@ -260,7 +260,7 @@ define network::interface (
   $options_extra_debian  = undef,
   $options_extra_suse    = undef,
   $interface             = $name,
-  $restart_all_nic       = true,
+  $restart_all_nic       = $::network::params::restart_all_nic,
   $reload_command        = undef,
 
   $enable_dhcp           = false,
@@ -641,6 +641,10 @@ define network::interface (
   $real_reload_command = $reload_command ? {
     undef => $::operatingsystem ? {
         'CumulusLinux' => 'ifreload -a',
+        'RedHat'       => $::operatingsystemmajrelease ? {
+          '8'     => "/usr/bin/nmcli device reapply ${interface}",
+          default => "ifdown ${interface} --force ; ifup ${interface}",
+        },
         default        => "ifdown ${interface} --force ; ifup ${interface}",
       },
     default => $reload_command,
@@ -739,13 +743,17 @@ define network::interface (
     }
 
     'RedHat': {
-      file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+      concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+        mode   => '0644',
+        owner  => 'root',
+        group  => 'root',
+        notify => $network_notify,
+      }
+      concat::fragment { "interface-${name}":
         ensure  => $ensure,
         content => template($template),
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        notify  => $network_notify,
+        target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
+        order   => 01,
       }
     }
 
