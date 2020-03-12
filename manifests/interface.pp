@@ -260,7 +260,13 @@ define network::interface (
   $options_extra_debian  = undef,
   $options_extra_suse    = undef,
   $interface             = $name,
-  $restart_all_nic       = $::network::params::restart_all_nic,
+  $restart_all_nic = $::osfamily ? {
+    'RedHat' => $::operatingsystemmajrelease ? {
+      '8'     => false,
+      default => true,
+    },
+    default  => true,
+  },
   $reload_command        = undef,
 
   $enable_dhcp           = false,
@@ -750,7 +756,6 @@ define network::interface (
         notify => $network_notify,
       }
       concat::fragment { "interface-${name}":
-        ensure  => $ensure,
         content => template($template),
         target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
         order   => 01,

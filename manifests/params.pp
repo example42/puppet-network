@@ -14,14 +14,6 @@ class network::params {
     default   => 'service network restart',
   }
 
-  $restart_all_nic = $::osfamily ? {
-    'RedHat' => $::operatingsystemmajrelease ? {
-      '8'     => false,
-      default => true,
-    },
-    default  => true,
-  }
-
   $config_file_path = $::osfamily ? {
     'Debian' => '/etc/network/interfaces',
     'RedHat' => '/etc/sysconfig/network-scripts/ifcfg-eth0',

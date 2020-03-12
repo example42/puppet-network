@@ -62,4 +62,33 @@ describe 'network::interface' do
 
   end
 
+  #context 'Test network:interface on RedHat 8 with multiple IP rules' do
+  #  let(:title) { 'eth0' }
+  #  let(:node) { 'rspec.example42.com' }
+  #  let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => '8' } }
+  #  let(:params) {
+  #    { 'enable'       =>  true,
+  #      'ipaddress'    =>  ['192.168.0.1'],
+  #      'iprule'       =>  ['from 192.168.22.0/24 lookup vlan22','from 192.168.24.0/24 lookup vlan22'],
+  #    }
+  #  }
+
+  #  it {
+  #    is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_ensure('present')
+  #  }
+
+  #  it {
+  #    is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/IPADDR1=\"192.168.0.1\"/)
+  #  }
+
+  #  it {
+  #    is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/ROUTING_RULE_1=\"from 192.168.22.0\/24 lookup vlan22\"/)
+  #  }
+
+  #  it {
+  #    is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-eth0').with_content(/ROUTING_RULE_2=\"from 192.168.24.0\/24 lookup vlan22\"/)
+  #  }
+
+  #end
+
 end
