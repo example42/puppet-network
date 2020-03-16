@@ -43,11 +43,18 @@ define network::rule (
   case $::osfamily {
     'RedHat': {
       if $::operatingsystemmajrelease =~ /^8/ {
-       concat::fragment { "routing-roule-${name}":
-         ensure  => $ensure,
+        if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
+          concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+            ensure => 'present',
+            mode   => '0644',
+            owner  => 'root',
+            group  => 'root',
+          }
+        }
+
+       concat::fragment { "rule-${name}":
          target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
          content => template('network/rule-nm-settings-ifcfg-rh.erb'),
-         notify  => $network_notify,
          order   => 02,
        }
       } else {

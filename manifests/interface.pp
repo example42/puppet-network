@@ -749,11 +749,14 @@ define network::interface (
     }
 
     'RedHat': {
-      concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
-        mode   => '0644',
-        owner  => 'root',
-        group  => 'root',
-        notify => $network_notify,
+      if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
+        concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+          ensure => $ensure,
+          mode   => '0644',
+          owner  => 'root',
+          group  => 'root',
+          notify => $network_notify,
+        }
       }
       concat::fragment { "interface-${name}":
         content => template($template),
