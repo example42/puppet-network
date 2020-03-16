@@ -7,7 +7,7 @@ RULE_CONFIG = 'rule-eth0'
 
 describe 'network::interface' do
 
-  context 'Test network::interface on RedHat' do
+  context 'Test network::interface on RedHat 7' do
 
     let(:title) { 'eth0' }
     let(:node) { 'rspec.example42.com' }
@@ -39,7 +39,43 @@ describe 'network::interface' do
 
   end
 
-  context 'Test network:interface on RedHat with multiple IPs' do
+  context 'Test network::interface on RedHat 8' do
+
+    let(:title) { 'eth0' }
+    let(:node) { 'rspec.example42.com' }
+    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat' , :operatingsystemmajrelease => '8', :kernel => 'Linux' } }
+    let(:params) {
+      { 'enable'                =>  true,
+        'ipaddress'             =>  '10.42.42.42',
+        'options_extra_redhat'  => {
+          'IPV4_FAILURE_FATAL'  => 'yes',
+        },
+      }
+    }
+
+    it {
+      is_expected.to contain_concat(NIC_PATH).with_ensure('present')
+    }
+
+    it {
+      is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/IPADDR=\"10.42.42.42\"/)
+    }
+
+    it {
+      is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/ONBOOT=\"yes\"/)
+    }
+
+    it {
+      is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/IPV4_FAILURE_FATAL=\"yes\"/)
+    }
+
+    it {
+      is_expected.to contain_service('NetworkManager').with_ensure('running').with_enable(true)
+    }
+
+  end
+
+  context 'Test network:interface on RedHat 7 with multiple IPs' do
     let(:title) { 'eth0' }
     let(:node) { 'rspec.example42.com' }
     let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => '7' } }

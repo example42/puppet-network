@@ -42,7 +42,7 @@ define network::rule (
 
   case $::osfamily {
     'RedHat': {
-      if $::operatingsystemmajrelease =~ /^8/ {
+      if versioncmp($::operatingsystemmajrelease, '8') >= 0 {
         if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
           concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
             ensure => 'present',
