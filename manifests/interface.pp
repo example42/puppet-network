@@ -750,9 +750,11 @@ define network::interface (
 
     'RedHat': {
       if versioncmp($::operatingsystemmajrelease, '8') >= 0 {
-        service { 'NetworkManager':
-          ensure => running,
-          enable => true,
+        if ! defined(Service['NetworkManager']) {
+          service { 'NetworkManager':
+            ensure => running,
+            enable => true,
+          }
         }
       }
       if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
