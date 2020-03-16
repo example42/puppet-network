@@ -52,11 +52,11 @@ define network::rule (
           }
         }
 
-       concat::fragment { "rule-${name}":
-         target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
-         content => template('network/rule-nm-settings-ifcfg-rh.erb'),
-         order   => 02,
-       }
+        concat::fragment { "rule-${name}":
+          target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
+          content => template('network/rule-nm-settings-ifcfg-rh.erb'),
+          order   => 02,
+        }
       } else {
         file { "rule-${interface}":
           ensure  => present,
