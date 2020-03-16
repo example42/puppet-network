@@ -452,10 +452,11 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
 
 This is tested on these OS:
 
-- RedHat
+- RedHat / CentOS / OracleLinux
   - 5
   - 6
   - 7
+  - 8
 - Debian
   - 6
   - 7
