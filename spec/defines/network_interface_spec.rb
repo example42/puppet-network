@@ -115,12 +115,13 @@ describe 'network::rule' do
           'family' => ['inet'],
       }
     }
+
     it {
-        is_expected.to contain_file(RULE_CONFIG).with_content(/from 192.168.22.0\/24 lookup vlan22/)
+      is_expected.to contain_file(RULE_CONFIG).with_content(/from 192.168.22.0\/24 lookup vlan22/)
     }
 
     it {
-        is_expected.to contain_file(RULE_CONFIG).with_content(/from 192.168.24.0\/24 lookup vlan22/)
+      is_expected.to contain_file(RULE_CONFIG).with_content(/from 192.168.24.0\/24 lookup vlan22/)
     }
 
   end
@@ -135,11 +136,15 @@ describe 'network::rule' do
       }
     }
     it {
-        is_expected.to contain_concat_fragment(RULE_CONFIG).with_content(/ROUTING_RULE_1=\"from 192.168.22.0\/24 lookup vlan22\"/)
+      is_expected.to contain_concat(NIC_PATH).with_ensure('present')
     }
 
     it {
-        is_expected.to contain_concat_fragment(RULE_CONFIG).with_content(/ROUTING_RULE_2=\"from 192.168.24.0\/24 lookup vlan22\"/)
+      is_expected.to contain_concat_fragment(RULE_CONFIG).with_content(/ROUTING_RULE_1=\"from 192.168.22.0\/24 lookup vlan22\"/)
+    }
+
+    it {
+     is_expected.to contain_concat_fragment(RULE_CONFIG).with_content(/ROUTING_RULE_2=\"from 192.168.24.0\/24 lookup vlan22\"/)
     }
 
   end
