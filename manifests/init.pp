@@ -131,6 +131,7 @@ class network (
   $udp_port                  = undef,
 
   $hiera_merge               = false,
+  $vlan                      = undef,
 
   ) inherits ::network::params {
 
