@@ -42,40 +42,23 @@ define network::rule (
 
   case $::osfamily {
     'RedHat': {
-      if versioncmp($::operatingsystemmajrelease, '8') >= 0 {
-        if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
-          concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
-            ensure => 'present',
-            mode   => '0644',
-            owner  => 'root',
-            group  => 'root',
-          }
-        }
-
-        concat::fragment { "rule-${name}":
-          target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
-          content => template('network/rule-nm-settings-ifcfg-rh.erb'),
-          order   => 02,
-        }
-      } else {
-        file { "rule-${interface}":
-          ensure  => present,
-          owner   => root,
-          group   => root,
-          mode    => '0644',
-          path    => "/etc/sysconfig/network-scripts/rule-${interface}",
-          content => template('network/rule-RedHat.erb'),
-          notify  => $network::manage_config_file_notify,
-        }
-        file { "rule6-${interface}":
-          ensure  => present,
-          owner   => root,
-          group   => root,
-          mode    => '0644',
-          path    => "/etc/sysconfig/network-scripts/rule6-${interface}",
-          content => template('network/rule6-RedHat.erb'),
-          notify  => $network::manage_config_file_notify,
-        }
+      file { "rule-${interface}":
+        ensure  => present,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        path    => "/etc/sysconfig/network-scripts/rule-${interface}",
+        content => template('network/rule-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
+      }
+      file { "rule6-${interface}":
+        ensure  => present,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        path    => "/etc/sysconfig/network-scripts/rule6-${interface}",
+        content => template('network/rule6-RedHat.erb'),
+        notify  => $network::manage_config_file_notify,
       }
     }
     'Suse': {

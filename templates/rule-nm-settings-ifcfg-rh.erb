@@ -1,5 +1,0 @@
-<%- (0..(@iprule.length-1)).each do |id| -%>
-<%- if @family and @family[id] != 'inet6' -%>
-ROUTING_RULE_<%= id+1 %>="<%= @iprule[id] %>"
-<% end -%>
-<%- end -%>

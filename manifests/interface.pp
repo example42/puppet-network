@@ -432,6 +432,7 @@ define network::interface (
   $hotplug               = undef,
   $persistent_dhclient   = undef,
   $nm_name               = undef,
+  $iprule                = undef,
 
   # RedHat specific for InfiniBand
   $connected_mode        = undef,
@@ -522,7 +523,11 @@ define network::interface (
       validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
     }
   }
-
+  if $::osfamily == 'RedHat' {
+    if $iprule != undef {
+      validate_array($iprule)
+    }
+  }
   if $arp != undef and ! ($arp in ['yes', 'no']) {
     fail('arp must be one of: undef, yes, no')
   }
@@ -757,19 +762,13 @@ define network::interface (
           }
         }
       }
-      if ! defined(Concat["/etc/sysconfig/network-scripts/ifcfg-${name}"]) {
-        concat { "/etc/sysconfig/network-scripts/ifcfg-${name}":
-          ensure => $ensure,
-          mode   => '0644',
-          owner  => 'root',
-          group  => 'root',
-          notify => $network_notify,
-        }
-      }
-      concat::fragment { "interface-${name}":
+      file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
+        ensure  => $ensure,
         content => template($template),
-        target  => "/etc/sysconfig/network-scripts/ifcfg-${name}",
-        order   => 01,
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        notify  => $network_notify,
       }
     }
 

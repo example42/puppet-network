@@ -1,6 +1,6 @@
 require "spec_helper"
 
-NIC_CONFIG = 'interface-eth0'
+NIC_CONFIG = '/etc/sysconfig/network-scripts/ifcfg-eth0'
 
 describe 'network::interface' do
 
@@ -15,7 +15,7 @@ describe 'network::interface' do
       let(:params) {{ :defroute => true }}
 
       it {
-        is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/DEFROUTE="yes"/)
+        is_expected.to contain_file(NIC_CONFIG).with_content(/DEFROUTE="yes"/)
       }
 
     end
@@ -25,7 +25,7 @@ describe 'network::interface' do
       let(:params) {{ :defroute => false }}
 
       it {
-        is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/DEFROUTE="no"/)
+        is_expected.to contain_file(NIC_CONFIG).with_content(/DEFROUTE="no"/)
       }
 
     end
@@ -35,7 +35,7 @@ describe 'network::interface' do
       let(:params) {{}}
 
       it {
-        is_expected.to contain_concat_fragment(NIC_CONFIG).without_content(/DEFROUTE/)
+        is_expected.to contain_file(NIC_CONFIG).without_content(/DEFROUTE/)
       }
 
     end

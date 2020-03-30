@@ -252,3 +252,8 @@ check_link_down() {
 <% if @connected_mode -%>
 CONNECTED_MODE=yes
 <% end -%>
+<% if @iprule -%>
+<%- (0..(@iprule.length-1)).each do |id| -%>
+ROUTING_RULE_<%= id+1 %>="<%= @iprule[id] %>"
+<%- end -%>
+<% end -%>

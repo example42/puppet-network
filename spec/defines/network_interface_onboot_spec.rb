@@ -15,7 +15,7 @@ describe 'network::interface' do
       let(:params) {{  :onboot => 'yes' }}
 
       it {
-        is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/ONBOOT="yes"/)
+        is_expected.to contain_file(NIC_CONFIG).with_content(/ONBOOT="yes"/)
       }
 
     end
@@ -25,7 +25,7 @@ describe 'network::interface' do
       let(:params) {{ :onboot => 'no' }}
 
       it {
-        is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/ONBOOT="no"/)
+        is_expected.to contain_file(NIC_CONFIG).with_content(/ONBOOT="no"/)
       }
 
     end
@@ -37,7 +37,7 @@ describe 'network::interface' do
         let(:params) {{ :enable => true }}
 
         it {
-          is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/ONBOOT="yes"/)
+          is_expected.to contain_file(NIC_CONFIG).with_content(/ONBOOT="yes"/)
         }
 
       end
@@ -47,7 +47,7 @@ describe 'network::interface' do
         let(:params) {{ :enable => false }}
 
         it {
-          is_expected.to contain_concat_fragment(NIC_CONFIG).with_content(/ONBOOT="no"/)
+          is_expected.to contain_file(NIC_CONFIG).with_content(/ONBOOT="no"/)
         }
 
       end
