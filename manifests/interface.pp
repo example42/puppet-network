@@ -260,7 +260,13 @@ define network::interface (
   $options_extra_debian  = undef,
   $options_extra_suse    = undef,
   $interface             = $name,
-  $restart_all_nic       = true,
+  $restart_all_nic = $::osfamily ? {
+    'RedHat' => $::operatingsystemmajrelease ? {
+      '8'     => false,
+      default => true,
+    },
+    default  => true,
+  },
   $reload_command        = undef,
 
   $enable_dhcp           = false,
@@ -426,6 +432,7 @@ define network::interface (
   $hotplug               = undef,
   $persistent_dhclient   = undef,
   $nm_name               = undef,
+  $iprule                = undef,
 
   # RedHat specific for InfiniBand
   $connected_mode        = undef,
@@ -516,7 +523,11 @@ define network::interface (
       validate_re($layer2, '^0|1$', "${name}::\$layer2 must be 1 or 0 and is to <${layer2}>.")
     }
   }
-
+  if $::osfamily == 'RedHat' {
+    if $iprule != undef {
+      validate_array($iprule)
+    }
+  }
   if $arp != undef and ! ($arp in ['yes', 'no']) {
     fail('arp must be one of: undef, yes, no')
   }
@@ -641,6 +652,10 @@ define network::interface (
   $real_reload_command = $reload_command ? {
     undef => $::operatingsystem ? {
         'CumulusLinux' => 'ifreload -a',
+        'RedHat'       => $::operatingsystemmajrelease ? {
+          '8'     => "/usr/bin/nmcli device reapply ${interface}",
+          default => "ifdown ${interface} --force ; ifup ${interface}",
+        },
         default        => "ifdown ${interface} --force ; ifup ${interface}",
       },
     default => $reload_command,
@@ -739,6 +754,14 @@ define network::interface (
     }
 
     'RedHat': {
+      if versioncmp($::operatingsystemmajrelease, '8') >= 0 {
+        if ! defined(Service['NetworkManager']) {
+          service { 'NetworkManager':
+            ensure => running,
+            enable => true,
+          }
+        }
+      }
       file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
         ensure  => $ensure,
         content => template($template),

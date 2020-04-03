@@ -207,6 +207,14 @@ Same information as Hiera data in yaml format:
           iprule => ['from 192.168.22.0/24 lookup vlan22', ],
         }
 
+When using RHEL or similiar with NetworkManager the resource isn't supported as NetworkManager won't respect those files. Instead you can add the iprule to the interface resource. Also NetworkManager won't recognize name schemes for routing tables. Use the numeric value instead:
+
+        network::interface { 'eth0':
+          ipaddress => '10.42.42.50',
+          netmask   => '255.255.255.0',
+          iprule    => ['from 192.168.22.0/24 lookup 22', ],
+        }
+
 You can then add routes to this routing table:
 
        network::route { 'eth1':
@@ -452,10 +460,11 @@ Configuration of multiple static routes (using the newer ```network::mroute``` d
 
 This is tested on these OS:
 
-- RedHat
+- RedHat / CentOS / OracleLinux
   - 5
   - 6
   - 7
+  - 8
 - Debian
   - 6
   - 7
