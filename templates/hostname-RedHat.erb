@@ -1,17 +1,13 @@
 # File Managed by Puppet
-NETWORKING=yes
+NETWORKING="yes"
 <% if @gateway -%>
-GATEWAY=<%= @gateway %>
+GATEWAY="<%= @gateway %>"
 <% end -%>
 <% if @nozeroconf -%>
-NOZEROCONF=<%= @nozeroconf %>
+NOZEROCONF="<%= @nozeroconf %>"
 <% end -%>
 <% if @ipv6enable -%>
-NETWORKING_IPV6=<%= @ipv6enable %>
-IPV6INIT=<%= @ipv6enable %>
+NETWORKING_IPV6="<%= @ipv6enable %>"
+IPV6INIT="<%= @ipv6enable %>"
 <% end -%>
-<% if @hostname -%>HOSTNAME=<%= @hostname %>
-<%- else %>HOSTNAME=<%= @manage_hostname.split('.').first %>
-<% end -%>
-<% if @vlan -%>VLAN=<%= @vlan %>
-<% end -%>
+HOSTNAME="<%= @manage_hostname.split('.').first %>"
