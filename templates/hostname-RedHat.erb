@@ -10,8 +10,8 @@ NOZEROCONF="<%= @nozeroconf %>"
 NETWORKING_IPV6="<%= @ipv6enable %>"
 IPV6INIT="<%= @ipv6enable %>"
 <% end -%>
-<% if @hostname -%>HOSTNAME=<%= @hostname %>
-<%- else %>HOSTNAME=<%= @manage_hostname.split('.').first %>
+<% if @hostname -%>HOSTNAME="<%= @hostname %>"
+<%- else %>HOSTNAME="<%= @manage_hostname.split('.').first %>"
 <% end -%>
-<% if @vlan -%>VLAN=<%= @vlan %>
+<% if @vlan -%>VLAN="<%= @vlan %>"
 <% end -%>
