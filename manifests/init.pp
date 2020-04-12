@@ -132,6 +132,8 @@ class network (
 
   $hiera_merge               = false,
 
+  $vlan                      = undef,
+
   ) inherits ::network::params {
 
   # Hiera import
