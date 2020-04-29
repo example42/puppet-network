@@ -14,6 +14,10 @@
 #   String. Optional. Default: undef
 #   The hostname of your system
 #
+# [*ipv6_autoconf*]
+#   String. Optional. Default: undef
+#   Globally disable / enable SLAAC for IPv6
+#
 # [*config_file_notify*]
 #   String or Boolean. Optional. Default: 'class_default'
 #   Defines the content of the notify parameter on the resources which
@@ -94,6 +98,7 @@ class network (
   $gateway                   = undef,
   $nozeroconf                = undef,
   $ipv6enable                = undef,
+  $ipv6_autoconf             = undef,
 
   # Stdmod commons
   $package_name              = $::network::params::package_name,
