@@ -250,6 +250,16 @@
 #     parameter.The Red Hat Enterprise Linux (7 )installation program currently
 #     uses this to configure the layer mode (layer2) and the relative port
 #     number (portno) of qeth devices.
+#
+# @example Configure a vlan interface:
+#
+#    network::interface { 'ens18.252':
+#      method          => 'static',
+#      ipaddress       => '10.10.10.10',
+#      netmask         => '255.255.255.0',
+#      type            => 'vlan',
+#    }
+#
 define network::interface (
 
   $enable                = true,
