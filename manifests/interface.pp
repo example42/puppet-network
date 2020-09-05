@@ -729,7 +729,7 @@ define network::interface (
             file_line { 'config_file_per_interface':
               ensure => $ensure,
               path   => '/etc/network/interfaces',
-              line   => 'source /etc/network/interfaces.d/*.cfg',
+              line   => 'source /etc/network/interfaces.d/*',
               notify => $network_notify,
             }
           }
