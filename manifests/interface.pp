@@ -282,7 +282,6 @@ define network::interface (
   $enable_dhcp           = false,
 
   $ipaddress             = '',
-  $prefix                = undef,
   $netmask               = undef,
   $network               = undef,
   $broadcast             = undef,
