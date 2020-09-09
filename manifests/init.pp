@@ -98,7 +98,12 @@ class network (
   $gateway                   = undef,
   $nozeroconf                = undef,
   $ipv6enable                = undef,
+  $networking_ipv6           = undef,
+  $ipv6forwarding            = undef,
   $ipv6_autoconf             = undef,
+  $ipv6_autotunnel           = undef,
+  $ipv6_defaultgw            = undef,
+  $ipv6_radvd_pidfile        = undef,
 
   # Stdmod commons
   $package_name              = $::network::params::package_name,
@@ -231,6 +236,39 @@ class network (
     $config_file_ensure = present
   }
 
+  $manage_networking_ipv6 = $networking_ipv6 ? {
+    'yes'   => 'yes',
+    'no'    => 'no',
+    default => undef,
+  }
+  $manage_ipv6forwarding = $ipv6forwarding ? {
+    'yes'   => 'yes',
+    'no'    => 'no',
+    default => undef,
+  }
+  $manage_ipv6_autoconf = $ipv6_autoconf ? {
+    'yes'   => 'yes',
+    'no'    => 'no',
+    default => undef,
+  }
+  $manage_ipv6_autotunnel = $ipv6_autotunnel ? {
+    'yes'   => 'yes',
+    'no'    => 'no',
+    default => undef,
+  }
+  if $ipv6_defaultgw {
+    if $ipv6_defaultgw =~ Stdlib::IP::Address::V6 {
+      $manage_ipv6_defaultgw = $ipv6_defaultgw
+    } else {
+      notify {"wrong IPv6 default gateway address: $ipv6_defaultgw":}
+      err ("wrong IPv6 default gateway address: $ipv6_defaultgw")
+    }
+  }
+  if $ipv6_radvd_pidfile =~ Stdlib::Absolutepath {
+    $manage_ipv6_radvd_pidfile = $ipv6_radvd_pidfile
+  } else {
+    $manage_ipv6_radvd_pidfile = undef
+  }
 
   # Dependency class
 
