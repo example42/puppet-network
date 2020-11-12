@@ -256,14 +256,9 @@ class network (
     'no'    => 'no',
     default => undef,
   }
-  if $ipv6_defaultgw {
-    if $ipv6_defaultgw =~ Stdlib::IP::Address::V6 {
-      $manage_ipv6_defaultgw = $ipv6_defaultgw
-    } else {
-      notify {"wrong IPv6 default gateway address: ${ipv6_defaultgw}":}
-      err ("wrong IPv6 default gateway address: ${ipv6_defaultgw}")
-    }
-  }
+  
+  $manage_ipv6_defaultgw = $ipv6_defaultgw
+  
   if $ipv6_radvd_pidfile =~ Stdlib::Absolutepath {
     $manage_ipv6_radvd_pidfile = $ipv6_radvd_pidfile
   } else {
