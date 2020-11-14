@@ -258,12 +258,7 @@ class network (
   }
   
   $manage_ipv6_defaultgw = $ipv6_defaultgw
-  
-  if $ipv6_radvd_pidfile =~ Stdlib::Absolutepath {
-    $manage_ipv6_radvd_pidfile = $ipv6_radvd_pidfile
-  } else {
-    $manage_ipv6_radvd_pidfile = undef
-  }
+  $manage_ipv6_radvd_pidfile = $ipv6_radvd_pidfile
 
   # Dependency class
 
