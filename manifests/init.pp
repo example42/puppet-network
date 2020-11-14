@@ -256,7 +256,6 @@ class network (
     'no'    => 'no',
     default => undef,
   }
-  
   $manage_ipv6_defaultgw = $ipv6_defaultgw
   $manage_ipv6_radvd_pidfile = $ipv6_radvd_pidfile
 
