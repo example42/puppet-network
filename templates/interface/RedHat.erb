@@ -50,6 +50,21 @@ IPADDR<%= id %>="<%= @ipaddress[id-1] %>"
 IPADDR="<%= @manage_ipaddr %>"
 <% end -%>
 <% end -%>
+<% if @manage_prefix -%>
+<% if @ipaddress.kind_of?(Array) -%>
+<% if @manage_prefix.kind_of?(Array) -%>
+<%- (1..(@manage_prefix.length)).each do |id| -%>
+PREFIX<%= id %>="<%= @manage_prefix[id-1] %>"
+<% end -%>
+<% else -%>
+<%- (1..(@ipaddress.length)).each do |id| -%>
+PREFIX<%= id %>="<%= @manage_prefix %>"
+<% end -%>
+<% end -%>
+<% else -%>
+PREFIX="<%= @manage_prefix %>"
+<% end -%>
+<% end -%>
 <% if @netmask -%>
 <% if @ipaddress.kind_of?(Array) -%>
 <% if @netmask.kind_of?(Array) -%>
@@ -64,9 +79,6 @@ NETMASK<%= id %>="<%= @netmask %>"
 <% else -%>
 NETMASK="<%= @netmask %>"
 <% end -%>
-<% end -%>
-<% if @prefix -%>
-PREFIX="<%= @prefix %>"
 <% end -%>
 <% if @broadcast -%>
 BROADCAST="<%= @broadcast %>"
