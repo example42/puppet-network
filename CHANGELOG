@@ -1,3 +1,11 @@
+2020-11-17 Release 3.6.0
+- Better support for RHEL8 with NetworkManager (#306) (pseiler)
+- Fix Centos 7 template symbol "" + Add Global Vlan Support and Hostname (chodorenko)
+- Allow to configure ipv6 autoconf / slaac globally for redhat systems (mat1010)
+- Remove .cfg condition for source interfaces.d (cgoubert)
+- Adding PREFIX= for RH. Adding CIDR ipv4 address format for RH (andres-moya)
+- Added RH ipv6 general params, kept backward compatible with ipv6enable (andres-moya)
+
 2019-12-24 Release 3.5.3
 - Added support for Rhel 8 #292 #296 (olifre FcoCalero)
 - Fixed forge package with .git dir #298 (a3li)
