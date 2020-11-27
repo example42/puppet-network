@@ -504,23 +504,24 @@ define network::interface (
 
   include ::network
 
-  validate_re($ensure, '^(present|absent)$', "Ensure can only be present or absent (to add or remove an interface). Current value: ${ensure}")
-  validate_bool($auto)
-  validate_bool($enable)
-  validate_bool($restart_all_nic)
+  validate_legacy(Enum['present', 'absent'], 'validate_re', $ensure, [['^present$', '^absent$'], "Ensure can only be present or absent (to add or remove an interface). Current value: ${ensure}"])
 
-  validate_array($up)
-  validate_array($pre_up)
-  validate_array($down)
-  validate_array($pre_down)
-  validate_array($slaves)
-  validate_array($bond_slaves)
-  validate_array($bridge_ports)
-  validate_array($wpa_key_mgmt)
-  validate_array($wpa_group)
-  validate_array($wpa_pairwise)
-  validate_array($wpa_auth_alg)
-  validate_array($wpa_proto)
+  validate_legacy(Boolean, 'validate_bool',$auto)
+  validate_legacy(Boolean, 'validate_bool',$enable)
+  validate_legacy(Boolean, 'validate_bool',$restart_all_nic)
+
+  validate_legacy(Array, 'validate_array', $up)
+  validate_legacy(Array, 'validate_array', $pre_up)
+  validate_legacy(Array, 'validate_array', $down)
+  validate_legacy(Array, 'validate_array', $pre_down)
+  validate_legacy(Array, 'validate_array', $slaves)
+  validate_legacy(Array, 'validate_array', $bond_slaves)
+  validate_legacy(Array, 'validate_array', $bridge_ports)
+  validate_legacy(Array, 'validate_array', $wpa_key_mgmt)
+  validate_legacy(Array, 'validate_array', $wpa_group)
+  validate_legacy(Array, 'validate_array', $wpa_pairwise)
+  validate_legacy(Array, 'validate_array', $wpa_auth_alg)
+  validate_legacy(Array, 'validate_array', $wpa_proto)
 
   # $subchannels is only valid for zLinux/SystemZ/s390x.
   if $::architecture == 's390x' {
