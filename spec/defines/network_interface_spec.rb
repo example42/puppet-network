@@ -102,6 +102,44 @@ describe 'network::interface' do
 
   end
 
+  context 'Test network:interface on RedHat 7 with multiple IPs, multiple prefix' do
+    let(:title) { 'eth0' }
+    let(:node) { 'rspec.example42.com' }
+    let(:facts) { { :architecture => 'x86_64', :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => '7' } }
+    let(:params) {
+      { 'enable'       =>  true,
+        'ipaddress'    =>  ['192.168.0.1','192.168.0.2'],
+        'prefix'       =>  ['24', '32']
+      }
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_ensure('present')
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_content(/IPADDR1=\"192.168.0.1\"/)
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_content(/IPADDR2=\"192.168.0.2\"/)
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_content(/ONBOOT=\"yes\"/)
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_content(/PREFIX1=\"24\"/)
+    }
+
+    it {
+      is_expected.to contain_file(NIC_CONFIG).with_content(/PREFIX2=\"32\"/)
+    }
+
+  end
+
+
   context 'Test network:interface on RedHat 8 with multiple IP rules' do
     let(:title) { 'eth0' }
     let(:node) { 'rspec.example42.com' }
