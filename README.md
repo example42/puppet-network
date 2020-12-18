@@ -13,6 +13,7 @@ Example 42 Puppet module to manage networking on Linux and Solaris.
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Backwards compatibility](#backwards-compatibility)
+6. [## Upgrade from version 3 and migration](#upgrade-from-version-3-and-migration)
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Development - Guide for contributing to the module](#development)
 
@@ -32,6 +33,7 @@ Main class is used as entrypoint for general variables and wrapper for Hiera dri
 
 Classes:
 
+- network - Allows Hiera driven configuration of the various defines
 - network::hostname - Manages the system hostname
 
 Defines:
@@ -52,6 +54,7 @@ Legacy defines (inherited from version 3 of the module):
 - network::legacy::rule - Manages network rules
 
 ## Setup
+
 
 ### What puppet-network affects
 
@@ -99,29 +102,49 @@ For full reference look at the defines documentation.
 
 For configuration examples via Hiera look at the examples directory.
 
-## Backwards compatibility
+## Upgrade from version 3 and migration
 
-If you are using the version 3 of this module and are configuring networking via Hiera data, you must set the relevant
-legacy options so that hashes of interface, route, and other resources can be maintained ad the legacy defines used.
-You have to set this for each network resource type. By default the new versions are used.
-On hiera configure something like (Yaml format):
+When upgrading from version 3 to version 4 of this module you have 2 options:
 
-    network::interfaces_legacy: true 
-    network::rules_legacy: true 
-    network::tables_legacy: true 
-    network::routes_legacy: true 
+- Keep on using the old defines with relevant data
+- Migrate to the new defines
 
-Given the quite critical nature of the resources manages we highly recommend to test carefully the effect of an upgrade of
+### Keep on using old defines
+
+The Version 3 defines for network resources have been renamed to legacy but they entrypoint have been preserved, so, if you managed your network cnfigurations via the network::*_hash Hiera keys you should not have any change in behaviour.
+
+| Version 3 defines | Version 4 equivalent | Hiera entrypoint |
+| network::interface | network::legacy::interface | network::interfaces_hash | 
+| network::route | network::legacy::route | network::routes_hash |
+| network::mroute | network::legacy::mroute | network::mroutes_hash |
+| network::rule | network::legacy::rule | network::rules_hash | 
+| network::routing_table | network::legacy::routing_table | network::tables_hash |
+
+If you use in you profile, classes or wrapper defines directly the above version 3 defines, then you need to rename them using the legacy names.
+
+Given the quite critical nature of the resources managed we highly recommend to test carefully the effect of an upgrade of
 this module on your current infrastructure and to keep the first runs on noop mode.
 
-Some configuration files might change as well, in minor details like new lines or spaces, even when using the legacy 
-options. To avoid automatic restart of network service on a configuration change set:
+Some configuration files might change as well, in minor details like new lines or spaces, even when using the legacy defines. To avoid automatic restart of network service on a configuration change set:
 
     network::config_file_notify: false
 
+### Miggrate to the new defines
+
+The new, version 4 defines have replaced the names of the old ones and can be configured via hiera using new entrypoints in the netwrok class:
+
+| Version 4 defines | Hiera entrypoint |
+| network::interface | network::interfaces | 
+| network::route | network::routes |
+| network::mroute | network::mroutes |
+| network::rule | network::rules | 
+| network::routing_table | network::tables |
+
+The parameters of these defines have changes and, in many cases, also their internals.
+
 ## Limitations
 
-This module works currently supports only the major Linux distributions (RedHat and derivatives, Debian and derivatives, included Cumulus, SuSE
+This module currently supports only the major Linux distributions (RedHat and derivatives, Debian and derivatives, included Cumulus, SuSE
 and derivatives, Solaris).
 
 The legacy defines are introduced for backwards compatibility only and are not supposed to be improved in the future.

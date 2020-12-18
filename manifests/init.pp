@@ -32,13 +32,7 @@
 # @param interfaces An hash of interfaces to configure.
 #   This is not actually a class parameter, but a key looked up using the
 #   merge behaviour configured via the $interfaces_merge_behaviour parameter.
-#   If $interfaces_legacy is false (default) the define network::interface
-#   is declared for each element of this hash.
-#   If $interfaces_legacy is true then the hash values are iterated over
-#   the define network::legacy::interface
-# @param interfaces_legacy Allows usage backwards compatible hiera data by
-#   using the network::legacy::interface define which is a copy of the
-#   network::interface define on version 3 of this module
+#   The define network::interface is declared for each element of this hash.
 # @param interfaces_merge_behaviour Defines the lookup method to use to
 #   retrieve via hiera the $interfaces_hash
 # @param interfaces_defaults An hash of default settings to merge with
@@ -52,13 +46,7 @@
 # @param routes An hash of routes to configure.
 #   This is not actually a class parameter, but a key looked up using the
 #   merge behaviour configured via $routes_merge_behaviour.
-#   If $routes_legacy is false (default) the define network::route
-#   is declared for each element of this hash.
-#   If $routes_legacy is true then the hash values are iterated over
-#   the define network::legacy::route
-# @param routes_legacy Allows usage backwards compatible hiera data by
-#   using the network::legacy::route define which is a copy of the
-#   network::route define on version 3 of this module
+#   The define network::route is declared for each element of this hash.
 # @param routes_merge_behaviour Defines the lookup method to use to
 #   retrieve via hiera the $routes_hash
 # @param routes_defaults An hash of default settings to merge with
@@ -71,13 +59,7 @@
 # @param rules An hash of rules to configure.
 #   This is not actually a class parameter, but a key looked up using the
 #   merge behaviour configured via $rules_merge_behaviour.
-#   If $rules_legacy is false (default) the define network::rule
-#   is declared for each element of this hash.
-#   If $rules_legacy is true then the hash values are iterated over
-#   the define network::legacy::rule
-# @param rules_legacy Allows usage backwards compatible hiera data by
-#   using the network::legacy::rule define which is a copy of the
-#   network::rule define on version 3 of this module
+#   The define network::rule is declared for each element of this hash.
 # @param rules_merge_behaviour Defines the lookup method to use to
 #   retrieve via hiera the $rules_hash
 # @param rules_defaults An hash of default settings to merge with
@@ -90,13 +72,7 @@
 # @param tables An hash of tables to configure.
 #   This is not actually a class parameter, but a key looked up using the
 #   merge behaviour configured via $tables_merge_behaviour.
-#   If $tables_legacy is false (default) the define network::table
-#   is declared for each element of this hash.
-#   If $tables_legacy is true then the hash values are iterated over
-#   the define network::legacy::table
-# @param tables_legacy Allows usage backwards compatible hiera data by
-#   using the network::legacy::table define which is a copy of the
-#   network::table define on version 3 of this module
+#   The define network::table is declared for each element of this hash.
 # @param tables_merge_behaviour Defines the lookup method to use to
 #   retrieve via hiera the $tables_hash
 # @param tables_defaults An hash of default settings to merge with
@@ -129,25 +105,21 @@ class network (
   Boolean $use_netplan                                    = false,
   # This "param" is looked up in code according to interfaces_merge_behaviour
   # Optional[Hash]              $interfaces               = undef,
-  Boolean                     $interfaces_legacy          = false,
   Enum['first','hash','deep'] $interfaces_merge_behaviour = 'first',
   Hash                        $interfaces_defaults        = {},
 
   # This "param" is looked up in code according to routes_merge_behaviour
   # Optional[Hash]              $routes                   = undef,
-  Boolean                     $routes_legacy              = false,
   Enum['first','hash','deep'] $routes_merge_behaviour     = 'first',
   Hash                        $routes_defaults            = {},
 
   # This "param" is looked up in code according to rules_merge_behaviour
   # Optional[Hash]              $rules                    = undef,
-  Boolean                     $rules_legacy               = false,
   Enum['first','hash','deep'] $rules_merge_behaviour      = 'first',
   Hash                        $rules_defaults             = {},
 
   # This "param" is looked up in code according to tables_merge_behaviour
   # Optional[Hash]              $tables                   = undef,
-  Boolean                     $tables_legacy              = false,
   Enum['first','hash','deep'] $tables_merge_behaviour     = 'first',
   Hash                        $tables_defaults            = {},
 
@@ -223,14 +195,8 @@ class network (
   # Declare network interfaces based on network::interfaces
   $interfaces = lookup('network::interfaces',Hash,$interfaces_merge_behaviour,{})
   $interfaces.each |$k,$v| {
-    if $interfaces_legacy {
-      network::legacy::interface { $k:
-        * => $interfaces_defaults + $v,
-      }
-    } else {
-      network::interface { $k:
-        * => $interfaces_defaults + $v,
-      }
+    network::interface { $k:
+      * => $interfaces_defaults + $v,
     }
   }
   # Declare network::legacy::interface based on legacy network::interfaces_hash
@@ -247,14 +213,8 @@ class network (
   # Declare network routes based on network::routes
   $routes = lookup('network::routes',Hash,$routes_merge_behaviour,{})
   $routes.each |$k,$v| {
-    if $routes_legacy {
-      network::legacy::route { $k:
-        * => $routes_defaults + $v,
-      }
-    } else {
-      network::route { $k:
-        * => $routes_defaults + $v,
-      }
+    network::route { $k:
+      * => $routes_defaults + $v,
     }
   }
   # Declare network::legacy::route based on legacy network::routes_hash
@@ -272,14 +232,8 @@ class network (
   # Declare network rules based on network::rules
   $rules = lookup('network::rules',Hash,$rules_merge_behaviour,{})
   $rules.each |$k,$v| {
-    if $rules_legacy {
-      network::legacy::rule { $k:
-        * => $rules_defaults + $v,
-      }
-    } else {
-      network::rule { $k:
-        * => $rules_defaults + $v,
-      }
+    network::rule { $k:
+      * => $rules_defaults + $v,
     }
   }
   # Declare network::legacy::rule based on legacy network::rules_hash
@@ -297,14 +251,8 @@ class network (
   # Declare network tables based on network::tables
   $tables = lookup('network::tables',Hash,$tables_merge_behaviour,{})
   $tables.each |$k,$v| {
-    if $tables_legacy {
-      network::legacy::routing_table { $k:
-        * => $tables_defaults + $v,
-      }
-    } else {
-      network::table { $k:
-        * => $tables_defaults + $v,
-      }
+    network::table { $k:
+      * => $tables_defaults + $v,
     }
   }
   # Declare network::legacy::table based on legacy network::tables_hash

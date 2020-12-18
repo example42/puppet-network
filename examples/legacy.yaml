@@ -1,10 +1,6 @@
 ###
 # Sample configurations using legacy defines
 ---
-network::routes_legacy: true
-network::interfaces_legacy: true
-network::rule_legacy: true
-network::tables_legacy: true
 network::routes_hash:
   eth1:
     routes:
