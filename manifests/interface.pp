@@ -635,7 +635,10 @@ define network::interface (
     default => $peerntp,
   }
   case $ipaddr {
-    '': { $manage_ipaddr = $ipaddress}
+    '': {
+      $manage_ipaddr = $ipaddress
+      $manage_prefix = $prefix
+    }
     default: {
       if $ipaddr =~ /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\/([0-9]|[1-2][0-9]|3[0-2])$/ {
         $manage_ipaddr = $1
