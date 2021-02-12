@@ -15,6 +15,7 @@
 # [*netmask*]
 # [*broadcast*]
 # [*hwaddr*]
+# [*macaddr*]
 #   String. Default: undef
 #   Standard network parameters
 #
@@ -115,7 +116,10 @@
 #    If both are present ipaddr is used.
 #
 #  $hwaddr        = undef,
-#    hwaddr if set configures the mac address of the interface.
+#    hwaddr if set assigns this interface to the device with this mac.
+#
+#  $macaddr       = undef,
+#    macaddr if set spoofs the mac address of the interface.
 #
 #  $prefix        = undef,
 #    Network PREFIX aka CIDR notation of the network mask. The PREFIX
@@ -287,6 +291,7 @@ define network::interface (
   $broadcast             = undef,
   $gateway               = undef,
   $hwaddr                = undef,
+  $macaddr               = undef,
   $mtu                   = undef,
 
   $description           = undef,

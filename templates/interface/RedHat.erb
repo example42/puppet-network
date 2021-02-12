@@ -100,6 +100,9 @@ DEFROUTE="<%= @manage_defroute %>"
 <% if @manage_hwaddr -%>
 HWADDR="<%= @manage_hwaddr %>"
 <% end -%>
+<% if @macaddr -%>
+MACADDR="<%= @macaddr %>"
+<% end -%>
 <% if @ipv6init -%>
 IPV6INIT="<%= @ipv6init %>"
 <% end -%>
