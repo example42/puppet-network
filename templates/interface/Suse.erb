@@ -32,8 +32,11 @@ MTU="<%= @mtu %>"
 <% if @vlan -%>
 VLAN_ID="<%= @vlan %>"
 <% end -%>
-<% if @manage_hwaddr -%>
-LLADDR="<%= @manage_hwaddr %>"
+<% if @hwaddr -%>
+LLADDR="<%= @hwaddr %>"
+<% end -%>
+<% if @macaddr -%>
+LLADDR="<%= @macaddr %>"
 <% end -%>
 <% if @bridge -%>
 BRIDGE="<%= @bridge %>"

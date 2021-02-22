@@ -14,10 +14,20 @@
 # [*ipaddress*]
 # [*netmask*]
 # [*broadcast*]
-# [*hwaddr*]
-# [*macaddr*]
 #   String. Default: undef
 #   Standard network parameters
+#
+# [*hwaddr*]
+#   String. Default: undef
+#   - On RedHat: assigns this interface name to the device with this mac.
+#   - On Debian/Suse: spoofs mac address of the interface.
+#     (syntax may be broke on Debian. if so, try $macaddr).
+#   Do not use togehter with $macaddr.
+#
+# [*macaddr*]
+#   String. Default: undef
+#   Spoofs mac address of the interface.
+#   Do not use together with $hwaddr.
 #
 # [*enable*]
 #   Boolean. Default: true
@@ -114,12 +124,6 @@
 #    Both ipaddress (standard name) and ipaddr (RedHat param name) if set
 #    configure the ipv4 address of the interface.
 #    If both are present ipaddr is used.
-#
-#  $hwaddr        = undef,
-#    hwaddr if set assigns this interface to the device with this mac.
-#
-#  $macaddr       = undef,
-#    macaddr if set spoofs the mac address of the interface.
 #
 #  $prefix        = undef,
 #    Network PREFIX aka CIDR notation of the network mask. The PREFIX
@@ -575,8 +579,8 @@ define network::interface (
     fail('Use either netmask or prefix to define the netmask for the interface')
   }
 
-  $manage_hwaddr = $hwaddr ? {
-    default => $hwaddr,
+  if $hwaddr != undef and $macaddr != undef {
+    fail('HWADDR and MACADDR cannot be used together')
   }
 
   $manage_method = $method ? {
