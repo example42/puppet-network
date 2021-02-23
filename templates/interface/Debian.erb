@@ -12,8 +12,11 @@ allow-hotplug <%= @interface %>
 <% if @manage_address and ! @manage_address.empty? -%>
     address <%= @manage_address %>
 <% end -%>
-<% if @manage_hwaddr -%>
-    hwaddress <%= @manage_hwaddr %>
+<% if @hwaddr -%>
+    hwaddress <%= @hwaddr %>
+<% end -%>
+<% if @macaddr -%>
+    hwaddress ether <%= @macaddr %>
 <% end -%>
 <% if @netmask -%>
     netmask <%= @netmask %>
