@@ -28,7 +28,7 @@
 define network::rule (
   $iprule,
   $interface = $name,
-  $family    = undef,
+  $family    = [],
   $ensure    = 'present'
 ) {
   # Validate our arrays
