@@ -42,10 +42,23 @@
 # [*config_file_notify*]
 #   String. Optional. Default: 'class_default'
 #   Defines the notify argument of the created file.
-#   The default special value implies the same behaviour of the main class
-#   configuration file. Set to undef to remove any notify, or set
+#   The default special value uses the combination of the restart_all_nic and 
+#   reload_command options. Set to undef to remove any notify, or set
 #   the name(s) of the resources to notify
 #
+# [*restart_all_nic*]
+#   Boolean. Default: false
+#   Manages the way to apply interface creation/modification:
+#   - If true, will trigger a restart of all network interfaces
+#   - If false, will only start/restart this specific interface
+#
+# [*reload_command*]
+#   String. Default: $::operatingsystem ? {
+#    'CumulusLinux' => 'ifreload -a',
+#     default       => "ifdown ${interface}; ifup ${interface}",
+#   }
+#   Defines the command(s) that will be used to reload a nic when restart_all_nic
+#   is set to false
 #
 # === Actions:
 #
@@ -62,6 +75,8 @@ define network::mroute (
   $routes,
   $interface           = $name,
   $config_file_notify  = 'class_default',
+  $restart_all_nic     = false,
+  $reload_command      = undef,
   $ensure              = 'present',
   $route_up_template   = undef,
   $route_down_template = undef,
@@ -71,9 +86,30 @@ define network::mroute (
   validate_hash($routes)
 
   include ::network
+  $real_reload_command = $reload_command ? {
+    undef => $::operatingsystem ? {
+        'CumulusLinux' => 'ifreload -a',
+        'RedHat'       => $::operatingsystemmajrelease ? {
+          '8'     => "/usr/bin/nmcli con reload ; /usr/bin/nmcli device reapply ${interface}",
+          default => "ifdown ${interface} --force ; ifup ${interface}",
+        },
+        default        => "ifdown ${interface} --force ; ifup ${interface}",
+      },
+    default => $reload_command,
+  }
+  if $restart_all_nic == false and $::kernel == 'Linux' {
+    exec { "network_restart_${name}":
+      command     => $real_reload_command,
+      path        => '/sbin:/bin:/usr/sbin:/usr/bin',
+      refreshonly => true,
+    }
+    $network_notify = "Exec[network_restart_${name}]"
+  } else {
+    $network_notify = $network::manage_config_file_notify
+  }
 
   $real_config_file_notify = $config_file_notify ? {
-    'class_default' => $::network::manage_config_file_notify,
+    'class_default' => $network_notify,
     default         => $config_file_notify,
   }
 
