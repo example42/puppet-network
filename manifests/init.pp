@@ -358,7 +358,7 @@ class network (
       '7','8': {
         exec { 'sethostname':
           command => "/usr/bin/hostnamectl set-hostname ${manage_hostname}",
-          unless  => "/usr/bin/hostnamectl status | grep 'Static hostname: ${manage_hostname}'",
+          unless  => "/usr/bin/hostnamectl status | grep 'Static hostname: ${manage_hostname}$'",
         }
       }
       default: {}
