@@ -98,12 +98,12 @@ define network::mroute (
     default => $reload_command,
   }
   if $restart_all_nic == false and $::kernel == 'Linux' {
-    exec { "network_restart_${name}":
+    exec { "network_restart_route_${name}":
       command     => $real_reload_command,
       path        => '/sbin:/bin:/usr/sbin:/usr/bin',
       refreshonly => true,
     }
-    $network_notify = "Exec[network_restart_${name}]"
+    $network_notify = "Exec[network_restart_route_${name}]"
   } else {
     $network_notify = $network::manage_config_file_notify
   }
