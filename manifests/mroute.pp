@@ -1,7 +1,8 @@
 # == Definition: network::mroute
 #
 # Manages multiples routes on a single file
-# Configures /etc/sysconfig/networking-scripts/route-$name on Rhel
+# Adds up to 2 files on RHEL:
+# route-$name and route6-$name under /etc/sysconfig/networking-scripts 
 # Adds 2 files on Debian:
 # One under /etc/network/if-up.d and
 # One in /etc/network/if-down.d
@@ -30,6 +31,9 @@
 # [*route_up_template*]
 #   Template to use to manage route up setup. Default is defined according to
 #   $::osfamily
+#
+# [*route6_template*]
+#   Template to use to manage route6 up script. Used only on RedHat family.
 #
 # [*route_down_template*]
 #   Template to use to manage route down script. Used only on Debian family.
@@ -63,7 +67,7 @@
 # === Actions:
 #
 # On Rhel
-# Deploys the file /etc/sysconfig/network-scripts/route-$name.
+# Deploys the files route-$name and route6-$name in /etc/sysconfig/network-scripts
 #
 # On Debian
 # Deploy 2 files 1 under /etc/network/if-up.d and 1 in /etc/network/if-down.d
@@ -79,11 +83,26 @@ define network::mroute (
   $reload_command      = undef,
   $ensure              = 'present',
   $route_up_template   = undef,
+  $route6_template     = undef,
   $route_down_template = undef,
   $table               = undef,
 ) {
   # Validate our arrays
   validate_hash($routes)
+  $ipv6_routes = $routes.reduce({}) |$memo, $value| {
+    if $value[0] =~ Stdlib::IP::Address::V6 {
+      $memo + { $value[0] => $value[1], }
+    } else {
+      $memo
+    }
+  }
+  $ipv4_routes = $routes.reduce({}) |$memo, $value| {
+    if $value[0] =~ Stdlib::IP::Address::V4 {
+      $memo + { $value[0] => $value[1], }
+    } else {
+      $memo
+    }
+  }
 
   include ::network
   $real_reload_command = $reload_command ? {
@@ -121,6 +140,15 @@ define network::mroute (
     },
     default =>  $route_up_template,
   }
+
+  $real_route6_template = $route6_template ? {
+    undef   => $::osfamily ? {
+      'RedHat' => 'network/mroute6-RedHat.erb',
+      default  => undef,
+    },
+    default =>  $route6_template,
+  }
+
   $real_route_down_template = $route_down_template ? {
     undef   => $::osfamily ? {
       'Debian' => 'network/mroute_down-Debian.erb',
@@ -145,14 +173,27 @@ define network::mroute (
 
   case $::osfamily {
     'RedHat': {
-      file { "route-${name}":
-        ensure  => $ensure,
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        path    => "/etc/sysconfig/network-scripts/route-${name}",
-        content => template($real_route_up_template),
-        notify  => $real_config_file_notify,
+      unless $ipv4_routes.empty {
+        file { "route-${name}":
+          ensure  => $ensure,
+          mode    => '0644',
+          owner   => 'root',
+          group   => 'root',
+          path    => "/etc/sysconfig/network-scripts/route-${name}",
+          content => template($real_route_up_template),
+          notify  => $real_config_file_notify,
+        }
+      }
+      unless $ipv6_routes.empty {
+        file { "route6-${name}":
+          ensure  => $ensure,
+          mode    => '0644',
+          owner   => 'root',
+          group   => 'root',
+          path    => "/etc/sysconfig/network-scripts/route6-${name}",
+          content => template($real_route6_template),
+          notify  => $real_config_file_notify,
+        }
       }
     }
     'Debian': {
