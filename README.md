@@ -1,5 +1,7 @@
 # network
 
+This module has been deprecated. You can use https://github.com/voxpupuli/puppet-network as alternative.
+
 [![Build Status](https://travis-ci.org/example42/puppet-network.png?branch=master)](https://travis-ci.org/example42/puppet-network)
 
 #### Table of Contents
