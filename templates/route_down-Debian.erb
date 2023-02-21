@@ -10,3 +10,5 @@ if [ "$IFACE" = "<%= @interface -%>" ] || [ "$IFACE" = "--all" ]; then
   fi
 <%- end -%>
 fi
+# non-zero exit code causes ifupdown to leave the interface partly configured, which may result in connectivity loss
+exit 0
